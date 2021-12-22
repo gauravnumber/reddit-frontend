@@ -6,8 +6,24 @@ export const GET_SUBREDDIT_POST = gql`
     getSubredditPost(
       name: $name # sort: "top:alltime"
     ) {
-      _id
+      # _id
+      # title
+      # createdAt
+      # _id
       title
+      body
+      # owner {
+      #   # _id
+      #   username
+      # }
+      # upvote {
+      #   # _id
+      #   username
+      # }
+      totalNumOfVote
+      # upvote {
+      #   username
+      # }
       createdAt
     }
   }
