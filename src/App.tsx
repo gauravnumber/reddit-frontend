@@ -5,8 +5,8 @@ import Register from "./pages/Register";
 import Login from "./pages/Login";
 import User from "./pages/User";
 import Users from "./pages/Users";
-import Chamber from "./pages/Chamber";
-import Chambers from "./pages/Chambers";
+import Subreddit from "@/pages/Subreddit";
+import Subreddits from "@/pages/Subreddits";
 
 function App() {
   return (
@@ -22,10 +22,10 @@ function App() {
           />
           <Route path=":username" element={<User />} />
         </Route>
-        <Route path="/c" element={<Chambers />}>
-          <Route path=":chamberName" element={<Chamber />} />
+        <Route path="/r" element={<Subreddits />}>
+          <Route path=":subredditName" element={<Subreddit />} />
         </Route>
-        <Route path="*" element={<h1>You may be mistype.</h1>} />
+        <Route path="*" element={<h1>You probably be mistype.</h1>} />
       </Routes>
     </Router>
   );
