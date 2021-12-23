@@ -35,7 +35,7 @@ const Subreddits = () => {
 
   return (
     <Container>
-      Choose your subreddit name. - (Subreddits.tsx)
+      {/* Choose your subreddit name. - (Subreddits.tsx) */}
       {/* <form onSubmit={handleChambers}>
         <label htmlFor="chambername">Name the chamber</label>
         <input

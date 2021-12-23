@@ -70,7 +70,7 @@ const Subreddit = () => {
 
   return (
     <div>
-      Single Subreddit name: {params.subredditName}
+      {/* Single Subreddit name: {params.subredditName} */}
       {/* {CardExampleCardProps()} */}
       {/* <form onSubmit={handlePost}>
         <input
