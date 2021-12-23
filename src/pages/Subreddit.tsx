@@ -53,8 +53,8 @@ const Subreddit = () => {
           <Card
             key={index}
             header={post.title}
-            meta={post.owner.username}
-            // description="Elliot is a sound engineer living in Nashville who enjoys playing guitar and hanging with his cat."
+            meta={`u/${post.owner.username}`}
+            description={post.body}
             // extra={extra}
           />
         ))}
