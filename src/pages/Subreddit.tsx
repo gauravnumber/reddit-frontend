@@ -15,7 +15,9 @@ const Subreddit = () => {
   const dispatch = useDispatch();
 
   const [getSubredditPost, result] = useLazyQuery(GET_SUBREDDIT_POST);
-  const [posting, postingResult] = useMutation(POST);
+  const [posting, postingResult] = useMutation(POST, {
+    refetchQueries: [GET_SUBREDDIT_POST],
+  });
 
   const [post, setPost] = useState("");
 
