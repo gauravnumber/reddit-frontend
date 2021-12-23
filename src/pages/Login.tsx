@@ -24,6 +24,8 @@ const Login = () => {
 
     if (data?.login !== undefined) {
       dispatch(userStoreAction(data.login));
+      localStorage.setItem("jwtToken", data.login.token);
+      // console.log(`data.login.token`, data.login.token);
     }
   }, [data]);
 

@@ -1,5 +1,15 @@
 import { gql } from "@apollo/client";
 
+export const POST = gql`
+  mutation post($title: String!, $body: String!, $subredditName: String!) {
+    post(title: $title, body: $body, subredditName: $subredditName) {
+      _id
+      title
+      createdAt
+    }
+  }
+`;
+
 export const GET_SUBREDDIT_POST = gql`
   # query getSubredditPost($subredditId: String!) {
   query getSubredditPost($name: String!) {
