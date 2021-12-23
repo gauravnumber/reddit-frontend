@@ -1,5 +1,6 @@
-import { useState, useEffect } from "react";
+// import { useState, useEffect } from "react";
 import { Outlet } from "react-router-dom";
+import { Container } from "semantic-ui-react";
 // import { useDispatch, useSelector } from "react-redux";
 // import { showChamber } from "@/reducer/chamberReducer";
 // import { useLazyQuery } from "@apollo/client";
@@ -33,7 +34,7 @@ const Subreddits = () => {
   // };
 
   return (
-    <div>
+    <Container>
       Choose your subreddit name. - (Subreddits.tsx)
       {/* <form onSubmit={handleChambers}>
         <label htmlFor="chambername">Name the chamber</label>
@@ -45,7 +46,7 @@ const Subreddits = () => {
         <input type="submit" value="submit" />
       </form> */}
       <Outlet />
-    </div>
+    </Container>
   );
 };
 

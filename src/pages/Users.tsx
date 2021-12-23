@@ -1,11 +1,12 @@
 import { Outlet } from "react-router-dom";
+import { Container } from "semantic-ui-react";
 
 const Users = () => {
   return (
-    <div>
-      lot of users
+    <Container>
+      {/* lot of users */}
       <Outlet />
-    </div>
+    </Container>
   );
 };
 

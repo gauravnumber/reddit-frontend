@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Button, Form, Container } from "semantic-ui-react";
 import { useMutation } from "@apollo/client";
 
 import { userStoreAction } from "../reducer/userReducer";
@@ -22,7 +23,7 @@ const Login = () => {
   useEffect(() => {
     console.log(`data`, data);
 
-    if (data?.login !== undefined) {
+    if (data !== undefined) {
       dispatch(userStoreAction(data.login));
       localStorage.setItem("jwtToken", data.login.token);
       // console.log(`data.login.token`, data.login.token);
@@ -40,17 +41,32 @@ const Login = () => {
         password,
       },
     });
+
+    console.log(`username`, username);
+    console.log(`password`, password);
   };
 
   return (
-    <div>
+    <Container>
       <h1>Login form</h1>
-      <form onSubmit={handleLogin}>
+      <Form onSubmit={handleLogin}>
+        <Form.Input
+          label="Username"
+          onChange={(e) => setUsername(e.target.value)}
+        />
+        <Form.Input
+          label="Password"
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <button className="ui button">login</button>
+        {/* <Button>submit</Button> */}
+      </Form>
+      {/* <form onSubmit={handleLogin}>
         <input type="text" onChange={(e) => setUsername(e.target.value)} />
         <input type="text" onChange={(e) => setPassword(e.target.value)} />
         <input type="submit" value="login" />
-      </form>
-    </div>
+      </form> */}
+    </Container>
   );
 };
 

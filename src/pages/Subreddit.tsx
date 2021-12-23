@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useLazyQuery, useMutation } from "@apollo/client";
 import { useSelector, useDispatch } from "react-redux";
-import { Card, Icon, Form } from "semantic-ui-react";
+import { Button, Container, Card, Icon, Form } from "semantic-ui-react";
 
 import { POST, GET_SUBREDDIT_POST } from "@/queries";
 import { showChamber } from "@/reducer/subredditReducer";
@@ -21,7 +21,7 @@ const Subreddit = () => {
 
   const [post, setPost] = useState("");
 
-  console.log(`subredditPosts`, subredditPosts);
+  // console.log(`subredditPosts`, subredditPosts);
 
   useEffect(() => {
     getSubredditPost({
@@ -56,29 +56,38 @@ const Subreddit = () => {
 
     posting({
       variables: {
-        title: `title: ${Math.floor(Math.random() * 10)}`,
+        title: `title: ${Math.floor(Math.random() * 20)}`,
         body: post,
         subredditName: params.subredditName,
         // body: `body: ${Math.floor(Math.random() * 10)}`,
       },
     });
+
+    //! not setting post = ""
+    // setPost("");
+    // console.log(post);
   };
 
   return (
     <div>
       Single Subreddit name: {params.subredditName}
       {/* {CardExampleCardProps()} */}
-      <form onSubmit={handlePost}>
+      {/* <form onSubmit={handlePost}>
         <input
           type="text"
           autoFocus
           onChange={(e) => setPost(e.target.value)}
         />
         <input type="submit" value="post" />
-      </form>
-      {/* <Form>
-        <Form.Field />
-      </Form> */}
+      </form> */}
+      <Form onSubmit={handlePost}>
+        <Form.Input
+          label="Write some body."
+          onChange={(e) => setPost(e.target.value)}
+          autoFocus
+        />
+        {/* <Button content="submit" /> */}
+      </Form>
       {subredditPosts &&
         subredditPosts.map((post: postType, index: number) => (
           <Card
