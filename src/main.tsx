@@ -1,9 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "./css/inter.min.css";
-import "./css/new.min.css";
-import "./css/night.css";
 import "./css/index.css";
+import "semantic-ui-css/semantic.min.css";
+// import "./css/inter.min.css";
+// import "./css/new.min.css";
+// import "./css/night.css";
 
 import App from "./App";
 import store from "./store";

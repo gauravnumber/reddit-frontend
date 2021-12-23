@@ -12,10 +12,10 @@ export const GET_SUBREDDIT_POST = gql`
       # _id
       title
       body
-      # owner {
-      #   # _id
-      #   username
-      # }
+      owner {
+        # _id
+        username
+      }
       # upvote {
       #   # _id
       #   username
