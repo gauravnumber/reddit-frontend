@@ -90,13 +90,22 @@ const Subreddit = () => {
       </Form>
       {subredditPosts &&
         subredditPosts.map((post: postType, index: number) => (
-          <Card
-            key={index}
-            header={post.title}
-            meta={`u/${post.owner.username}`}
-            description={post.body}
-            // extra={extra}
-          />
+          <Card key={index}>
+            <Card.Content>
+              <Card.Header>{post.title}</Card.Header>
+              <Card.Meta as="a" href={`/u/${post.owner.username}`}>
+                u/{post.owner.username}
+              </Card.Meta>
+              <Card.Description>{post.body}</Card.Description>
+            </Card.Content>
+          </Card>
+          // <Card
+          //   key={index}
+          //   header={post.title}
+          //   meta={`u/${post.owner.username}`}
+          //   description={post.body}
+          //   // extra={extra}
+          // />
         ))}
     </div>
   );
