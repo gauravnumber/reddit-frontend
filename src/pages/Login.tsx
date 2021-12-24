@@ -21,7 +21,7 @@ const Login = () => {
   const state = useSelector((state) => state);
 
   useEffect(() => {
-    console.log(`data`, data);
+    // console.log(`data`, data);
 
     if (data !== undefined) {
       dispatch(userStoreAction(data.login));
@@ -30,7 +30,7 @@ const Login = () => {
     }
   }, [data]);
 
-  console.log(`state`, state);
+  // console.log(`state`, state);
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -42,8 +42,10 @@ const Login = () => {
       },
     });
 
-    console.log(`username`, username);
-    console.log(`password`, password);
+    setUsername("");
+    setPassword("");
+    // console.log(`username`, username);
+    // console.log(`password`, password);
   };
 
   return (
@@ -56,6 +58,7 @@ const Login = () => {
         />
         <Form.Input
           label="Password"
+          type="password"
           onChange={(e) => setPassword(e.target.value)}
         />
         <button className="ui button">login</button>
