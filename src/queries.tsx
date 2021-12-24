@@ -1,8 +1,17 @@
 import { gql } from "@apollo/client";
 
+export const CREATE_SUBREDDIT = gql`
+  mutation setSubreddit($name: String!) {
+    setSubreddit(name: $name) {
+      _id
+      name
+    }
+  }
+`;
+
 export const REGISTER = gql`
   mutation register($username: String!, $password: String!) {
-    register(username: $username, password: $password) {
+    register(username: $username, password: $password33) {
       _id
       username
       token

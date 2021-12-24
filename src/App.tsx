@@ -7,6 +7,7 @@ import User from "./pages/User";
 import Users from "./pages/Users";
 import Subreddit from "@/pages/Subreddit";
 import Subreddits from "@/pages/Subreddits";
+import CreateSubreddit from "@/pages/CreateSubreddit";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
         <Route path="/r" element={<Subreddits />}>
           <Route path=":subredditName" element={<Subreddit />} />
         </Route>
+        <Route path="/create" element={<CreateSubreddit />} />
         <Route path="*" element={<h1>You probably be mistype.</h1>} />
       </Routes>
     </Router>
