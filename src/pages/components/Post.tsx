@@ -17,7 +17,7 @@ const Post = ({ posts }: { posts: postType[] }) => {
             <Card.Description>{post.body}</Card.Description>
           </Card.Content>
           {/* Card.Content inside in <VoteButton />  */}
-          <VoteButton _id={post._id} totalNumOfVote={post.totalNumOfVote} />
+          <VoteButton post={post} />
         </Card>
       ))}
     </Card.Group>

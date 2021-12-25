@@ -7,4 +7,7 @@ export type postType = {
   owner: {
     username: string;
   };
+  upvote: {
+    username: string;
+  };
 };

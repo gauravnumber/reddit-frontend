@@ -27,6 +27,9 @@ export const GET_USER_POST = gql`
       owner {
         username
       }
+      upvote {
+        username
+      }
       totalNumOfVote
       createdAt
     }
@@ -78,10 +81,10 @@ export const GET_SUBREDDIT_POST = gql`
         # _id
         username
       }
-      # upvote {
-      #   # _id
-      #   username
-      # }
+      upvote {
+        # _id
+        username
+      }
       totalNumOfVote
       # upvote {
       #   username

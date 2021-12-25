@@ -26,7 +26,10 @@ const Login = () => {
     if (data !== undefined) {
       dispatch(userStoreAction(data.login));
       localStorage.setItem("jwtToken", data.login.token);
-      // console.log(`data.login.token`, data.login.token);
+      // console.log(`JSON.stringify(data.login)`, JSON.stringify(data.login));
+      localStorage.setItem("loginUser", JSON.stringify(data.login));
+
+      // console.log(`data.login`, data.login);
     }
   }, [data]);
 
@@ -44,8 +47,8 @@ const Login = () => {
 
     setUsername("");
     setPassword("");
-    // console.log(`username`, username);
-    // console.log(`password`, password);
+    console.log(`username`, username);
+    console.log(`password`, password);
   };
 
   return (
