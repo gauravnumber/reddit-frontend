@@ -37,22 +37,6 @@ const Subreddit = () => {
     }
   }, [params.subredditName, result.data]);
 
-  // const extra = (
-  //   <a>
-  //     <Icon name="user" />
-  //     16 Friends
-  //   </a>
-  // );
-
-  // const CardExampleCardProps = () => (
-  //   <Card
-  //     header="Elliot Baker"
-  //     meta="Friend"
-  //     description="Elliot is a sound engineer living in Nashville who enjoys playing guitar and hanging with his cat."
-  //     extra={extra}
-  //   />
-  // );
-
   const handlePost = (e: React.FormEvent) => {
     e.preventDefault();
 

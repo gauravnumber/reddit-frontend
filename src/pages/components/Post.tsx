@@ -2,7 +2,7 @@ import { Card } from "semantic-ui-react";
 
 import { postType } from "@/types";
 
-const Post = ({ posts }) => {
+const Post = ({ posts }: { posts: postType[] }) => {
   return (
     <Card.Group>
       {posts.map((post: postType, index: number) => (

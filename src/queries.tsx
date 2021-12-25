@@ -4,7 +4,7 @@ export const GET_USER_POST = gql`
   query getPostsByUser($username: String!) {
     getPostsByUser(username: $username) {
       title
-      _id
+      # _id
       body
       owner {
         username
