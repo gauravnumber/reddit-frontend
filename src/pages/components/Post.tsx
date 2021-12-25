@@ -1,4 +1,6 @@
-import { Card } from "semantic-ui-react";
+import { Button, Card } from "semantic-ui-react";
+
+import VoteButton from "@components/VoteButton";
 
 import { postType } from "@/types";
 
@@ -14,6 +16,8 @@ const Post = ({ posts }: { posts: postType[] }) => {
             </Card.Meta>
             <Card.Description>{post.body}</Card.Description>
           </Card.Content>
+          {/* Card.Content inside in <VoteButton />  */}
+          <VoteButton _id={post._id} totalNumOfVote={post.totalNumOfVote} />
         </Card>
       ))}
     </Card.Group>
