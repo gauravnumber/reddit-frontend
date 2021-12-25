@@ -3,6 +3,8 @@ import { useLazyQuery } from "@apollo/client";
 import { useParams } from "react-router-dom";
 import { Container, Card } from "semantic-ui-react";
 
+import Post from "@components/Post";
+
 import { GET_USER_POST } from "@/queries";
 import { postType } from "@/types";
 // import { Form } from "semantic-ui-react";
@@ -25,26 +27,9 @@ const User = () => {
 
   return (
     <Container>
-      {result.data &&
-        result.data.getPostsByUser.map((post: postType, index: number) => (
-          <Card key={index}>
-            <Card.Content>
-              <Card.Header>{post.title}</Card.Header>
-              <Card.Meta>u/{post.owner.username}</Card.Meta>
-              <Card.Description>{post.body}</Card.Description>
-            </Card.Content>
-          </Card>
-          // <Card
-          //   key={index}
-          //   header={post.title}
-          //   meta={`u/${post.owner.username}`}
-          //   description={post.body}
-          //   // extra={extra}
-          // />
-        ))}
+      {result.data && <Post posts={result.data.getPostsByUser} />}
     </Container>
   );
-  // return <h1>u/{params.username} page not currently available.</h1>;
 };
 
 export default User;

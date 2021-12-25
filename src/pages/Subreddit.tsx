@@ -2,7 +2,9 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useLazyQuery, useMutation } from "@apollo/client";
 import { useSelector, useDispatch } from "react-redux";
-import { Button, Container, Card, Icon, Form } from "semantic-ui-react";
+import { Header, Grid, Segment, Card, Icon, Form } from "semantic-ui-react";
+
+import Post from "@components/Post";
 
 import { POST, GET_SUBREDDIT_POST } from "@/queries";
 import { showChamber } from "@/reducer/subredditReducer";
@@ -35,22 +37,6 @@ const Subreddit = () => {
     }
   }, [params.subredditName, result.data]);
 
-  // const extra = (
-  //   <a>
-  //     <Icon name="user" />
-  //     16 Friends
-  //   </a>
-  // );
-
-  // const CardExampleCardProps = () => (
-  //   <Card
-  //     header="Elliot Baker"
-  //     meta="Friend"
-  //     description="Elliot is a sound engineer living in Nashville who enjoys playing guitar and hanging with his cat."
-  //     extra={extra}
-  //   />
-  // );
-
   const handlePost = (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -69,45 +55,19 @@ const Subreddit = () => {
   };
 
   return (
-    <div>
-      {/* Single Subreddit name: {params.subredditName} */}
-      {/* {CardExampleCardProps()} */}
-      {/* <form onSubmit={handlePost}>
-        <input
-          type="text"
-          autoFocus
-          onChange={(e) => setPost(e.target.value)}
-        />
-        <input type="submit" value="post" />
-      </form> */}
-      <Form onSubmit={handlePost}>
-        <Form.Input
-          label="Write some body."
-          onChange={(e) => setPost(e.target.value)}
-          autoFocus
-        />
-        {/* <Button content="submit" /> */}
-      </Form>
-      {subredditPosts &&
-        subredditPosts.map((post: postType, index: number) => (
-          <Card key={index}>
-            <Card.Content>
-              <Card.Header>{post.title}</Card.Header>
-              <Card.Meta as="a" href={`/u/${post.owner.username}`}>
-                u/{post.owner.username}
-              </Card.Meta>
-              <Card.Description>{post.body}</Card.Description>
-            </Card.Content>
-          </Card>
-          // <Card
-          //   key={index}
-          //   header={post.title}
-          //   meta={`u/${post.owner.username}`}
-          //   description={post.body}
-          //   // extra={extra}
-          // />
-        ))}
-    </div>
+    <Grid>
+      <Grid.Row>
+        {/* <Header as="h1">Write somebody.</Header> */}
+        <Form size="large" onSubmit={handlePost}>
+          <Form.Input
+            label="Write some body."
+            onChange={(e) => setPost(e.target.value)}
+            autoFocus
+          />
+        </Form>
+      </Grid.Row>
+      <Grid.Row>{subredditPosts && <Post posts={subredditPosts} />}</Grid.Row>
+    </Grid>
   );
 };
 
