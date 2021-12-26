@@ -9,9 +9,33 @@ import Subreddit from "@/pages/Subreddit";
 import Subreddits from "@/pages/Subreddits";
 import CreateSubreddit from "@/pages/CreateSubreddit";
 
+import { userStoreAction } from "@/reducer/userReducer";
+
 import { Container } from "semantic-ui-react";
+import { useDispatch } from "react-redux";
+import { useState, useEffect } from "react";
 
 function App() {
+  const [loginUser, setLoginUser] = useState();
+  const dispatch = useDispatch();
+
+  let user = localStorage.getItem("loginUser");
+  user = JSON.parse(user);
+  // console.log(`user`, user);
+
+  useEffect(() => {
+    // const user: string | null = localStorage.getItem("loginUser");
+    // let user = localStorage.getItem("loginUser");
+    // user = JSON.parse(user);
+
+    dispatch(userStoreAction(user));
+    // console.log("app");
+    // setLoginUser(user);
+  }, [loginUser]);
+
+  // const user = localStorage.getItem("loginUser");
+  // console.log(`JSON.parse(user)`, JSON.parse(user));
+
   return (
     <Container style={{ marginTop: "2rem" }}>
       <Router>

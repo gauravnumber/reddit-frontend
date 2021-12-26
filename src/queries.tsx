@@ -1,12 +1,36 @@
 import { gql } from "@apollo/client";
 
+export const DO_DOWNVOTE = gql`
+  mutation downvote($postId: String!) {
+    downvote(postId: $postId) {
+      _id
+      totalNumOfVote
+    }
+  }
+`;
+
+export const DO_UPVOTE = gql`
+  mutation upvote($postId: String!) {
+    upvote(postId: $postId) {
+      _id
+      totalNumOfVote
+    }
+  }
+`;
+
 export const GET_USER_POST = gql`
   query getPostsByUser($username: String!) {
     getPostsByUser(username: $username) {
       title
-      # _id
+      _id
       body
       owner {
+        username
+      }
+      upvote {
+        username
+      }
+      downvote {
         username
       }
       totalNumOfVote
@@ -53,21 +77,20 @@ export const GET_SUBREDDIT_POST = gql`
       # _id
       # title
       # createdAt
-      # _id
+      _id
       title
       body
       owner {
         # _id
         username
       }
-      # upvote {
-      #   # _id
-      #   username
-      # }
+      upvote {
+        username
+      }
+      downvote {
+        username
+      }
       totalNumOfVote
-      # upvote {
-      #   username
-      # }
       createdAt
     }
   }
