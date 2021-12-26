@@ -30,6 +30,9 @@ export const GET_USER_POST = gql`
       upvote {
         username
       }
+      downvote {
+        username
+      }
       totalNumOfVote
       createdAt
     }
@@ -82,13 +85,12 @@ export const GET_SUBREDDIT_POST = gql`
         username
       }
       upvote {
-        # _id
+        username
+      }
+      downvote {
         username
       }
       totalNumOfVote
-      # upvote {
-      #   username
-      # }
       createdAt
     }
   }

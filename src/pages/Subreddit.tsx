@@ -33,7 +33,7 @@ const Subreddit = () => {
     });
 
     if (result.data !== undefined) {
-      console.log(`result.data.getSubredditPost`, result.data.getSubredditPost);
+      // console.log(`result.data.getSubredditPost`, result.data.getSubredditPost);
       dispatch(showChamber(result.data.getSubredditPost));
     }
   }, [params.subredditName, result.data]);

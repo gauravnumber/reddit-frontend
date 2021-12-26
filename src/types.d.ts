@@ -10,4 +10,7 @@ export type postType = {
   upvote: {
     username: string;
   };
+  downvote: {
+    username: string;
+  };
 };
