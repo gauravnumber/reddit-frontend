@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Container, Form, Button, Segment } from "semantic-ui-react";
+import { Message, Container, Form, Button, Segment } from "semantic-ui-react";
 import { useMutation } from "@apollo/client";
 
 import { REGISTER } from "@/queries";
@@ -9,13 +9,23 @@ const Register = () => {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [state, setState] = useState({
+    errorMessage: "",
+  });
+
   const [registering, result] = useMutation(REGISTER, {
     variables: {
       username,
       password,
     },
-    update: (_, { data }) => {
+    update: (_, __) => {
       navigate("/");
+    },
+    onError: (error) => {
+      setState({
+        ...state,
+        errorMessage: error.graphQLErrors[0].message,
+      });
     },
   });
 
@@ -53,6 +63,9 @@ const Register = () => {
           onChange={(e) => setPassword(e.target.value)}
         />
         <input type="submit" className="ui button teal fluid large" />
+        {state.errorMessage && (
+          <Message content={state.errorMessage} color="red" />
+        )}
         {/* <Button color="teal" fluid size="large">
           Register
         </Button> */}
