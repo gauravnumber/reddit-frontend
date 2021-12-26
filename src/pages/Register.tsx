@@ -1,16 +1,21 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Container, Form, Button, Segment } from "semantic-ui-react";
 import { useMutation } from "@apollo/client";
 
 import { REGISTER } from "@/queries";
 
 const Register = () => {
+  const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [registering, result] = useMutation(REGISTER, {
     variables: {
       username,
       password,
+    },
+    update: (_, { data }) => {
+      navigate("/");
     },
   });
 

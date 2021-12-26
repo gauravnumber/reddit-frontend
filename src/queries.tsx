@@ -50,7 +50,7 @@ export const CREATE_SUBREDDIT = gql`
 
 export const REGISTER = gql`
   mutation register($username: String!, $password: String!) {
-    register(username: $username, password: $password33) {
+    register(username: $username, password: $password) {
       _id
       username
       token
