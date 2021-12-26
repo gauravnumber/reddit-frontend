@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { Message, Button, Form, Container } from "semantic-ui-react";
 import { useMutation } from "@apollo/client";
 
@@ -14,9 +15,16 @@ const Login = () => {
     messageStatus: "",
   });
 
+  const navigate = useNavigate();
+
   const dispatch = useDispatch();
 
   const [login, { loading, error, data }] = useMutation(LOGIN, {
+    update: (_, { data }) => {
+      // console.log(`data`, data);
+      navigate("/");
+      // navigate("/r/funny");
+    },
     onError: (err) => {
       // console.log(err.graphQLErrors[0].message);
       setState({
