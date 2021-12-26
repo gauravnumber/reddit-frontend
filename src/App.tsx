@@ -37,7 +37,7 @@ function App() {
   // console.log(`JSON.parse(user)`, JSON.parse(user));
 
   return (
-    <Container style={{ marginTop: "2rem" }}>
+    <Container style={{ paddingTop: "2rem" }}>
       <Router>
         <Routes>
           <Route path="/" element={<Home />} />
