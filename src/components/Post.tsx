@@ -1,6 +1,6 @@
 import { Button, Card } from "semantic-ui-react";
 
-import VoteButton from "@components/VoteButton";
+import VoteButton from "@/components/VoteButton";
 
 import { postType } from "@/types";
 

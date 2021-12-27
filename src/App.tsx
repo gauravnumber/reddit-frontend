@@ -9,6 +9,8 @@ import Subreddit from "@/pages/Subreddit";
 import Subreddits from "@/pages/Subreddits";
 import CreateSubreddit from "@/pages/CreateSubreddit";
 
+import Nav from "@/components/Nav";
+
 import { userStoreAction } from "@/reducer/userReducer";
 
 import { Container } from "semantic-ui-react";
@@ -37,7 +39,10 @@ function App() {
   // console.log(`JSON.parse(user)`, JSON.parse(user));
 
   return (
-    <Container style={{ paddingTop: "2rem" }}>
+    <Container
+    // style={{ paddingTop: "2rem" }}
+    >
+      <Nav />
       <Router>
         <Routes>
           <Route path="/" element={<Home />} />

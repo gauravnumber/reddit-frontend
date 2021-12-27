@@ -4,7 +4,7 @@ import { useLazyQuery, useMutation } from "@apollo/client";
 import { useSelector, useDispatch } from "react-redux";
 import { Header, Grid, Segment, Card, Icon, Form } from "semantic-ui-react";
 
-import Post from "@components/Post";
+import Post from "@/components/Post";
 
 import { POST, GET_SUBREDDIT_POST } from "@/queries";
 import { showChamber } from "@/reducer/subredditReducer";
