@@ -69,19 +69,12 @@ export const POST = gql`
 `;
 
 export const GET_SUBREDDIT_POST = gql`
-  # query getSubredditPost($subredditId: String!) {
   query getSubredditPost($name: String!) {
-    getSubredditPost(
-      name: $name # sort: "top:alltime"
-    ) {
-      # _id
-      # title
-      # createdAt
+    getSubredditPost(name: $name) {
       _id
       title
       body
       owner {
-        # _id
         username
       }
       upvote {

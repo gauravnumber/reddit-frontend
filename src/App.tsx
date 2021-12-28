@@ -9,6 +9,8 @@ import Subreddit from "@/pages/Subreddit";
 import Subreddits from "@/pages/Subreddits";
 import CreateSubreddit from "@/pages/CreateSubreddit";
 
+import Nav from "@/components/Nav";
+
 import { userStoreAction } from "@/reducer/userReducer";
 
 import { Container } from "semantic-ui-react";
@@ -20,7 +22,7 @@ function App() {
   const dispatch = useDispatch();
 
   let user = localStorage.getItem("loginUser");
-  user = JSON.parse(user);
+  user = user ? JSON.parse(user) : "";
   // console.log(`user`, user);
 
   useEffect(() => {
@@ -37,8 +39,11 @@ function App() {
   // console.log(`JSON.parse(user)`, JSON.parse(user));
 
   return (
-    <Container style={{ paddingTop: "2rem" }}>
+    <Container
+    // style={{ paddingTop: "2rem" }}
+    >
       <Router>
+        <Nav />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />

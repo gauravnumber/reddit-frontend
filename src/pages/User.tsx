@@ -3,7 +3,7 @@ import { useLazyQuery } from "@apollo/client";
 import { useParams } from "react-router-dom";
 import { Container, Card } from "semantic-ui-react";
 
-import Post from "@components/Post";
+import Post from "@/components/Post";
 
 import { GET_USER_POST } from "@/queries";
 import { postType } from "@/types";
