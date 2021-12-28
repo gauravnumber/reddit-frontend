@@ -22,6 +22,7 @@ const Nav = () => {
   const handleLogout = () => {
     dispatch(userLogoutAction());
     localStorage.setItem("loginUser", "");
+    localStorage.setItem("jwtToken", "");
     navigate("/");
   };
 
@@ -40,13 +41,13 @@ const Nav = () => {
           Home
         </Menu.Item>
       )}
-      {/* <Menu.Item
+      <Menu.Item
         as="a"
         href="/r/funny"
         active={state.currentPath === "r/funny"}
       >
         r/funny
-      </Menu.Item> */}
+      </Menu.Item>
 
       <Menu.Item as="a" href="/create" active={state.currentPath === "create"}>
         Create new subreddit

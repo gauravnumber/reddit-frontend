@@ -12,24 +12,30 @@ import { postType } from "@/types";
 
 const Subreddit = () => {
   // const [subredditPosts, setSubredditPosts] = useState(null);
+  const refreshSubredditPost = useSelector((state) => state);
+  // console.log(`refreshSubredditPost`, refreshSubredditPost);
   const params = useParams();
 
   // const subredditPosts = useSelector((state) => state.subreddit);
   const dispatch = useDispatch();
 
-  const result = useQuery(GET_SUBREDDIT_POST, {
-    variables: {
-      name: "funny",
-    },
-  });
-
-  // const [getSubredditPost, result] = useLazyQuery(GET_SUBREDDIT_POST, {
+  // const result = useQuery(GET_SUBREDDIT_POST, {
   //   variables: {
-  //     name: "funny",
-  //     // name: params.subredditName,
+  //     name: params.subredditName,
   //   },
-  //   // },
   // });
+  // console.log(`params.subredditName`, params.subredditName);
+
+  const [getSubredditPost, result] = useLazyQuery(GET_SUBREDDIT_POST, {
+    variables: {
+      // name: "funny",
+      name: params.subredditName,
+    },
+    // update: (_,__) => {
+    //   console.log(`_`, _)
+    // }
+    // },
+  });
 
   // console.log(`params.subredditName`, params.subredditName);
 
@@ -42,6 +48,9 @@ const Subreddit = () => {
 
   const [post, setPost] = useState("");
 
+  useEffect(() => {
+    getSubredditPost();
+  }, [params.subredditName, refreshSubredditPost]);
   // console.log(`subredditPosts`, subredditPosts);
   // useCallback(() => {
   //   getSubredditPost({

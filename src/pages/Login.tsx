@@ -22,6 +22,7 @@ const Login = () => {
   const [login, { loading, error, data }] = useMutation(LOGIN, {
     update: (_, { data }) => {
       localStorage.setItem("loginUser", JSON.stringify(data.login));
+      localStorage.setItem("jwtToken", data.login.token);
       // console.log(`data`, data);
       navigate("/");
       // navigate("/r/funny");

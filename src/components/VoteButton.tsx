@@ -3,12 +3,14 @@
  * @prop {post} postType
  */
 import { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { Card, Container, Grid } from "semantic-ui-react";
 import { useMutation } from "@apollo/client";
 import { useSelector } from "react-redux";
 
 import { DO_UPVOTE, DO_DOWNVOTE, GET_SUBREDDIT_POST } from "@/queries";
 import { postType } from "@/types";
+import { refreshAction } from "@/reducer/refreshReducer";
 
 // const VoteButton = ({
 //   _id,
@@ -19,6 +21,7 @@ import { postType } from "@/types";
 // }) => {
 const VoteButton = ({ post }: { post: postType }) => {
   // const [totalNumOfVote, setTotalNumOfVote] = useState(0);
+  const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
 
   const {
@@ -31,20 +34,28 @@ const VoteButton = ({ post }: { post: postType }) => {
   } = post;
 
   const [upvoting, upvotingResult] = useMutation(DO_UPVOTE, {
-    refetchQueries: [GET_SUBREDDIT_POST],
+    update: (_, { data }) => {
+      dispatch(refreshAction("upvote"));
+      // console.log(`data upvote`, data);
+    },
+    // refetchQueries: [GET_SUBREDDIT_POST],
     variables: {
       postId: _id,
     },
   });
 
   const [downvoting, downvotingResult] = useMutation(DO_DOWNVOTE, {
+    update: (_, { data }) => {
+      dispatch(refreshAction("downvote"));
+    },
     refetchQueries: [GET_SUBREDDIT_POST],
     variables: {
       postId: _id,
     },
   });
 
-  // console.log(`state`, state);
+  // console.log(`upvote`, upvote);
+  // console.log(`downvote`, downvote);
   // useEffect(() => {
   //   if (upvotingResult.data !== undefined) {
   //     // setTotalNumOfVote(postTotalNumOfVote);
@@ -84,9 +95,10 @@ const VoteButton = ({ post }: { post: postType }) => {
         {/* <div className="ui buttons three basic"> */}
         <button
           className={`ui button red ${
-            upvote.some(
-              (u: { username: string }) => u?.username === user.username
-            )
+            upvote.some((u: { username: string }) => {
+              if (u !== null) return u?.username === user.username;
+              else return false;
+            })
               ? ""
               : "basic"
           }`}
@@ -98,9 +110,10 @@ const VoteButton = ({ post }: { post: postType }) => {
         <button
           // className="ui button basic blue"
           className={`ui button blue ${
-            downvote.some(
-              (u: { username: string }) => u.username === user.username
-            )
+            downvote.some((u: { username: string }) => {
+              if (u !== null) return u?.username === user.username;
+              else return false;
+            })
               ? ""
               : "basic"
           }`}
