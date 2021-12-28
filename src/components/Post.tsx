@@ -1,4 +1,4 @@
-import { Button, Card } from "semantic-ui-react";
+import { Segment, Button, Card } from "semantic-ui-react";
 
 import VoteButton from "@/components/VoteButton";
 
@@ -10,7 +10,7 @@ const Post = ({ posts }: { posts: postType[] }) => {
   if (!posts) return;
 
   return (
-    <Card.Group>
+    <Card.Group stackable>
       {posts.map((post: postType, index: number) => {
         if (!post) return;
         return (
