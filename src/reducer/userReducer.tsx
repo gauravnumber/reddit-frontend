@@ -4,7 +4,9 @@ type State = {
   login: string;
 };
 
-type ActionType = { type: "USER_STORE"; payload: State };
+type ActionType =
+  | { type: "USER_STORE"; payload: State }
+  | { type: "LOGOUT"; payload: null };
 
 // interface ActionType {
 //   type: string;
@@ -18,9 +20,18 @@ const reducer = (state: State | null = null, action: ActionType) => {
   switch (action.type) {
     case "USER_STORE":
       return action.payload;
+    case "LOGOUT":
+      return null;
     default:
       return state;
   }
+};
+
+export const userLogoutAction = (): ActionType => {
+  return {
+    type: "LOGOUT",
+    payload: null,
+  };
 };
 
 export const userStoreAction = (user: State): ActionType => {

@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useParams } from "react-router-dom";
-import { useLazyQuery, useMutation } from "@apollo/client";
+import { useQuery, useLazyQuery, useMutation } from "@apollo/client";
 import { useSelector, useDispatch } from "react-redux";
 import { Header, Grid, Segment, Card, Icon, Form } from "semantic-ui-react";
 
@@ -11,32 +11,65 @@ import { showChamber } from "@/reducer/subredditReducer";
 import { postType } from "@/types";
 
 const Subreddit = () => {
+  // const [subredditPosts, setSubredditPosts] = useState(null);
   const params = useParams();
 
-  const subredditPosts = useSelector((state) => state.subreddit);
+  // const subredditPosts = useSelector((state) => state.subreddit);
   const dispatch = useDispatch();
 
-  const [getSubredditPost, result] = useLazyQuery(GET_SUBREDDIT_POST);
+  const result = useQuery(GET_SUBREDDIT_POST, {
+    variables: {
+      name: "funny",
+    },
+  });
+
+  // const [getSubredditPost, result] = useLazyQuery(GET_SUBREDDIT_POST, {
+  //   variables: {
+  //     name: "funny",
+  //     // name: params.subredditName,
+  //   },
+  //   // },
+  // });
+
+  // console.log(`params.subredditName`, params.subredditName);
+
   const [posting, postingResult] = useMutation(POST, {
     refetchQueries: [GET_SUBREDDIT_POST],
+    update: (_, { data }) => {
+      console.log(`data update`, data);
+    },
   });
 
   const [post, setPost] = useState("");
 
   // console.log(`subredditPosts`, subredditPosts);
+  // useCallback(() => {
+  //   getSubredditPost({
+  //     variables: {
+  //       name: params.subredditName,
+  //     },
+  //   });
+  // }, [params.subredditName]);
 
-  useEffect(() => {
-    getSubredditPost({
-      variables: {
-        name: params.subredditName,
-      },
-    });
+  // useEffect(() => {
+  //   console.log("enter in useEffect");
 
-    if (result.data !== undefined) {
-      // console.log(`result.data.getSubredditPost`, result.data.getSubredditPost);
-      dispatch(showChamber(result.data.getSubredditPost));
-    }
-  }, [params.subredditName, result.data]);
+  //   // getSubredditPost();
+
+  //   if (result.data !== undefined) {
+  //     console.log(`result.data.getSubredditPost`, result.data.getSubredditPost);
+
+  //     // setSubredditPosts(result.data);
+  //     // dispatch(showChamber(result.data.getSubredditPost));
+  //   }
+
+  //   console.log(`params.subredditName`, params.subredditName);
+  //   console.log(`result.data`, result.data);
+  // }, [params.subredditName]);
+
+  if (result.loading) {
+    return <div>loading...</div>;
+  }
 
   const handlePost = (e: React.FormEvent) => {
     e.preventDefault();
@@ -55,6 +88,11 @@ const Subreddit = () => {
     // console.log(post);
   };
 
+  // console.log(`subredditPosts`, subredditPosts);
+  // console.log(`result.data.subredditPosts`, result.data.subredditPosts);
+  result.refetch();
+  // console.log(`result.data`, result.data);
+
   return (
     <Grid>
       <Grid.Row>
@@ -67,7 +105,9 @@ const Subreddit = () => {
           />
         </Form>
       </Grid.Row>
-      <Grid.Row>{subredditPosts && <Post posts={subredditPosts} />}</Grid.Row>
+      <Grid.Row>
+        {result.data && <Post posts={result.data.getSubredditPost} />}
+      </Grid.Row>
     </Grid>
   );
 };

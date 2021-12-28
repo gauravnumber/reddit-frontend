@@ -22,7 +22,7 @@ function App() {
   const dispatch = useDispatch();
 
   let user = localStorage.getItem("loginUser");
-  user = JSON.parse(user);
+  user = user ? JSON.parse(user) : "";
   // console.log(`user`, user);
 
   useEffect(() => {
@@ -42,8 +42,8 @@ function App() {
     <Container
     // style={{ paddingTop: "2rem" }}
     >
-      <Nav />
       <Router>
+        <Nav />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />

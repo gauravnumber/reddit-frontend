@@ -85,7 +85,7 @@ const VoteButton = ({ post }: { post: postType }) => {
         <button
           className={`ui button red ${
             upvote.some(
-              (u: { username: string }) => u.username === user.username
+              (u: { username: string }) => u?.username === user.username
             )
               ? ""
               : "basic"
