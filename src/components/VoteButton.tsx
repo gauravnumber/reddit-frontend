@@ -34,11 +34,18 @@ const VoteButton = ({ post }: { post: postType }) => {
   } = post;
 
   const [upvoting, upvotingResult] = useMutation(DO_UPVOTE, {
-    update: (_, { data }) => {
+    update: (cache, { data }) => {
+      // const dataInCache = cache.readQuery({
+      //   query: GET_SUBREDDIT_POST,
+      //   // variables: {
+      //   //   name: "funny",
+      //   // },
+      // });
+      // console.log(`dataInCache`, dataInCache);
       dispatch(refreshAction("upvote"));
       // console.log(`data upvote`, data);
     },
-    // refetchQueries: [GET_SUBREDDIT_POST],
+    refetchQueries: [GET_SUBREDDIT_POST],
     variables: {
       postId: _id,
     },

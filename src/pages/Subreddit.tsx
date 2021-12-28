@@ -41,8 +41,15 @@ const Subreddit = () => {
 
   const [posting, postingResult] = useMutation(POST, {
     refetchQueries: [GET_SUBREDDIT_POST],
-    update: (_, { data }) => {
-      console.log(`data update`, data);
+    update: (cache, { data }) => {
+      // const dataInCache = cache.readQuery({
+      //   query: GET_SUBREDDIT_POST,
+      //   // variables: {
+      //   //   name: "funny",
+      //   // },
+      // });
+      // console.log(`dataInCache`, dataInCache);
+      // console.log(`data update`, data);
     },
   });
 
