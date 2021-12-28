@@ -12,7 +12,7 @@ import { postType } from "@/types";
 
 const Subreddit = () => {
   // const [subredditPosts, setSubredditPosts] = useState(null);
-  const refreshSubredditPost = useSelector((state) => state);
+  const refreshSubredditPost = useSelector((state) => state.refresh);
   // console.log(`refreshSubredditPost`, refreshSubredditPost);
   const params = useParams();
 
