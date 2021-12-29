@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Header, Grid, Segment, Card, Icon, Form } from "semantic-ui-react";
 
 import Post from "@/components/Post";
+import PostingForm from "@/components/PostingForm";
 
 import { POST, GET_SUBREDDIT_POST } from "@/queries";
 import { showChamber } from "@/reducer/subredditReducer";
@@ -39,19 +40,19 @@ const Subreddit = () => {
 
   // console.log(`params.subredditName`, params.subredditName);
 
-  const [posting, postingResult] = useMutation(POST, {
-    refetchQueries: [GET_SUBREDDIT_POST],
-    update: (cache, { data }) => {
-      // const dataInCache = cache.readQuery({
-      //   query: GET_SUBREDDIT_POST,
-      //   // variables: {
-      //   //   name: "funny",
-      //   // },
-      // });
-      // console.log(`dataInCache`, dataInCache);
-      // console.log(`data update`, data);
-    },
-  });
+  // const [posting, postingResult] = useMutation(POST, {
+  //   refetchQueries: [GET_SUBREDDIT_POST],
+  //   update: (cache, { data }) => {
+  //     // const dataInCache = cache.readQuery({
+  //     //   query: GET_SUBREDDIT_POST,
+  //     //   // variables: {
+  //     //   //   name: "funny",
+  //     //   // },
+  //     // });
+  //     // console.log(`dataInCache`, dataInCache);
+  //     // console.log(`data update`, data);
+  //   },
+  // });
 
   const [post, setPost] = useState("");
 
@@ -87,22 +88,22 @@ const Subreddit = () => {
     return <div>loading...</div>;
   }
 
-  const handlePost = (e: React.FormEvent) => {
-    e.preventDefault();
+  // const handlePost = (e: React.FormEvent) => {
+  //   e.preventDefault();
 
-    posting({
-      variables: {
-        title: `title: ${Math.floor(Math.random() * 20)}`,
-        body: post,
-        subredditName: params.subredditName,
-        // body: `body: ${Math.floor(Math.random() * 10)}`,
-      },
-    });
+  //   posting({
+  //     variables: {
+  //       title: `title: ${Math.floor(Math.random() * 20)}`,
+  //       body: post,
+  //       subredditName: params.subredditName,
+  //       // body: `body: ${Math.floor(Math.random() * 10)}`,
+  //     },
+  //   });
 
-    //! not setting post = ""
-    // setPost("");
-    // console.log(post);
-  };
+  //   //! not setting post = ""
+  //   // setPost("");
+  //   // console.log(post);
+  // };
 
   // console.log(`subredditPosts`, subredditPosts);
   // console.log(`result.data.subredditPosts`, result.data.subredditPosts);
@@ -113,15 +114,16 @@ const Subreddit = () => {
     <Grid>
       <Grid.Row>
         {/* <Header as="h1">Write somebody.</Header> */}
-        <Form size="large" onSubmit={handlePost}>
+        {/* <Form size="large" onSubmit={handlePost}>
           <Form.Input
             label="Write some body."
             onChange={(e) => setPost(e.target.value)}
             autoFocus
           />
-        </Form>
+        </Form> */}
+        <PostingForm subredditName={params.subredditName} />
       </Grid.Row>
-      <Grid.Row>
+      <Grid.Row stretched>
         {result.data && <Post posts={result.data.getSubredditPost} />}
       </Grid.Row>
     </Grid>

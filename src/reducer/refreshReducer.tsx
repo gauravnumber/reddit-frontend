@@ -10,6 +10,10 @@ type ActionType =
   | {
       type: "downvote";
       payload: string;
+    }
+  | {
+      type: "updateSubreddit";
+      payload: string;
     };
 
 const resolver = (state: State | null = null, action: ActionType) => {
@@ -17,6 +21,8 @@ const resolver = (state: State | null = null, action: ActionType) => {
     case "upvote":
       return action.payload;
     case "downvote":
+      return action.payload;
+    case "updateSubreddit":
       return action.payload;
     default:
       return state;
