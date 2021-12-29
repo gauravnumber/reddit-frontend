@@ -6,7 +6,7 @@ import { useMutation } from "@apollo/client";
 import { POST, GET_SUBREDDIT_POST } from "@/queries";
 import { refreshAction } from "@/reducer/refreshReducer";
 
-const PostingForm = ({ subredditName }) => {
+const PostingForm = ({ subredditName }: { subredditName: string }) => {
   const dispatch = useDispatch();
 
   const [body, setBody] = useState("");
@@ -49,10 +49,12 @@ const PostingForm = ({ subredditName }) => {
   return (
     <Form size="large" onSubmit={handlePost}>
       <Form.Input
+        fluid
         label="Title for your choice."
         onChange={(e) => setTitle(e.target.value)}
       />
       <Form.TextArea
+        fluid
         label="Write some body."
         onChange={(e) => setBody(e.target.value)}
         // autoFocus
