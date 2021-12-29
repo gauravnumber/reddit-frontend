@@ -123,7 +123,7 @@ const Subreddit = () => {
         </Form> */}
         <PostingForm subredditName={params.subredditName} />
       </Grid.Row>
-      <Grid.Row>
+      <Grid.Row stretched>
         {result.data && <Post posts={result.data.getSubredditPost} />}
       </Grid.Row>
     </Grid>

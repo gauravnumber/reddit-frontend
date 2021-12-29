@@ -14,7 +14,7 @@ const Post = ({ posts }: { posts: postType[] }) => {
       {posts.map((post: postType, index: number) => {
         if (!post) return;
         return (
-          <Card key={index}>
+          <Card key={index} fluid>
             <Card.Content>
               <Card.Header>{post.title}</Card.Header>
               <Card.Meta as="a" href={`/u/${post.owner.username}`}>

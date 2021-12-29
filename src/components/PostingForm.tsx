@@ -1,9 +1,14 @@
 import { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { Form } from "semantic-ui-react";
 import { useMutation } from "@apollo/client";
+
 import { POST, GET_SUBREDDIT_POST } from "@/queries";
+import { refreshAction } from "@/reducer/refreshReducer";
 
 const PostingForm = ({ subredditName }) => {
+  const dispatch = useDispatch();
+
   const [body, setBody] = useState("");
   const [title, setTitle] = useState("");
 
@@ -12,12 +17,14 @@ const PostingForm = ({ subredditName }) => {
     update: (cache, { data }) => {
       // const dataInCache = cache.readQuery({
       //   query: GET_SUBREDDIT_POST,
-      //   // variables: {
-      //   //   name: "funny",
-      //   // },
+      //   variables: {
+      //     name: "funny",
+      //   },
       // });
       // console.log(`dataInCache`, dataInCache);
-      console.log(`data update`, data);
+      // dispatch(refreshAction("upvote"));
+      dispatch(refreshAction("updateSubreddit"));
+      // console.log(`data update`, data);
     },
   });
 
