@@ -103,7 +103,7 @@ const VoteButton = ({ post }: { post: postType }) => {
         <button
           className={`ui button red ${
             upvote.some((u: { username: string }) => {
-              if (u !== null) return u?.username === user.username;
+              if (u !== null) return u?.username === user?.username;
               else return false;
             })
               ? ""
@@ -118,7 +118,7 @@ const VoteButton = ({ post }: { post: postType }) => {
           // className="ui button basic blue"
           className={`ui button blue ${
             downvote.some((u: { username: string }) => {
-              if (u !== null) return u?.username === user.username;
+              if (u !== null) return u?.username === user?.username;
               else return false;
             })
               ? ""
