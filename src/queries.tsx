@@ -1,5 +1,19 @@
 import { gql } from "@apollo/client";
 
+export const DELETE_POST = gql`
+  mutation deletePost(
+    $username: String!
+    $subredditName: String!
+    $postId: String!
+  ) {
+    deletePost(
+      username: $username
+      subredditName: $subredditName
+      postId: $postId
+    )
+  }
+`;
+
 export const GET_RECENT_POSTS = gql`
   query {
     getRecentPosts {
@@ -59,6 +73,9 @@ export const GET_USER_POST = gql`
       downvote {
         username
       }
+      subreddit {
+        name
+      }
       totalNumOfVote
       createdAt
     }
@@ -108,6 +125,9 @@ export const GET_SUBREDDIT_POST = gql`
       }
       downvote {
         username
+      }
+      subreddit {
+        name
       }
       totalNumOfVote
       createdAt
