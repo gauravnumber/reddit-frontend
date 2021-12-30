@@ -4,7 +4,7 @@ import VoteButton from "@/components/VoteButton";
 
 import { postType } from "@/types";
 
-const Post = ({ posts }: { posts: postType[] }) => {
+const Post = ({ posts }: { posts: postType[] }): JSX.Element | undefined => {
   // console.log(`posts`, posts);
   //
   if (!posts) return;
@@ -16,6 +16,11 @@ const Post = ({ posts }: { posts: postType[] }) => {
         return (
           <Card key={index} fluid>
             <Card.Content>
+              {post.subreddit && (
+                <Card.Meta as="a" href={`/r/${post.subreddit.name}`}>
+                  r/{post.subreddit.name}
+                </Card.Meta>
+              )}
               <Card.Header>{post.title}</Card.Header>
               <Card.Meta as="a" href={`/u/${post.owner.username}`}>
                 u/{post.owner.username}

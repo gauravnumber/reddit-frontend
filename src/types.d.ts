@@ -13,4 +13,7 @@ export type postType = {
   downvote: {
     username: string;
   };
+  subreddit: {
+    name: string;
+  };
 };

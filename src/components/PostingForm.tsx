@@ -53,12 +53,19 @@ const PostingForm = ({ subredditName }: { subredditName: string }) => {
         label="Title for your choice."
         onChange={(e) => setTitle(e.target.value)}
       />
-      <Form.TextArea
-        fluid
+      {/* <label htmlFor="body">Write your text.</label> */}
+      <textarea
+        // id="body"
+        placeholder="Write something..."
+        className="ui textarea"
+        onChange={(e) => setBody(e.target.value)}
+      />
+      {/* <Form.TextArea
+        // fluid
         label="Write some body."
         onChange={(e) => setBody(e.target.value)}
         // autoFocus
-      />
+      /> */}
       <input type="submit" className="ui button" />
     </Form>
   );
