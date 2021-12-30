@@ -44,8 +44,8 @@ const Login = () => {
     // console.log(`data`, data);
 
     if (data !== undefined) {
-      dispatch(userStoreAction(data.login));
-      localStorage.setItem("jwtToken", data.login.token);
+      // dispatch(userStoreAction(data.login));
+      // localStorage.setItem("jwtToken", data.login.token);
       // console.log(`JSON.stringify(data.login)`, JSON.stringify(data.login));
       // localStorage.setItem("loginUser", JSON.stringify(data.login));
       setState({
