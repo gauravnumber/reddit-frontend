@@ -1,5 +1,31 @@
 import { gql } from "@apollo/client";
 
+export const GET_RECENT_POSTS = gql`
+  query {
+    getRecentPosts {
+      _id
+      title
+      body
+      subreddit {
+        name
+      }
+      vote {
+        username
+      }
+      upvote {
+        username
+      }
+      downvote {
+        username
+      }
+      owner {
+        username
+      }
+      totalNumOfVote
+    }
+  }
+`;
+
 export const DO_DOWNVOTE = gql`
   mutation downvote($postId: String!) {
     downvote(postId: $postId) {
