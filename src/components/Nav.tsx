@@ -17,7 +17,11 @@ const Nav = () => {
 
   useEffect(() => {
     // setLocation(window.location.pathname.substring(1))
-  }, []);
+    setState({
+      ...state,
+      currentPath: window.location.pathname.substring(1),
+    });
+  }, [window.location.pathname, user]);
 
   const handleLogout = () => {
     dispatch(userLogoutAction());
@@ -48,24 +52,29 @@ const Nav = () => {
       >
         r/funny
       </Menu.Item>
-
       <Menu.Item as="a" href="/create" active={state.currentPath === "create"}>
         Create new subreddit
       </Menu.Item>
-
-      <Menu.Item as="a" href="/login" active={state.currentPath === "login"}>
-        login
-      </Menu.Item>
-
-      <Menu.Item
-        as="a"
-        href="/register"
-        active={state.currentPath === "register"}
-      >
-        register
-      </Menu.Item>
-
-      <Menu.Item onClick={handleLogout}>logout</Menu.Item>
+      {!user && (
+        <>
+          <Menu.Item
+            as="a"
+            href="/login"
+            active={state.currentPath === "login"}
+          >
+            login
+          </Menu.Item>
+          <Menu.Item
+            as="a"
+            href="/register"
+            active={state.currentPath === "register"}
+          >
+            register
+          </Menu.Item>
+        </>
+      )}{" "}
+      {user && <Menu.Item onClick={handleLogout}>logout</Menu.Item>}
+      {/* {!user && <Menu.Item onClick={handleLogout}>logout</Menu.Item>} */}
     </Menu>
   );
 };
