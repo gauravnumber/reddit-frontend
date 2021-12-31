@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useLazyQuery } from "@apollo/client";
 import { useParams } from "react-router-dom";
 import { Container, Card } from "semantic-ui-react";
@@ -11,14 +11,17 @@ import { postType } from "@/types";
 // import { Form } from "semantic-ui-react";
 
 const User = () => {
+  const sort = useSelector((state) => state.sort);
   const refreshSubredditPost = useSelector((state) => state.refresh);
   const params = useParams();
   const [getUserPost, result] = useLazyQuery(GET_USER_POST, {
     variables: {
       username: params.username,
+      // sort,
     },
   });
 
+  console.log(`sort`, sort);
   useEffect(() => {
     getUserPost();
     // console.log(`refreshSubredditPost`, refreshSubredditPost);
@@ -26,7 +29,7 @@ const User = () => {
     // if (result.data !== undefined) {
 
     // }
-  }, [params.username, refreshSubredditPost]);
+  }, [sort, params.username, refreshSubredditPost]);
 
   return (
     <Container>

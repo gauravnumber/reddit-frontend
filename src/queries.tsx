@@ -59,6 +59,8 @@ export const DO_UPVOTE = gql`
 `;
 
 export const GET_USER_POST = gql`
+  # query getPostsByUser($username: String!, $sort: String!) {
+  #   getPostsByUser(username: $username, sort: $sort) {
   query getPostsByUser($username: String!) {
     getPostsByUser(username: $username) {
       title
