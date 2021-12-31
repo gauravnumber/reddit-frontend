@@ -10,11 +10,13 @@ import PostingForm from "@/components/PostingForm";
 import { POST, GET_SUBREDDIT_POST } from "@/queries";
 import { showChamber } from "@/reducer/subredditReducer";
 import { postType } from "@/types";
+import { sortAction } from "@/reducer/sortReducer";
 
 const Subreddit = () => {
-  const [sort, setSort] = useState("hot");
+  // const [sort, setSort] = useState("hot");
   // const [subredditPosts, setSubredditPosts] = useState(null);
   const refreshSubredditPost = useSelector((state) => state.refresh);
+  const sort = useSelector((state) => state.sort);
   // console.log(`refreshSubredditPost`, refreshSubredditPost);
   const params = useParams();
 
@@ -60,7 +62,11 @@ const Subreddit = () => {
 
   useEffect(() => {
     getSubredditPost();
-  }, [params.subredditName, refreshSubredditPost]);
+  }, [sort, params.subredditName, refreshSubredditPost]);
+
+  // useEffect(() => {
+
+  // },[sort])
   // console.log(`subredditPosts`, subredditPosts);
   // useCallback(() => {
   //   getSubredditPost({
@@ -111,10 +117,11 @@ const Subreddit = () => {
   // console.log(`result.data.subredditPosts`, result.data.subredditPosts);
   result.refetch();
   // console.log(`result.data`, result.data);
-  const handleSort = (sort: string) => (): void => {
-    console.log(sort, "sort");
-    setSort(sort);
-  };
+  // const handleSort = (sort: string) => (): void => {
+  //   // console.log(sort, "sort");
+  //   setSort(sort);
+  //   dispatch(sortAction(sort));
+  // };
 
   return (
     <Grid>
@@ -132,7 +139,7 @@ const Subreddit = () => {
       <Grid.Row stretched>
         {result.data && (
           <>
-            <Card fluid>
+            {/* <Card fluid>
               <Card.Content>
                 <div className="ui buttons">
                   <button className="ui button" onClick={handleSort("hot")}>
@@ -161,7 +168,7 @@ const Subreddit = () => {
                   </button>
                 </div>
               </Card.Content>
-            </Card>
+            </Card> */}
 
             <Post posts={result.data.getSubredditPost} />
           </>
