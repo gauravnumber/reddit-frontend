@@ -1,14 +1,17 @@
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Segment, Button, Card } from "semantic-ui-react";
 import { useMutation } from "@apollo/client";
 
 import VoteButton from "@/components/VoteButton";
 
+import { sortAction } from "@/reducer/sortReducer";
 import { refreshAction } from "@/reducer/refreshReducer";
 import { DELETE_POST } from "@/queries";
 import { postType } from "@/types";
 
 const Post = ({ posts }: { posts: postType[] }): JSX.Element | undefined => {
+  const state = useSelector((state) => state.sort);
+  // console.log(`state`, state);
   const dispatch = useDispatch();
 
   const [deletePost, result] = useMutation(DELETE_POST, {
@@ -34,33 +37,34 @@ const Post = ({ posts }: { posts: postType[] }): JSX.Element | undefined => {
     });
   };
 
-  // const handleSort = (sort: string) => (): void => {
-  //   console.log(sort, "sort");
-  // };
+  const handleSort = (sort: string) => (): void => {
+    // console.log(sort, "sort");
+    dispatch(sortAction(sort));
+  };
 
   return (
     <Card.Group stackable>
-      {/* <Card fluid>
+      <Card fluid>
         <Card.Content>
           <div className="ui buttons">
-            <button className="ui button" onClick={handleSort("new")}>
+            <button className="ui button" onClick={handleSort("hot")}>
               New
             </button>
-            <button className="ui button" onClick={handleSort("sorting")}>
+            <button className="ui button" onClick={handleSort("top:day")}>
               Top: Day
             </button>
-            <button className="ui button" onClick={handleSort("sorting")}>
+            <button className="ui button" onClick={handleSort("top:week")}>
               Top: Week
             </button>
-            <button className="ui button" onClick={handleSort("sorting")}>
+            <button className="ui button" onClick={handleSort("top:month")}>
               Top: Month
             </button>
-            <button className="ui button" onClick={handleSort("sorting")}>
+            <button className="ui button" onClick={handleSort("top:alltime")}>
               Top: All time
             </button>
           </div>
         </Card.Content>
-      </Card> */}
+      </Card>
       {posts.map((post: postType, index: number) => {
         if (!post) return;
         return (
