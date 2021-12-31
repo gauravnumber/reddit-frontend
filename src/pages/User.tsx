@@ -21,7 +21,7 @@ const User = () => {
     },
   });
 
-  console.log(`sort`, sort);
+  // console.log(`sort`, sort);
   useEffect(() => {
     getUserPost();
     // console.log(`refreshSubredditPost`, refreshSubredditPost);

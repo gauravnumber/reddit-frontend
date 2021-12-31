@@ -10,6 +10,7 @@ import Subreddits from "@/pages/Subreddits";
 import CreateSubreddit from "@/pages/CreateSubreddit";
 
 import Nav from "@/components/Nav";
+import PageNotFound from "@/components/PageNotFound";
 
 import { userStoreAction } from "@/reducer/userReducer";
 
@@ -59,7 +60,7 @@ function App() {
             <Route path=":subredditName" element={<Subreddit />} />
           </Route>
           <Route path="/create" element={<CreateSubreddit />} />
-          <Route path="*" element={<h1>You probably be mistype.</h1>} />
+          <Route path="*" element={<PageNotFound />} />
         </Routes>
       </Router>
     </Container>
