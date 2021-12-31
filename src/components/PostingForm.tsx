@@ -47,27 +47,23 @@ const PostingForm = ({ subredditName }: { subredditName: string }) => {
   };
 
   return (
-    <Form size="large" onSubmit={handlePost}>
-      <Form.Input
-        fluid
-        label="Title for your choice."
-        onChange={(e) => setTitle(e.target.value)}
-      />
-      {/* <label htmlFor="body">Write your text.</label> */}
-      <textarea
-        // id="body"
-        placeholder="Write something..."
-        className="ui textarea"
-        onChange={(e) => setBody(e.target.value)}
-      />
-      {/* <Form.TextArea
-        // fluid
-        label="Write some body."
-        onChange={(e) => setBody(e.target.value)}
-        // autoFocus
-      /> */}
-      <input type="submit" className="ui button" />
-    </Form>
+    <form className="ui form large" onSubmit={handlePost}>
+      <div className="field">
+        <label htmlFor="title">Title for your choice.</label>
+        <input
+          type="text"
+          id="name"
+          onChange={(e) => setTitle(e.target.value)}
+        />
+      </div>
+      <div className="field">
+        <textarea
+          placeholder="Write something..."
+          onChange={(e) => setBody(e.target.value)}
+        ></textarea>
+      </div>
+      <button className="ui button">Submit</button>
+    </form>
   );
 };
 
