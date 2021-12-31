@@ -10,8 +10,6 @@ import { DELETE_POST } from "@/queries";
 import { postType } from "@/types";
 
 const Post = ({ posts }: { posts: postType[] }): JSX.Element | undefined => {
-  const state = useSelector((state) => state.sort);
-  // console.log(`state`, state);
   const dispatch = useDispatch();
 
   const [deletePost, result] = useMutation(DELETE_POST, {
@@ -22,12 +20,7 @@ const Post = ({ posts }: { posts: postType[] }): JSX.Element | undefined => {
   });
   if (!posts) return;
 
-  const handleDelete = (post: { post: postType }) => (): void => {
-    // console.log("delete", post);
-    // console.log(`post._id`, post._id);
-    // console.log(`post.owner.username`, post.owner.username);
-    // console.log(`post.subreddit.name`, post.subreddit.name);
-
+  const handleDelete = (post: postType) => (): void => {
     deletePost({
       variables: {
         username: post.owner.username,
@@ -38,33 +31,36 @@ const Post = ({ posts }: { posts: postType[] }): JSX.Element | undefined => {
   };
 
   const handleSort = (sort: string) => (): void => {
-    // console.log(sort, "sort");
     dispatch(sortAction(sort));
   };
 
+  const sortButtons = () => (
+    <Card fluid>
+      <Card.Content>
+        <div className="ui buttons">
+          <button className="ui button" onClick={handleSort("hot")}>
+            New
+          </button>
+          <button className="ui button" onClick={handleSort("top:day")}>
+            Top: Day
+          </button>
+          <button className="ui button" onClick={handleSort("top:week")}>
+            Top: Week
+          </button>
+          <button className="ui button" onClick={handleSort("top:month")}>
+            Top: Month
+          </button>
+          <button className="ui button" onClick={handleSort("top:alltime")}>
+            Top: All time
+          </button>
+        </div>
+      </Card.Content>
+    </Card>
+  );
+
   return (
     <Card.Group stackable>
-      <Card fluid>
-        <Card.Content>
-          <div className="ui buttons">
-            <button className="ui button" onClick={handleSort("hot")}>
-              New
-            </button>
-            <button className="ui button" onClick={handleSort("top:day")}>
-              Top: Day
-            </button>
-            <button className="ui button" onClick={handleSort("top:week")}>
-              Top: Week
-            </button>
-            <button className="ui button" onClick={handleSort("top:month")}>
-              Top: Month
-            </button>
-            <button className="ui button" onClick={handleSort("top:alltime")}>
-              Top: All time
-            </button>
-          </div>
-        </Card.Content>
-      </Card>
+      {sortButtons()}
       {posts.map((post: postType, index: number) => {
         if (!post) return;
         return (
@@ -87,7 +83,6 @@ const Post = ({ posts }: { posts: postType[] }): JSX.Element | undefined => {
                 delete
               </button>
               <Card.Description>{post.body}</Card.Description>
-              {/* <button className="ui button teal right floated">delete</button> */}
             </Card.Content>
             {/* Card.Content inside in <VoteButton />  */}
             <VoteButton post={post} />
