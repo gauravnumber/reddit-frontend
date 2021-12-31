@@ -112,8 +112,8 @@ export const POST = gql`
 `;
 
 export const GET_SUBREDDIT_POST = gql`
-  query getSubredditPost($name: String!) {
-    getSubredditPost(name: $name) {
+  query getSubredditPost($name: String!, $sort: String!) {
+    getSubredditPost(name: $name, sort: $sort) {
       _id
       title
       body
