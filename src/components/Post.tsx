@@ -34,8 +34,33 @@ const Post = ({ posts }: { posts: postType[] }): JSX.Element | undefined => {
     });
   };
 
+  // const handleSort = (sort: string) => (): void => {
+  //   console.log(sort, "sort");
+  // };
+
   return (
     <Card.Group stackable>
+      {/* <Card fluid>
+        <Card.Content>
+          <div className="ui buttons">
+            <button className="ui button" onClick={handleSort("new")}>
+              New
+            </button>
+            <button className="ui button" onClick={handleSort("sorting")}>
+              Top: Day
+            </button>
+            <button className="ui button" onClick={handleSort("sorting")}>
+              Top: Week
+            </button>
+            <button className="ui button" onClick={handleSort("sorting")}>
+              Top: Month
+            </button>
+            <button className="ui button" onClick={handleSort("sorting")}>
+              Top: All time
+            </button>
+          </div>
+        </Card.Content>
+      </Card> */}
       {posts.map((post: postType, index: number) => {
         if (!post) return;
         return (
