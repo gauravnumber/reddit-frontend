@@ -15,8 +15,8 @@ export const DELETE_POST = gql`
 `;
 
 export const GET_RECENT_POSTS = gql`
-  query {
-    getRecentPosts {
+  query getRecentPosts($sort: String!) {
+    getRecentPosts(sort: $sort) {
       _id
       title
       body
