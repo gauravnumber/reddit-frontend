@@ -1,8 +1,15 @@
-type State = {
+export type State = {
   _id: string;
   username: string;
-  login: string;
+  login?: string;
+  token: string;
+  __typename: string;
 };
+// export type State = {
+//   _id: string;
+//   username: string;
+//   login: string;
+// };
 
 type ActionType =
   | { type: "USER_STORE"; payload: State }

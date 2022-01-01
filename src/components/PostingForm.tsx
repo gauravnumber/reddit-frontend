@@ -48,7 +48,7 @@ const PostingForm = ({ subredditName }: { subredditName: string }) => {
 
   return (
     <form className="ui form large" onSubmit={handlePost}>
-      <div className="field">
+      <div className="field ">
         <label htmlFor="title">Title for your choice.</label>
         <input
           type="text"
@@ -56,7 +56,7 @@ const PostingForm = ({ subredditName }: { subredditName: string }) => {
           onChange={(e) => setTitle(e.target.value)}
         />
       </div>
-      <div className="field">
+      <div className="field ">
         <textarea
           placeholder="Write something..."
           onChange={(e) => setBody(e.target.value)}
