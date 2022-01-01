@@ -26,7 +26,7 @@ const VoteButton = ({ post }: { post: postType }) => {
 
   const {
     _id,
-    totalNumOfVote,
+    totalNumOfVotes,
     // totalNumOfVote: postTotalNumOfVote,
     upvote,
     downvote,
@@ -114,7 +114,7 @@ const VoteButton = ({ post }: { post: postType }) => {
         >
           upvote
         </button>
-        <div className="ui button basic green">{totalNumOfVote}</div>
+        <div className="ui button basic green">{totalNumOfVotes}</div>
         <button
           // className="ui button basic blue"
           className={`ui button blue ${
