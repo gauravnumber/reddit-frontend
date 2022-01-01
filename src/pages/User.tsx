@@ -17,11 +17,13 @@ const User = () => {
   const [getUserPost, result] = useLazyQuery(GET_USER_POST, {
     variables: {
       username: params.username,
-      // sort,
+      sort: sort ?? "hot",
     },
   });
 
   // console.log(`sort`, sort);
+  // console.log(`result.data`, result.data);
+  // console.log(`params.username`, params.username);
   useEffect(() => {
     getUserPost();
     // console.log(`refreshSubredditPost`, refreshSubredditPost);

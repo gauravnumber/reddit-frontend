@@ -35,7 +35,7 @@ export const GET_RECENT_POSTS = gql`
       owner {
         username
       }
-      totalNumOfVote
+      totalNumOfVotes
     }
   }
 `;
@@ -59,10 +59,10 @@ export const DO_UPVOTE = gql`
 `;
 
 export const GET_USER_POST = gql`
-  # query getPostsByUser($username: String!, $sort: String!) {
-  #   getPostsByUser(username: $username, sort: $sort) {
-  query getPostsByUser($username: String!) {
-    getPostsByUser(username: $username) {
+  query getPostsByUser($username: String!, $sort: String!) {
+    getPostsByUser(username: $username, sort: $sort) {
+      # query getPostsByUser($username: String!) {
+      #   getPostsByUser(username: $username) {
       title
       _id
       body
@@ -78,7 +78,7 @@ export const GET_USER_POST = gql`
       subreddit {
         name
       }
-      totalNumOfVote
+      totalNumOfVotes
       createdAt
     }
   }
@@ -131,7 +131,7 @@ export const GET_SUBREDDIT_POST = gql`
       subreddit {
         name
       }
-      totalNumOfVote
+      totalNumOfVotes
       createdAt
     }
   }
