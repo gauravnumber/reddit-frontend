@@ -9,7 +9,7 @@ import { useMutation } from "@apollo/client";
 import { useSelector } from "react-redux";
 
 import { DO_UPVOTE, DO_DOWNVOTE, GET_SUBREDDIT_POST } from "@/queries";
-import { postType, RootState, userReducer } from "@/types";
+import { postType, RootState, userState } from "@/types";
 import { refreshAction } from "@/reducer/refreshReducer";
 
 // const VoteButton = ({
@@ -22,7 +22,7 @@ import { refreshAction } from "@/reducer/refreshReducer";
 const VoteButton = ({ post }: { post: postType }) => {
   // const [totalNumOfVote, setTotalNumOfVote] = useState(0);
   const dispatch = useDispatch();
-  const user = useSelector<RootState, userReducer>((state) => state.user);
+  const user = useSelector<RootState, userState>((state) => state.user);
 
   const {
     _id,
@@ -37,9 +37,10 @@ const VoteButton = ({ post }: { post: postType }) => {
     update: (cache, { data }) => {
       // const dataInCache = cache.readQuery({
       //   query: GET_SUBREDDIT_POST,
-      //   // variables: {
-      //   //   name: "funny",
-      //   // },
+      //   variables: {
+      //     name: "funny",
+      //     sort: "hot",
+      //   },
       // });
       // console.log(`dataInCache`, dataInCache);
       dispatch(refreshAction("upvote"));

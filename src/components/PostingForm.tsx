@@ -6,7 +6,7 @@ import { useMutation } from "@apollo/client";
 import { POST, GET_SUBREDDIT_POST } from "@/queries";
 import { refreshAction } from "@/reducer/refreshReducer";
 
-const PostingForm = ({ subredditName }: { subredditName: string }) => {
+const PostingForm = ({ subredditName }: { subredditName?: string }) => {
   const dispatch = useDispatch();
 
   const [body, setBody] = useState("");

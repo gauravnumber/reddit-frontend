@@ -17,6 +17,7 @@ import { userStoreAction } from "@/reducer/userReducer";
 import { Container } from "semantic-ui-react";
 import { useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
+import { userState } from "./types";
 
 function App() {
   const [loginUser, setLoginUser] = useState();
@@ -24,20 +25,10 @@ function App() {
 
   let user = localStorage.getItem("loginUser");
   user = user ? JSON.parse(user) : "";
-  // console.log(`user`, user);
 
   useEffect(() => {
-    // const user: string | null = localStorage.getItem("loginUser");
-    // let user = localStorage.getItem("loginUser");
-    // user = JSON.parse(user);
-
-    dispatch(userStoreAction(user));
-    // console.log("app");
-    // setLoginUser(user);
+    dispatch(userStoreAction(user as userState));
   }, [loginUser]);
-
-  // const user = localStorage.getItem("loginUser");
-  // console.log(`JSON.parse(user)`, JSON.parse(user));
 
   return (
     <Container

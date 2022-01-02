@@ -3,8 +3,8 @@ export type State = {
   username: string;
   login?: string;
   token: string;
-  __typename: string;
-};
+  __typename?: string;
+} | null;
 // export type State = {
 //   _id: string;
 //   username: string;

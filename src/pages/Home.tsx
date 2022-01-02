@@ -6,9 +6,10 @@ import { useQuery, useLazyQuery } from "@apollo/client";
 import Post from "@components/Post";
 
 import { GET_RECENT_POSTS } from "@/queries";
+import { RootState, sortState } from "@/types";
 
 const Home = () => {
-  const sort = useSelector((state) => state.sort);
+  const sort = useSelector<RootState, sortState>((state) => state.sort);
   // const result = useQuery(GET_RECENT_POSTS, {
   const [getRecentPostsBySorting, result] = useLazyQuery(GET_RECENT_POSTS, {
     variables: {
@@ -23,7 +24,7 @@ const Home = () => {
 
   return (
     <div>
-      <h1>Welcome to alternative of reddit.</h1>
+      <h1>Welcome to clone of reddit.</h1>
       {/* <p></p> */}
       {/* <ul>
         <li>

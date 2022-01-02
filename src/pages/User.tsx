@@ -7,12 +7,14 @@ import { Container, Card } from "semantic-ui-react";
 import Post from "@/components/Post";
 
 import { GET_USER_POST } from "@/queries";
-import { postType } from "@/types";
+import { postType, refreshState, RootState, sortState } from "@/types";
 // import { Form } from "semantic-ui-react";
 
 const User = () => {
-  const sort = useSelector((state) => state.sort);
-  const refreshSubredditPost = useSelector((state) => state.refresh);
+  const sort = useSelector<RootState, sortState>((state) => state.sort);
+  const refreshSubredditPost = useSelector<RootState, refreshState>(
+    (state) => state.refresh
+  );
   const params = useParams();
   const [getUserPost, result] = useLazyQuery(GET_USER_POST, {
     variables: {

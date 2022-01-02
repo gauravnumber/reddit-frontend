@@ -1,7 +1,13 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { Message, Button, Form, Container } from "semantic-ui-react";
+import {
+  Message,
+  Button,
+  Form,
+  Container,
+  SemanticCOLORS,
+} from "semantic-ui-react";
 import { useMutation } from "@apollo/client";
 
 import { userStoreAction } from "../reducer/userReducer";
@@ -99,7 +105,10 @@ const Login = () => {
         <button className="ui button">login</button>
         {/* <Button>submit</Button> */}
         {state.message && (
-          <Message content={state.message} color={state.messageStatus} />
+          <Message
+            content={state.message}
+            color={state.messageStatus as SemanticCOLORS}
+          />
         )}
       </Form>
       {/* <form onSubmit={handleLogin}>
