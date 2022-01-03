@@ -1,11 +1,18 @@
 import { State as refreshState } from "@/reducer/refreshReducer";
-import { State as userReducer } from "@/reducer/userReducer";
-import { State as sortReducer } from "@/reducer/sortReducer";
+import { State as userState } from "@/reducer/userReducer";
+import { State as sortState } from "@/reducer/sortReducer";
 
-type RootState = refreshState | userReducer | sortReducer;
+type RootState = {
+  refresh: refreshState;
+  user: userState;
+  sort: sortState;
+};
+
 export { RootState };
 
-export { State as userReducer } from "@/reducer/userReducer";
+export { State as userState } from "@/reducer/userReducer";
+export { State as sortState } from "@/reducer/sortReducer";
+export { State as refreshState } from "@/reducer/refreshReducer";
 
 export type postType = {
   _id: string;
@@ -16,12 +23,16 @@ export type postType = {
   owner: {
     username: string;
   };
-  upvote: {
-    username: string;
-  };
-  downvote: {
-    username: string;
-  };
+  upvote: [
+    {
+      username: string;
+    }
+  ];
+  downvote: [
+    {
+      username: string;
+    }
+  ];
   subreddit: {
     name: string;
   };

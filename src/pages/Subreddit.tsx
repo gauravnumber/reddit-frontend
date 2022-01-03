@@ -8,11 +8,14 @@ import Post from "@/components/Post";
 import PostingForm from "@/components/PostingForm";
 
 import { POST, GET_SUBREDDIT_POST } from "@/queries";
+import { refreshState, RootState, sortState } from "@/types";
 
 const Subreddit = () => {
-  const refreshSubredditPost = useSelector((state) => state.refresh);
-  const sort = useSelector((state) => state.sort);
-  const params = useParams();
+  const refreshSubredditPost = useSelector<RootState, refreshState>(
+    (state) => state.refresh
+  );
+  const sort = useSelector<RootState, sortState>((state) => state.sort);
+  const params = useParams<{ subredditName: string }>();
 
   const [getSubredditPost, result] = useLazyQuery(GET_SUBREDDIT_POST, {
     variables: {

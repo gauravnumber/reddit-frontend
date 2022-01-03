@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Grid, Menu } from "semantic-ui-react";
 
 import { userLogoutAction } from "@/reducer/userReducer";
+import { RootState, userState } from "@/types";
 
 const Nav = () => {
   const navigate = useNavigate();
@@ -11,7 +12,7 @@ const Nav = () => {
   const [state, setState] = useState({
     currentPath: window.location.pathname.substring(1),
   });
-  const user = useSelector((state) => state.user);
+  const user = useSelector<RootState, userState>((state) => state.user);
 
   // console.log(`user`, user);
 

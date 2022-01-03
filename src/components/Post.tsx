@@ -1,4 +1,4 @@
-import { useNavigationType, useRouteMatch } from "react-router-dom";
+import { useNavigationType, useMatch } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { Segment, Button, Card } from "semantic-ui-react";
 import { useMutation } from "@apollo/client";
@@ -10,9 +10,10 @@ import { refreshAction } from "@/reducer/refreshReducer";
 import { DELETE_POST } from "@/queries";
 import { postType } from "@/types";
 
-const Post = ({ posts }: { posts: postType[] }): JSX.Element | undefined => {
+const Post = ({ posts }: { posts: postType[] }): JSX.Element | null => {
   const dispatch = useDispatch();
-  // const match = useRouteMatch('/r/:subredditName')
+  // const match = useMatch("/r/:subredditName");
+  // console.log(`match`, match);
   // const match = useNavigationType('/r/:subredditName')
 
   const [deletePost, result] = useMutation(DELETE_POST, {
@@ -21,7 +22,7 @@ const Post = ({ posts }: { posts: postType[] }): JSX.Element | undefined => {
       dispatch(refreshAction("updateSubreddit"));
     },
   });
-  if (!posts) return;
+  if (!posts) return null;
 
   const handleDelete = (post: postType) => (): void => {
     deletePost({
