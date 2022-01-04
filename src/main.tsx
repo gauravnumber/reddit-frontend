@@ -20,7 +20,8 @@ import {
 import { Provider } from "react-redux";
 
 const httpLink = new HttpLink({
-  uri: "http://localhost:4000",
+  uri: "https://gauravnumber-reddit-backend.herokuapp.com",
+  // uri: "http://localhost:4000",
 });
 
 const authLink = new ApolloLink((operation, forward) => {
