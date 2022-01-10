@@ -1,6 +1,6 @@
 import { useNavigationType, useMatch } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { Segment, Button, Card } from "semantic-ui-react";
+import { Dropdown, Segment, Button, Card } from "semantic-ui-react";
 import { useMutation } from "@apollo/client";
 
 import VoteButton from "@/components/VoteButton";
@@ -39,27 +39,49 @@ const Post = ({ posts }: { posts: postType[] }): JSX.Element | null => {
   };
 
   const sortButtons = () => (
-    <Card fluid>
+    <Card>
       <Card.Content>
-        <div className="ui buttons">
-          <button className="ui button" onClick={handleSort("hot")}>
-            New
-          </button>
-          <button className="ui button" onClick={handleSort("top:day")}>
-            Top: Day
-          </button>
-          <button className="ui button" onClick={handleSort("top:week")}>
-            Top: Week
-          </button>
-          <button className="ui button" onClick={handleSort("top:month")}>
-            Top: Month
-          </button>
-          <button className="ui button" onClick={handleSort("top:alltime")}>
-            Top: All time
-          </button>
-        </div>
+        <Dropdown text="sort" pointing>
+          <Dropdown.Menu>
+            <Dropdown.Item onClick={handleSort("hot")}>New</Dropdown.Item>
+            <Dropdown.Item onClick={handleSort("top:day")}>
+              Top : Day
+            </Dropdown.Item>
+            <Dropdown.Item onClick={handleSort("top:week")}>
+              Top : Week
+            </Dropdown.Item>
+            <Dropdown.Item onClick={handleSort("top:month")}>
+              Top : Month
+            </Dropdown.Item>
+            <Dropdown.Item onClick={handleSort("top:year")}>
+              Top : AllTime
+            </Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
       </Card.Content>
     </Card>
+
+    // <Card fluid>
+    //   <Card.Content>
+    //     <div className="ui buttons">
+    //       <button className="ui button" onClick={handleSort("hot")}>
+    //         New
+    //       </button>
+    //       <button className="ui button" onClick={handleSort("top:day")}>
+    //         Top: Day
+    //       </button>
+    //       <button className="ui button" onClick={handleSort("top:week")}>
+    //         Top: Week
+    //       </button>
+    //       <button className="ui button" onClick={handleSort("top:month")}>
+    //         Top: Month
+    //       </button>
+    //       <button className="ui button" onClick={handleSort("top:alltime")}>
+    //         Top: All time
+    //       </button>
+    //     </div>
+    //   </Card.Content>
+    // </Card>
   );
 
   return (
