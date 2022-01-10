@@ -18,6 +18,7 @@ import {
 } from "@apollo/client";
 
 import { Provider } from "react-redux";
+// import "./config";
 
 const httpLink = new HttpLink({
   uri: "https://gauravnumber-reddit-backend.herokuapp.com",
