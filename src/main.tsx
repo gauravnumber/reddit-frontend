@@ -20,8 +20,12 @@ import {
 import { Provider } from "react-redux";
 // import "./config";
 
+// console.log(`import.meta.env.BACKEND_URI`, import.meta.env.BACKEND_URI);
+// console.log(`import.meta.env.HI`, import.meta.env.HI);
+
 const httpLink = new HttpLink({
-  uri: "https://gauravnumber-reddit-backend.herokuapp.com",
+  // uri: "https://gauravnumber-reddit-backend.herokuapp.com",
+  // uri: "https://gauravnumber-reddit-backend.herokuapp.com",
 });
 
 const authLink = new ApolloLink((operation, forward) => {
