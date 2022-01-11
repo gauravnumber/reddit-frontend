@@ -1,8 +1,8 @@
 /// <reference types="vite/client" />
 
 interface ImportMetaEnv {
-  readonly BACKEND_URI: string;
-  readonly HI: string;
+  readonly VITE_BACKEND_URI: string;
+  readonly VITE_OFFLINE_BACKEND_URI: string;
 }
 
 interface ImportMeta {
