@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Message, Container, Form, Grid } from "semantic-ui-react";
 import { useMutation } from "@apollo/client";
 import { CREATE_SUBREDDIT } from "@/queries";
@@ -8,7 +9,14 @@ const CreateSubreddit = () => {
   const [errorCreateSubreddit, setErrorCreateSubreddit] = useState("");
   const [confirm, setConfirm] = useState("");
 
+  const navigate = useNavigate();
+
   const [createSubreddit, result] = useMutation(CREATE_SUBREDDIT, {
+    update: (cache, { data }) => {
+      console.log(`data.setSubreddit.name`, data.setSubreddit.name);
+      setConfirm(data.setSubreddit.name);
+      navigate(`/r/${data.setSubreddit.name}`);
+    },
     variables: {
       name: subredditName,
     },
@@ -20,12 +28,12 @@ const CreateSubreddit = () => {
     },
   });
 
-  useEffect(() => {
-    if (result.data !== undefined) {
-      console.log(`result.data`, result.data.setSubreddit.name);
-      setConfirm(result.data.setSubreddit.name);
-    }
-  }, [result.data]);
+  // useEffect(() => {
+  //   if (result.data !== undefined) {
+  //     console.log(`result.data`, result.data.setSubreddit.name);
+  //     setConfirm(result.data.setSubreddit.name);
+  //   }
+  // }, [result.data]);
 
   const handleCreateSubreddit = (e: React.FormEvent) => {
     e.preventDefault();
