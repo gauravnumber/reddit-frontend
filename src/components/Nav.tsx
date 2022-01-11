@@ -45,16 +45,12 @@ const Nav = () => {
           Home
         </Menu.Item>
       )}
-      <Menu.Item
+      {/* <Menu.Item
         as="a"
         href={`/${state.currentPath ? state.currentPath : "r/funny"}`}
-        // active={true}
-        // active={state.currentPath !== ""}
       >
-        {/* r/funny */}
-        {/* {`${state.currentPath}`} */}
         {state.currentPath ? state.currentPath : "r/funny"}
-      </Menu.Item>
+      </Menu.Item> */}
       <Menu.Item as="a" href="/create" active={state.currentPath === "create"}>
         Create new subreddit
       </Menu.Item>
