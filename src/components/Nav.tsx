@@ -19,6 +19,8 @@ const Nav = () => {
       ...state,
       currentPath: window.location.pathname.substring(1),
     });
+
+    // console.log(`state.currentPath`, state.currentPath);
   }, [window.location.pathname, user]);
 
   const handleLogout = () => {
@@ -45,10 +47,13 @@ const Nav = () => {
       )}
       <Menu.Item
         as="a"
-        href="/r/funny"
-        active={state.currentPath === "r/funny"}
+        href={`/${state.currentPath ? state.currentPath : "r/funny"}`}
+        // active={true}
+        // active={state.currentPath !== ""}
       >
-        r/funny
+        {/* r/funny */}
+        {/* {`${state.currentPath}`} */}
+        {state.currentPath ? state.currentPath : "r/funny"}
       </Menu.Item>
       <Menu.Item as="a" href="/create" active={state.currentPath === "create"}>
         Create new subreddit
