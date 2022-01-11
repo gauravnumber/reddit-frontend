@@ -24,7 +24,7 @@ import { Provider } from "react-redux";
 // console.log(`import.meta.env.HI`, import.meta.env.HI);
 
 const httpLink = new HttpLink({
-  // uri: "https://gauravnumber-reddit-backend.herokuapp.com",
+  uri: "http://localhost:4000",
   // uri: "https://gauravnumber-reddit-backend.herokuapp.com",
 });
 

@@ -36,11 +36,15 @@ const Subreddit = () => {
 
   return (
     <Grid>
-      <Grid.Row columns={1}>
-        <PostingForm subredditName={params.subredditName} />
+      <Grid.Row>
+        <Grid.Column>
+          <PostingForm subredditName={params.subredditName} />
+        </Grid.Column>
       </Grid.Row>
-      <Grid.Row stretched>
-        {result.data && <Post posts={result.data.getSubredditPost} />}
+      <Grid.Row>
+        <Grid.Column>
+          {result.data && <Post posts={result.data.getSubredditPost} />}
+        </Grid.Column>
       </Grid.Row>
     </Grid>
   );
