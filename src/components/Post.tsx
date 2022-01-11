@@ -54,7 +54,10 @@ const Post = ({ posts }: { posts: postType[] }): JSX.Element | null => {
               Top : Month
             </Dropdown.Item>
             <Dropdown.Item onClick={handleSort("top:year")}>
-              Top : AllTime
+              Top : Year
+            </Dropdown.Item>
+            <Dropdown.Item onClick={handleSort("top:alltime")}>
+              Top : All Time
             </Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
