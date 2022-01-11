@@ -36,7 +36,7 @@ const Subreddit = () => {
 
   return (
     <Grid>
-      <Grid.Row columns={1}>
+      <Grid.Row>
         <PostingForm subredditName={params.subredditName} />
       </Grid.Row>
       <Grid.Row stretched>

@@ -14,10 +14,7 @@ const Nav = () => {
   });
   const user = useSelector<RootState, userState>((state) => state.user);
 
-  // console.log(`user`, user);
-
   useEffect(() => {
-    // setLocation(window.location.pathname.substring(1))
     setState({
       ...state,
       currentPath: window.location.pathname.substring(1),
@@ -32,7 +29,7 @@ const Nav = () => {
   };
 
   return (
-    <Menu size="massive">
+    <Menu stackable size="massive">
       {user ? (
         <Menu.Item
           active={state.currentPath === `u/${user.username}`}
