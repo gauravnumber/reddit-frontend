@@ -21,7 +21,7 @@ import { Provider } from "react-redux";
 // import "./config";
 
 // console.log(`import.meta.env.BACKEND_URI`, import.meta.env.BACKEND_URI);
-// console.log(`import.meta.env.HI`, import.meta.env.HI);
+console.log(`import.meta.env.HI`, import.meta.env.HI);
 
 const httpLink = new HttpLink({
   uri: "http://localhost:4000",
