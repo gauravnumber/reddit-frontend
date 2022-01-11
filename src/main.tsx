@@ -20,19 +20,15 @@ import {
 import { Provider } from "react-redux";
 
 const httpLink = new HttpLink({
-  uri: "http://localhost:4000",
-  // uri: "https://gauravnumber-reddit-backend.herokuapp.com",
+  uri: import.meta.env.VITE_BACKEND_URI,
 });
 
 const authLink = new ApolloLink((operation, forward) => {
   const token = localStorage.getItem("jwtToken");
-  // const token = localStorage.getItem("user");
-  // console.log(`token`, token);
 
   operation.setContext({
     headers: {
       Authorization: token ? `Bearer ${token}` : "",
-      // authentication: token ? `Bearer ${token}` : "",
     },
   });
 
