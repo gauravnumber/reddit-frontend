@@ -1,6 +1,6 @@
 import { useNavigationType, useMatch } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { Segment, Button, Card } from "semantic-ui-react";
+import { Dropdown, Segment, Button, Card } from "semantic-ui-react";
 import { useMutation } from "@apollo/client";
 
 import VoteButton from "@/components/VoteButton";
@@ -39,9 +39,34 @@ const Post = ({ posts }: { posts: postType[] }): JSX.Element | null => {
   };
 
   const sortButtons = () => (
+    // <Card>
+    //   <Card.Content>
+    //     <Dropdown text="sort" pointing>
+    //       <Dropdown.Menu>
+    //         <Dropdown.Item onClick={handleSort("hot")}>New</Dropdown.Item>
+    //         <Dropdown.Item onClick={handleSort("top:day")}>
+    //           Top : Day
+    //         </Dropdown.Item>
+    //         <Dropdown.Item onClick={handleSort("top:week")}>
+    //           Top : Week
+    //         </Dropdown.Item>
+    //         <Dropdown.Item onClick={handleSort("top:month")}>
+    //           Top : Month
+    //         </Dropdown.Item>
+    //         <Dropdown.Item onClick={handleSort("top:year")}>
+    //           Top : Year
+    //         </Dropdown.Item>
+    //         <Dropdown.Item onClick={handleSort("top:alltime")}>
+    //           Top : All Time
+    //         </Dropdown.Item>
+    //       </Dropdown.Menu>
+    //     </Dropdown>
+    //   </Card.Content>
+    // </Card>
+
     <Card fluid>
       <Card.Content>
-        <div className="ui buttons">
+        <div className="ui buttons vertical fluid">
           <button className="ui button" onClick={handleSort("hot")}>
             New
           </button>
@@ -63,7 +88,7 @@ const Post = ({ posts }: { posts: postType[] }): JSX.Element | null => {
   );
 
   return (
-    <Card.Group stackable>
+    <Card.Group>
       {sortButtons()}
       {posts.map((post: postType, index: number) => {
         if (!post) return;
