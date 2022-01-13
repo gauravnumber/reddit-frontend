@@ -1,6 +1,6 @@
-import { useNavigationType, useMatch } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Dropdown, Segment, Button, Card } from "semantic-ui-react";
+import { SemanticCOLORS, Message, Card } from "semantic-ui-react";
 import { useMutation } from "@apollo/client";
 
 import VoteButton from "@/components/VoteButton";
@@ -8,21 +8,39 @@ import VoteButton from "@/components/VoteButton";
 import { sortAction } from "@/reducer/sortReducer";
 import { refreshAction } from "@/reducer/refreshReducer";
 import { DELETE_POST } from "@/queries";
-import { postType } from "@/types";
+import { notificationState, postType, RootState } from "@/types";
+import { loginAction } from "@/reducer/notificationReducer";
 
 const Post = ({ posts }: { posts: postType[] }): JSX.Element | null => {
+  const [loginWarning, setLoginWarning] = useState(false);
   const dispatch = useDispatch();
-  // const match = useMatch("/r/:subredditName");
-  // console.log(`match`, match);
-  // const match = useNavigationType('/r/:subredditName')
+
+  const notification = useSelector<RootState, notificationState>(
+    (state) => state.notification
+  );
 
   const [deletePost, result] = useMutation(DELETE_POST, {
     update: (cache, { data }) => {
       console.log(`data`, data);
       dispatch(refreshAction("updateSubreddit"));
     },
+    onError: (error) => {
+      dispatch(
+        loginAction({
+          message: error.graphQLErrors[0].message,
+          messageColor: "orange",
+        })
+      );
+    },
   });
+
   if (!posts) return null;
+
+  useEffect(() => {
+    if (notification) {
+      setLoginWarning(true);
+    }
+  }, [notification]);
 
   const handleDelete = (post: postType) => (): void => {
     deletePost({
@@ -39,31 +57,6 @@ const Post = ({ posts }: { posts: postType[] }): JSX.Element | null => {
   };
 
   const sortButtons = () => (
-    // <Card>
-    //   <Card.Content>
-    //     <Dropdown text="sort" pointing>
-    //       <Dropdown.Menu>
-    //         <Dropdown.Item onClick={handleSort("hot")}>New</Dropdown.Item>
-    //         <Dropdown.Item onClick={handleSort("top:day")}>
-    //           Top : Day
-    //         </Dropdown.Item>
-    //         <Dropdown.Item onClick={handleSort("top:week")}>
-    //           Top : Week
-    //         </Dropdown.Item>
-    //         <Dropdown.Item onClick={handleSort("top:month")}>
-    //           Top : Month
-    //         </Dropdown.Item>
-    //         <Dropdown.Item onClick={handleSort("top:year")}>
-    //           Top : Year
-    //         </Dropdown.Item>
-    //         <Dropdown.Item onClick={handleSort("top:alltime")}>
-    //           Top : All Time
-    //         </Dropdown.Item>
-    //       </Dropdown.Menu>
-    //     </Dropdown>
-    //   </Card.Content>
-    // </Card>
-
     <Card fluid>
       <Card.Content>
         <div className="ui buttons vertical fluid">
@@ -90,6 +83,17 @@ const Post = ({ posts }: { posts: postType[] }): JSX.Element | null => {
   return (
     <Card.Group>
       {sortButtons()}
+      {loginWarning && (
+        <Card fluid>
+          <Card.Content>
+            <Message
+              content={notification?.message}
+              color={notification?.messageColor as SemanticCOLORS}
+              onDismiss={() => setLoginWarning(false)}
+            />
+          </Card.Content>
+        </Card>
+      )}
       {posts.map((post: postType, index: number) => {
         if (!post) return;
         return (

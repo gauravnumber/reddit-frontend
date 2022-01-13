@@ -3,35 +3,20 @@
  * @prop {post} postType
  */
 import { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { Card, Container, Grid } from "semantic-ui-react";
+import { useSelector, useDispatch } from "react-redux";
+import { Message, Card, Container, Grid } from "semantic-ui-react";
 import { useMutation } from "@apollo/client";
-import { useSelector } from "react-redux";
 
 import { DO_UPVOTE, DO_DOWNVOTE, GET_SUBREDDIT_POST } from "@/queries";
-import { postType, RootState, userState } from "@/types";
+import { notificationState, postType, RootState, userState } from "@/types";
 import { refreshAction } from "@/reducer/refreshReducer";
+import { loginAction } from "@/reducer/notificationReducer";
 
-// const VoteButton = ({
-//   _id,
-//   totalNumOfVote,
-// }: {
-//   _id: string;
-//   totalNumOfVote: number;
-// }) => {
 const VoteButton = ({ post }: { post: postType }) => {
-  // const [totalNumOfVote, setTotalNumOfVote] = useState(0);
   const dispatch = useDispatch();
   const user = useSelector<RootState, userState>((state) => state.user);
 
-  const {
-    _id,
-    totalNumOfVotes,
-    // totalNumOfVote: postTotalNumOfVote,
-    upvote,
-    downvote,
-    ...rest
-  } = post;
+  const { _id, totalNumOfVotes, upvote, downvote, ...rest } = post;
 
   const [upvoting, upvotingResult] = useMutation(DO_UPVOTE, {
     update: (cache, { data }) => {
@@ -50,6 +35,14 @@ const VoteButton = ({ post }: { post: postType }) => {
     variables: {
       postId: _id,
     },
+    onError: (error) => {
+      dispatch(
+        loginAction({
+          message: error.graphQLErrors[0].message,
+          messageColor: "orange",
+        })
+      );
+    },
   });
 
   const [downvoting, downvotingResult] = useMutation(DO_DOWNVOTE, {
@@ -60,38 +53,18 @@ const VoteButton = ({ post }: { post: postType }) => {
     variables: {
       postId: _id,
     },
+    onError: (error) => {
+      dispatch(
+        loginAction({
+          message: error.graphQLErrors[0].message,
+          messageColor: "orange",
+        })
+      );
+    },
   });
 
-  // console.log(`upvote`, upvote);
-  // console.log(`downvote`, downvote);
-  // useEffect(() => {
-  //   if (upvotingResult.data !== undefined) {
-  //     // setTotalNumOfVote(postTotalNumOfVote);
-
-  //     // console.log(`upvotingResult.data`, upvotingResult.data);
-  //     console.log(
-  //       `upvotingResult.data.upvote.totalNumOfVote`,
-  //       upvotingResult.data.upvote.totalNumOfVote
-  //     );
-  //     setTotalNumOfVote(upvotingResult.data.upvote.totalNumOfVote);
-  //   }
-
-  //   if (downvotingResult.data !== undefined) {
-  //     // console.log(`downvotingResult.data`, downvotingResult.data);
-  //     console.log(
-  //       `downvotingResult.data.downvote.totalNumOfVote`,
-  //       downvotingResult.data.downvote.totalNumOfVote
-  //     );
-
-  //     setTotalNumOfVote(downvotingResult.data.downvote.totalNumOfVote);
-  //   }
-
-  // }, [upvotingResult.data, downvotingResult.data, totalNumOfVote]);
-
   const handleUpvote = (e: React.MouseEvent) => {
-    // console.log(`_id`, _id);
     upvoting();
-    // console.log(`params.subredditName`, params.subredditName);
   };
 
   const handleDownvote = (e: React.MouseEvent) => {
@@ -101,36 +74,35 @@ const VoteButton = ({ post }: { post: postType }) => {
   return (
     <>
       <Card.Content>
-        {/* <div className="ui buttons three basic"> */}
-        <button
-          className={`ui button red ${
-            upvote.some((u: { username: string }) => {
-              if (u !== null) return u?.username === user?.username;
-              else return false;
-            })
-              ? ""
-              : "basic"
-          }`}
-          onClick={handleUpvote}
-        >
-          upvote
-        </button>
-        <div className="ui button basic green">{totalNumOfVotes}</div>
-        <button
-          // className="ui button basic blue"
-          className={`ui button blue ${
-            downvote.some((u: { username: string }) => {
-              if (u !== null) return u?.username === user?.username;
-              else return false;
-            })
-              ? ""
-              : "basic"
-          }`}
-          onClick={handleDownvote}
-        >
-          downvote
-        </button>
-        {/* </div> */}
+        <div className="ui buttons">
+          <button
+            className={`ui button red ${
+              upvote.some((u: { username: string }) => {
+                if (u !== null) return u?.username === user?.username;
+                else return false;
+              })
+                ? ""
+                : "basic"
+            }`}
+            onClick={handleUpvote}
+          >
+            upvote
+          </button>
+          <div className="ui button basic green">{totalNumOfVotes}</div>
+          <button
+            className={`ui button blue ${
+              downvote.some((u: { username: string }) => {
+                if (u !== null) return u?.username === user?.username;
+                else return false;
+              })
+                ? ""
+                : "basic"
+            }`}
+            onClick={handleDownvote}
+          >
+            downvote
+          </button>
+        </div>
       </Card.Content>
     </>
   );
