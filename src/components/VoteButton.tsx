@@ -27,8 +27,16 @@ const VoteButton = ({ post }: { post: postType }) => {
       //     sort: "hot",
       //   },
       // });
+      // cache.writeQuery({
+      //   query: GET_SUBREDDIT_POST,
+      //   variables: {
+      //     name: "funny",
+      //     sort: "hot",
+      //   },
+      //   data: dataInCache,
+      // });
       // console.log(`dataInCache`, dataInCache);
-      dispatch(refreshAction("upvote"));
+      // dispatch(refreshAction("upvote"));
       // console.log(`data upvote`, data);
     },
     refetchQueries: [GET_SUBREDDIT_POST],
@@ -47,7 +55,7 @@ const VoteButton = ({ post }: { post: postType }) => {
 
   const [downvoting, downvotingResult] = useMutation(DO_DOWNVOTE, {
     update: (_, { data }) => {
-      dispatch(refreshAction("downvote"));
+      // dispatch(refreshAction("downvote"));
     },
     refetchQueries: [GET_SUBREDDIT_POST],
     variables: {

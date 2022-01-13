@@ -7,11 +7,12 @@ import VoteButton from "@/components/VoteButton";
 
 import { sortAction } from "@/reducer/sortReducer";
 import { refreshAction } from "@/reducer/refreshReducer";
-import { DELETE_POST } from "@/queries";
+import { DELETE_POST, GET_SUBREDDIT_POST } from "@/queries";
 import { notificationState, postType, RootState } from "@/types";
 import { loginAction } from "@/reducer/notificationReducer";
 
 const Post = ({ posts }: { posts: postType[] }): JSX.Element | null => {
+  const [deletePostId, setDeletePostId] = useState("");
   const [loginWarning, setLoginWarning] = useState(false);
   const dispatch = useDispatch();
 
@@ -21,7 +22,34 @@ const Post = ({ posts }: { posts: postType[] }): JSX.Element | null => {
 
   const [deletePost, result] = useMutation(DELETE_POST, {
     update: (cache, { data }) => {
-      console.log(`data`, data);
+      // let dataInCache = cache.readQuery({
+      //   query: GET_SUBREDDIT_POST,
+
+      //   variables: {
+      //     name: "funny",
+      //     sort: "hot",
+      //   },
+      // });
+
+      // cache.writeQuery({
+      //   query: GET_SUBREDDIT_POST,
+
+      //   variables: {
+      //     name: "funny",
+      //     sort: "hot",
+      //   },
+
+      //   data: {
+      //     dataInCache: {
+      //       getSubredditPost: dataInCache.getSubredditPost.filter(
+      //         (post) => post._id !== deletePostId
+      //       ),
+      //     },
+      //   },
+      // });
+
+      // console.log(`dataInCache`, dataInCache);
+      // console.log(`data`, data);
       dispatch(refreshAction("updateSubreddit"));
     },
     onError: (error) => {
@@ -31,10 +59,14 @@ const Post = ({ posts }: { posts: postType[] }): JSX.Element | null => {
           messageColor: "orange",
         })
       );
+
+      // console.log(JSON.stringify(error));
     },
   });
 
   if (!posts) return null;
+
+  // console.log(`deletePostId`, deletePostId);
 
   useEffect(() => {
     if (notification) {
@@ -43,6 +75,8 @@ const Post = ({ posts }: { posts: postType[] }): JSX.Element | null => {
   }, [notification]);
 
   const handleDelete = (post: postType) => (): void => {
+    // setDeletePostId(post._id);
+
     deletePost({
       variables: {
         username: post.owner.username,
@@ -50,6 +84,8 @@ const Post = ({ posts }: { posts: postType[] }): JSX.Element | null => {
         postId: post._id,
       },
     });
+
+    // console.log(`post._id`, post._id);
   };
 
   const handleSort = (sort: string) => (): void => {

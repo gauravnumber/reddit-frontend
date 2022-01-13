@@ -10,7 +10,9 @@ export const DELETE_POST = gql`
       username: $username
       subredditName: $subredditName
       postId: $postId
-    )
+    ) {
+      _id
+    }
   }
 `;
 
