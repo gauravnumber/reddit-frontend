@@ -53,6 +53,14 @@ const VoteButton = ({ post }: { post: postType }) => {
     variables: {
       postId: _id,
     },
+    onError: (error) => {
+      dispatch(
+        loginAction({
+          message: error.graphQLErrors[0].message,
+          messageColor: "orange",
+        })
+      );
+    },
   });
 
   const handleUpvote = (e: React.MouseEvent) => {
