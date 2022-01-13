@@ -102,34 +102,36 @@ const VoteButton = ({ post }: { post: postType }) => {
     <>
       <Card.Content>
         {/* <div className="ui buttons three basic"> */}
-        <button
-          className={`ui button red ${
-            upvote.some((u: { username: string }) => {
-              if (u !== null) return u?.username === user?.username;
-              else return false;
-            })
-              ? ""
-              : "basic"
-          }`}
-          onClick={handleUpvote}
-        >
-          upvote
-        </button>
-        <div className="ui button basic green">{totalNumOfVotes}</div>
-        <button
-          // className="ui button basic blue"
-          className={`ui button blue ${
-            downvote.some((u: { username: string }) => {
-              if (u !== null) return u?.username === user?.username;
-              else return false;
-            })
-              ? ""
-              : "basic"
-          }`}
-          onClick={handleDownvote}
-        >
-          downvote
-        </button>
+        <div className="ui buttons">
+          <button
+            className={`ui button red ${
+              upvote.some((u: { username: string }) => {
+                if (u !== null) return u?.username === user?.username;
+                else return false;
+              })
+                ? ""
+                : "basic"
+            }`}
+            onClick={handleUpvote}
+          >
+            upvote
+          </button>
+          <div className="ui button basic green">{totalNumOfVotes}</div>
+          <button
+            // className="ui button basic blue"
+            className={`ui button blue ${
+              downvote.some((u: { username: string }) => {
+                if (u !== null) return u?.username === user?.username;
+                else return false;
+              })
+                ? ""
+                : "basic"
+            }`}
+            onClick={handleDownvote}
+          >
+            downvote
+          </button>
+        </div>
         {/* </div> */}
       </Card.Content>
     </>
