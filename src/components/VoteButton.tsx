@@ -3,14 +3,14 @@
  * @prop {post} postType
  */
 import { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Card, Container, Grid } from "semantic-ui-react";
 import { useMutation } from "@apollo/client";
-import { useSelector } from "react-redux";
 
 import { DO_UPVOTE, DO_DOWNVOTE, GET_SUBREDDIT_POST } from "@/queries";
-import { postType, RootState, userState } from "@/types";
+import { notificationState, postType, RootState, userState } from "@/types";
 import { refreshAction } from "@/reducer/refreshReducer";
+import { loginAction } from "@/reducer/notificationReducer";
 
 // const VoteButton = ({
 //   _id,
@@ -23,6 +23,9 @@ const VoteButton = ({ post }: { post: postType }) => {
   // const [totalNumOfVote, setTotalNumOfVote] = useState(0);
   const dispatch = useDispatch();
   const user = useSelector<RootState, userState>((state) => state.user);
+  const notification = useSelector<RootState, notificationState>(
+    (state) => state.notification
+  );
 
   const {
     _id,
@@ -55,6 +58,16 @@ const VoteButton = ({ post }: { post: postType }) => {
       //   `upvote error`,
       //   JSON.stringify(error.graphQLErrors[0].message)
       // );
+
+      dispatch(
+        loginAction({
+          message: error.graphQLErrors[0].message,
+          messageColor: "orange",
+        })
+      );
+
+      // console.log(`notification`, notification);
+
       console.log(
         `error.graphQLErrors[0].message`,
         error.graphQLErrors[0].message

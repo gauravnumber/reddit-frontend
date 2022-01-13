@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { Grid, Menu } from "semantic-ui-react";
+import { Message, Grid, Menu, SemanticCOLORS } from "semantic-ui-react";
 
 import { userLogoutAction } from "@/reducer/userReducer";
-import { RootState, userState } from "@/types";
+import { notificationState, RootState, userState } from "@/types";
 
 const Nav = () => {
   const navigate = useNavigate();
@@ -12,7 +12,11 @@ const Nav = () => {
   const [state, setState] = useState({
     currentPath: window.location.pathname.substring(1),
   });
+
   const user = useSelector<RootState, userState>((state) => state.user);
+  const notification = useSelector<RootState, notificationState>(
+    (state) => state.notification
+  );
 
   useEffect(() => {
     setState({
@@ -30,51 +34,66 @@ const Nav = () => {
     navigate("/");
   };
 
+  console.log(`notification`, notification);
+
   return (
-    <Menu stackable size="massive">
-      {user ? (
-        <Menu.Item
-          active={state.currentPath === `u/${user.username}`}
-          as="a"
-          href={`/u/${user.username}`}
-        >
-          {`u/${user.username}`}
-        </Menu.Item>
-      ) : (
-        <Menu.Item active={state.currentPath === ""} as="a" href="/">
-          Home
-        </Menu.Item>
+    <>
+      {notification && (
+        <Message
+          content={notification.message}
+          color={notification.messageColor as SemanticCOLORS}
+          //  onDismiss={true}
+        />
       )}
-      {/* <Menu.Item
-        as="a"
-        href={`/${state.currentPath ? state.currentPath : "r/funny"}`}
-      >
-        {state.currentPath ? state.currentPath : "r/funny"}
-      </Menu.Item> */}
-      <Menu.Item as="a" href="/create" active={state.currentPath === "create"}>
-        Create new subreddit
-      </Menu.Item>
-      {!user && (
-        <>
+      <Menu stackable size="massive">
+        {user ? (
           <Menu.Item
+            active={state.currentPath === `u/${user.username}`}
             as="a"
-            href="/login"
-            active={state.currentPath === "login"}
+            href={`/u/${user.username}`}
           >
-            login
+            {`u/${user.username}`}
           </Menu.Item>
-          <Menu.Item
-            as="a"
-            href="/register"
-            active={state.currentPath === "register"}
-          >
-            register
+        ) : (
+          <Menu.Item active={state.currentPath === ""} as="a" href="/">
+            Home
           </Menu.Item>
-        </>
-      )}{" "}
-      {user && <Menu.Item onClick={handleLogout}>logout</Menu.Item>}
-      {/* {!user && <Menu.Item onClick={handleLogout}>logout</Menu.Item>} */}
-    </Menu>
+        )}
+        {/* <Menu.Item
+          as="a"
+          href={`/${state.currentPath ? state.currentPath : "r/funny"}`}
+        >
+          {state.currentPath ? state.currentPath : "r/funny"}
+        </Menu.Item> */}
+        <Menu.Item
+          as="a"
+          href="/create"
+          active={state.currentPath === "create"}
+        >
+          Create new subreddit
+        </Menu.Item>
+        {!user && (
+          <>
+            <Menu.Item
+              as="a"
+              href="/login"
+              active={state.currentPath === "login"}
+            >
+              login
+            </Menu.Item>
+            <Menu.Item
+              as="a"
+              href="/register"
+              active={state.currentPath === "register"}
+            >
+              register
+            </Menu.Item>
+          </>
+        )}{" "}
+        {user && <Menu.Item onClick={handleLogout}>logout</Menu.Item>}
+        {/* {!user && <Menu.Item onClick={handleLogout}>logout</Menu.Item>} */}
+      </Menu>
+    </>
   );
 };
 

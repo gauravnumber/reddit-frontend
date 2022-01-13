@@ -1,6 +1,6 @@
 export type State = {
   message: string;
-  color: string;
+  messageColor: string;
 };
 
 type ActionType = {
@@ -38,7 +38,7 @@ export const loginAction = ({
 }): ActionType => {
   return {
     type: "ERROR_LOGIN",
-    payload: { message, color: messageColor },
+    payload: { message, messageColor },
   };
 };
 
