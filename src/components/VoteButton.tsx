@@ -4,7 +4,7 @@
  */
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Card, Container, Grid } from "semantic-ui-react";
+import { Message, Card, Container, Grid } from "semantic-ui-react";
 import { useMutation } from "@apollo/client";
 
 import { DO_UPVOTE, DO_DOWNVOTE, GET_SUBREDDIT_POST } from "@/queries";
@@ -157,6 +157,7 @@ const VoteButton = ({ post }: { post: postType }) => {
         </div>
         {/* </div> */}
       </Card.Content>
+      {/* <Message attached="bottom" content="lorem lorem" /> */}
     </>
   );
 };

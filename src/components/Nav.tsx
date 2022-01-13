@@ -14,9 +14,9 @@ const Nav = () => {
   });
 
   const user = useSelector<RootState, userState>((state) => state.user);
-  const notification = useSelector<RootState, notificationState>(
-    (state) => state.notification
-  );
+  // const notification = useSelector<RootState, notificationState>(
+  //   (state) => state.notification
+  // );
 
   useEffect(() => {
     setState({
@@ -34,17 +34,17 @@ const Nav = () => {
     navigate("/");
   };
 
-  console.log(`notification`, notification);
+  // console.log(`notification`, notification);
 
   return (
     <>
-      {notification && (
+      {/* {notification && (
         <Message
           content={notification.message}
           color={notification.messageColor as SemanticCOLORS}
           //  onDismiss={true}
         />
-      )}
+      )} */}
       <Menu stackable size="massive">
         {user ? (
           <Menu.Item
