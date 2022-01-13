@@ -1,14 +1,6 @@
 import { useEffect, useState } from "react";
-import { useNavigationType, useMatch } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  SemanticCOLORS,
-  Message,
-  Dropdown,
-  Segment,
-  Button,
-  Card,
-} from "semantic-ui-react";
+import { SemanticCOLORS, Message, Card } from "semantic-ui-react";
 import { useMutation } from "@apollo/client";
 
 import VoteButton from "@/components/VoteButton";
@@ -21,9 +13,6 @@ import { notificationState, postType, RootState } from "@/types";
 const Post = ({ posts }: { posts: postType[] }): JSX.Element | null => {
   const [loginWarning, setLoginWarning] = useState(false);
   const dispatch = useDispatch();
-  // const match = useMatch("/r/:subredditName");
-  // console.log(`match`, match);
-  // const match = useNavigationType('/r/:subredditName')
 
   const notification = useSelector<RootState, notificationState>(
     (state) => state.notification
@@ -35,7 +24,14 @@ const Post = ({ posts }: { posts: postType[] }): JSX.Element | null => {
       dispatch(refreshAction("updateSubreddit"));
     },
   });
+
   if (!posts) return null;
+
+  useEffect(() => {
+    if (notification) {
+      setLoginWarning(true);
+    }
+  }, [notification]);
 
   const handleDelete = (post: postType) => (): void => {
     deletePost({
@@ -52,31 +48,6 @@ const Post = ({ posts }: { posts: postType[] }): JSX.Element | null => {
   };
 
   const sortButtons = () => (
-    // <Card>
-    //   <Card.Content>
-    //     <Dropdown text="sort" pointing>
-    //       <Dropdown.Menu>
-    //         <Dropdown.Item onClick={handleSort("hot")}>New</Dropdown.Item>
-    //         <Dropdown.Item onClick={handleSort("top:day")}>
-    //           Top : Day
-    //         </Dropdown.Item>
-    //         <Dropdown.Item onClick={handleSort("top:week")}>
-    //           Top : Week
-    //         </Dropdown.Item>
-    //         <Dropdown.Item onClick={handleSort("top:month")}>
-    //           Top : Month
-    //         </Dropdown.Item>
-    //         <Dropdown.Item onClick={handleSort("top:year")}>
-    //           Top : Year
-    //         </Dropdown.Item>
-    //         <Dropdown.Item onClick={handleSort("top:alltime")}>
-    //           Top : All Time
-    //         </Dropdown.Item>
-    //       </Dropdown.Menu>
-    //     </Dropdown>
-    //   </Card.Content>
-    // </Card>
-
     <Card fluid>
       <Card.Content>
         <div className="ui buttons vertical fluid">
@@ -100,13 +71,6 @@ const Post = ({ posts }: { posts: postType[] }): JSX.Element | null => {
     </Card>
   );
 
-  useEffect(() => {
-    if (notification) {
-      setLoginWarning(true);
-    }
-  }, [notification]);
-
-  // console.log(`notification`, notification);
   return (
     <Card.Group>
       {sortButtons()}
@@ -147,7 +111,6 @@ const Post = ({ posts }: { posts: postType[] }): JSX.Element | null => {
             </Card.Content>
             {/* Card.Content inside in <VoteButton />  */}
             <VoteButton post={post} />
-            {/* <Message attached="bottom" content="lorem lorem" /> */}
           </Card>
         );
       })}
