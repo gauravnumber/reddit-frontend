@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { Message, Grid, Menu, SemanticCOLORS } from "semantic-ui-react";
+import { Menu } from "semantic-ui-react";
 
 import { userLogoutAction } from "@/reducer/userReducer";
-import { notificationState, RootState, userState } from "@/types";
+import { RootState, userState } from "@/types";
 
 const Nav = () => {
   const navigate = useNavigate();
@@ -14,17 +14,12 @@ const Nav = () => {
   });
 
   const user = useSelector<RootState, userState>((state) => state.user);
-  // const notification = useSelector<RootState, notificationState>(
-  //   (state) => state.notification
-  // );
 
   useEffect(() => {
     setState({
       ...state,
       currentPath: window.location.pathname.substring(1),
     });
-
-    // console.log(`state.currentPath`, state.currentPath);
   }, [window.location.pathname, user]);
 
   const handleLogout = () => {
@@ -34,17 +29,8 @@ const Nav = () => {
     navigate("/");
   };
 
-  // console.log(`notification`, notification);
-
   return (
     <>
-      {/* {notification && (
-        <Message
-          content={notification.message}
-          color={notification.messageColor as SemanticCOLORS}
-          //  onDismiss={true}
-        />
-      )} */}
       <Menu stackable size="massive">
         {user ? (
           <Menu.Item
@@ -59,12 +45,6 @@ const Nav = () => {
             Home
           </Menu.Item>
         )}
-        {/* <Menu.Item
-          as="a"
-          href={`/${state.currentPath ? state.currentPath : "r/funny"}`}
-        >
-          {state.currentPath ? state.currentPath : "r/funny"}
-        </Menu.Item> */}
         <Menu.Item
           as="a"
           href="/create"
@@ -91,7 +71,6 @@ const Nav = () => {
           </>
         )}{" "}
         {user && <Menu.Item onClick={handleLogout}>logout</Menu.Item>}
-        {/* {!user && <Menu.Item onClick={handleLogout}>logout</Menu.Item>} */}
       </Menu>
     </>
   );

@@ -12,29 +12,11 @@ import { notificationState, postType, RootState, userState } from "@/types";
 import { refreshAction } from "@/reducer/refreshReducer";
 import { loginAction } from "@/reducer/notificationReducer";
 
-// const VoteButton = ({
-//   _id,
-//   totalNumOfVote,
-// }: {
-//   _id: string;
-//   totalNumOfVote: number;
-// }) => {
 const VoteButton = ({ post }: { post: postType }) => {
-  // const [totalNumOfVote, setTotalNumOfVote] = useState(0);
   const dispatch = useDispatch();
   const user = useSelector<RootState, userState>((state) => state.user);
-  const notification = useSelector<RootState, notificationState>(
-    (state) => state.notification
-  );
 
-  const {
-    _id,
-    totalNumOfVotes,
-    // totalNumOfVote: postTotalNumOfVote,
-    upvote,
-    downvote,
-    ...rest
-  } = post;
+  const { _id, totalNumOfVotes, upvote, downvote, ...rest } = post;
 
   const [upvoting, upvotingResult] = useMutation(DO_UPVOTE, {
     update: (cache, { data }) => {
@@ -66,12 +48,10 @@ const VoteButton = ({ post }: { post: postType }) => {
         })
       );
 
-      // console.log(`notification`, notification);
-
-      console.log(
-        `error.graphQLErrors[0].message`,
-        error.graphQLErrors[0].message
-      );
+      // console.log(
+      //   `error.graphQLErrors[0].message`,
+      //   error.graphQLErrors[0].message
+      // );
     },
   });
 
@@ -85,36 +65,8 @@ const VoteButton = ({ post }: { post: postType }) => {
     },
   });
 
-  // console.log(`upvote`, upvote);
-  // console.log(`downvote`, downvote);
-  // useEffect(() => {
-  //   if (upvotingResult.data !== undefined) {
-  //     // setTotalNumOfVote(postTotalNumOfVote);
-
-  //     // console.log(`upvotingResult.data`, upvotingResult.data);
-  //     console.log(
-  //       `upvotingResult.data.upvote.totalNumOfVote`,
-  //       upvotingResult.data.upvote.totalNumOfVote
-  //     );
-  //     setTotalNumOfVote(upvotingResult.data.upvote.totalNumOfVote);
-  //   }
-
-  //   if (downvotingResult.data !== undefined) {
-  //     // console.log(`downvotingResult.data`, downvotingResult.data);
-  //     console.log(
-  //       `downvotingResult.data.downvote.totalNumOfVote`,
-  //       downvotingResult.data.downvote.totalNumOfVote
-  //     );
-
-  //     setTotalNumOfVote(downvotingResult.data.downvote.totalNumOfVote);
-  //   }
-
-  // }, [upvotingResult.data, downvotingResult.data, totalNumOfVote]);
-
   const handleUpvote = (e: React.MouseEvent) => {
-    // console.log(`_id`, _id);
     upvoting();
-    // console.log(`params.subredditName`, params.subredditName);
   };
 
   const handleDownvote = (e: React.MouseEvent) => {
@@ -124,7 +76,6 @@ const VoteButton = ({ post }: { post: postType }) => {
   return (
     <>
       <Card.Content>
-        {/* <div className="ui buttons three basic"> */}
         <div className="ui buttons">
           <button
             className={`ui button red ${
@@ -141,7 +92,6 @@ const VoteButton = ({ post }: { post: postType }) => {
           </button>
           <div className="ui button basic green">{totalNumOfVotes}</div>
           <button
-            // className="ui button basic blue"
             className={`ui button blue ${
               downvote.some((u: { username: string }) => {
                 if (u !== null) return u?.username === user?.username;
@@ -155,9 +105,7 @@ const VoteButton = ({ post }: { post: postType }) => {
             downvote
           </button>
         </div>
-        {/* </div> */}
       </Card.Content>
-      {/* <Message attached="bottom" content="lorem lorem" /> */}
     </>
   );
 };

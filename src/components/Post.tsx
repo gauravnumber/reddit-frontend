@@ -74,7 +74,6 @@ const Post = ({ posts }: { posts: postType[] }): JSX.Element | null => {
   return (
     <Card.Group>
       {sortButtons()}
-      {/* <Message content="lorem lorem" /> */}
       {loginWarning && (
         <Card fluid>
           <Card.Content>
