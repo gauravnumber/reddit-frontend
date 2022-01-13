@@ -50,6 +50,16 @@ const VoteButton = ({ post }: { post: postType }) => {
     variables: {
       postId: _id,
     },
+    onError: (error) => {
+      // console.log(
+      //   `upvote error`,
+      //   JSON.stringify(error.graphQLErrors[0].message)
+      // );
+      console.log(
+        `error.graphQLErrors[0].message`,
+        error.graphQLErrors[0].message
+      );
+    },
   });
 
   const [downvoting, downvotingResult] = useMutation(DO_DOWNVOTE, {
