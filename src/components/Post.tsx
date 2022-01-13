@@ -9,6 +9,7 @@ import { sortAction } from "@/reducer/sortReducer";
 import { refreshAction } from "@/reducer/refreshReducer";
 import { DELETE_POST } from "@/queries";
 import { notificationState, postType, RootState } from "@/types";
+import { loginAction } from "@/reducer/notificationReducer";
 
 const Post = ({ posts }: { posts: postType[] }): JSX.Element | null => {
   const [loginWarning, setLoginWarning] = useState(false);
@@ -22,6 +23,14 @@ const Post = ({ posts }: { posts: postType[] }): JSX.Element | null => {
     update: (cache, { data }) => {
       console.log(`data`, data);
       dispatch(refreshAction("updateSubreddit"));
+    },
+    onError: (error) => {
+      dispatch(
+        loginAction({
+          message: error.graphQLErrors[0].message,
+          messageColor: "orange",
+        })
+      );
     },
   });
 
