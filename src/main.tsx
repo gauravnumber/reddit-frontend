@@ -19,11 +19,6 @@ import {
 
 import { Provider } from "react-redux";
 
-console.log(
-  `import.meta.env.VITE_BACKEND_URI`,
-  import.meta.env.VITE_BACKEND_URI
-);
-
 const httpLink = new HttpLink({
   uri: import.meta.env.VITE_BACKEND_URI,
 });
