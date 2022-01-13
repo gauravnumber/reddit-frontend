@@ -36,22 +36,12 @@ const VoteButton = ({ post }: { post: postType }) => {
       postId: _id,
     },
     onError: (error) => {
-      // console.log(
-      //   `upvote error`,
-      //   JSON.stringify(error.graphQLErrors[0].message)
-      // );
-
       dispatch(
         loginAction({
           message: error.graphQLErrors[0].message,
           messageColor: "orange",
         })
       );
-
-      // console.log(
-      //   `error.graphQLErrors[0].message`,
-      //   error.graphQLErrors[0].message
-      // );
     },
   });
 
