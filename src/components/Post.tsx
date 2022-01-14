@@ -62,8 +62,13 @@ const Post = ({ posts }: { posts: postType[] }): JSX.Element | null => {
         })
       );
 
+      // setTimeout(() => {
+      //   setLoginWarning(false);
+      //   // nullAction();
+      // }, 1000);
+
       //? clear error message for login first
-      setTimeout(() => nullAction(), 5000);
+      // setTimeout(() => nullAction(), 5000);
 
       // console.log(JSON.stringify(error));
     },
@@ -76,6 +81,10 @@ const Post = ({ posts }: { posts: postType[] }): JSX.Element | null => {
   useEffect(() => {
     if (notification) {
       setLoginWarning(true);
+      setTimeout(() => {
+        setLoginWarning(false);
+        // nullAction();
+      }, 5000);
     }
   }, [notification]);
 
@@ -130,7 +139,10 @@ const Post = ({ posts }: { posts: postType[] }): JSX.Element | null => {
             <Message
               content={notification?.message}
               color={notification?.messageColor as SemanticCOLORS}
-              onDismiss={() => setLoginWarning(false)}
+              onDismiss={() => {
+                setLoginWarning(false);
+                // setTimeout(() => nullAction(), 5000);
+              }}
             />
           </Card.Content>
         </Card>
