@@ -8,13 +8,15 @@ import Post from "@/components/Post";
 import PostingForm from "@/components/PostingForm";
 
 import { POST, GET_SUBREDDIT_POST } from "@/queries";
-import { refreshState, RootState, sortState } from "@/types";
+import { refreshState, RootState, sortState, userState } from "@/types";
 
 const Subreddit = () => {
   const refreshSubredditPost = useSelector<RootState, refreshState>(
     (state) => state.refresh
   );
   const sort = useSelector<RootState, sortState>((state) => state.sort);
+  const user = useSelector<RootState, userState>((state) => state.user);
+
   const params = useParams<{ subredditName: string }>();
 
   const [getSubredditPost, result] = useLazyQuery(GET_SUBREDDIT_POST, {
@@ -38,7 +40,7 @@ const Subreddit = () => {
     <Grid>
       <Grid.Row>
         <Grid.Column>
-          <PostingForm subredditName={params.subredditName} />
+          {user && <PostingForm subredditName={params.subredditName} />}{" "}
         </Grid.Column>
       </Grid.Row>
       <Grid.Row>
