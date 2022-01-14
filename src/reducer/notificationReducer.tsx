@@ -3,14 +3,15 @@ export type State = {
   messageColor: string;
 };
 
-type ActionType = {
-  type: "ERROR_LOGIN";
-  payload: State;
-};
-// | {
-//     type: "downvote";
-//     payload: string;
-//   }
+type ActionType =
+  | {
+      type: "ERROR_LOGIN";
+      payload: State;
+    }
+  | {
+      type: "NULL";
+      payload: null;
+    };
 // | {
 //     type: "updateSubreddit";
 //     payload: string;
@@ -39,6 +40,13 @@ export const loginAction = ({
   return {
     type: "ERROR_LOGIN",
     payload: { message, messageColor },
+  };
+};
+
+export const nullAction = (): ActionType => {
+  return {
+    type: "NULL",
+    payload: null,
   };
 };
 

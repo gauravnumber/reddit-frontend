@@ -9,7 +9,7 @@ import { sortAction } from "@/reducer/sortReducer";
 import { refreshAction } from "@/reducer/refreshReducer";
 import { DELETE_POST, GET_SUBREDDIT_POST } from "@/queries";
 import { notificationState, postType, RootState, userState } from "@/types";
-import { loginAction } from "@/reducer/notificationReducer";
+import { loginAction, nullAction } from "@/reducer/notificationReducer";
 
 const Post = ({ posts }: { posts: postType[] }): JSX.Element | null => {
   const [deletePostId, setDeletePostId] = useState("");
@@ -61,6 +61,9 @@ const Post = ({ posts }: { posts: postType[] }): JSX.Element | null => {
           messageColor: "orange",
         })
       );
+
+      //? clear error message for login first
+      setTimeout(() => nullAction(), 5000);
 
       // console.log(JSON.stringify(error));
     },
