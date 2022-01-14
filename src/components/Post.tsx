@@ -8,7 +8,7 @@ import VoteButton from "@/components/VoteButton";
 import { sortAction } from "@/reducer/sortReducer";
 import { refreshAction } from "@/reducer/refreshReducer";
 import { DELETE_POST, GET_SUBREDDIT_POST } from "@/queries";
-import { notificationState, postType, RootState } from "@/types";
+import { notificationState, postType, RootState, userState } from "@/types";
 import { loginAction } from "@/reducer/notificationReducer";
 
 const Post = ({ posts }: { posts: postType[] }): JSX.Element | null => {
@@ -19,6 +19,8 @@ const Post = ({ posts }: { posts: postType[] }): JSX.Element | null => {
   const notification = useSelector<RootState, notificationState>(
     (state) => state.notification
   );
+
+  const user = useSelector<RootState, userState>((state) => state.user);
 
   const [deletePost, result] = useMutation(DELETE_POST, {
     update: (cache, { data }) => {
@@ -140,17 +142,19 @@ const Post = ({ posts }: { posts: postType[] }): JSX.Element | null => {
                   r/{post.subreddit.name}
                 </Card.Meta>
               )}
-
               <Card.Header>{post.title}</Card.Header>
               <Card.Meta as="a" href={`/u/${post.owner.username}`}>
                 u/{post.owner.username}
               </Card.Meta>
-              <button
-                className="ui button teal right floated"
-                onClick={handleDelete(post)}
-              >
-                delete
-              </button>
+              {/* {user?.username} */}
+              {post.owner.username === user?.username && (
+                <button
+                  className="ui button teal right floated"
+                  onClick={handleDelete(post)}
+                >
+                  delete
+                </button>
+              )}{" "}
               <Card.Description>{post.body}</Card.Description>
             </Card.Content>
             {/* Card.Content inside in <VoteButton />  */}
