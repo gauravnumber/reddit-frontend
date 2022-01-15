@@ -157,7 +157,13 @@ const Post = ({ posts }: { posts: postType[] }): JSX.Element | null => {
                   r/{post.subreddit.name}
                 </Card.Meta>
               )}
-              <Card.Header>{post.title}</Card.Header>
+              {/* <Card.Header>{post.title}</Card.Header> */}
+              <Card.Header
+                as="a"
+                href={`/r/${post.subreddit.name}/post/${post._id}`}
+              >
+                {post.title}
+              </Card.Header>
               <Card.Meta as="a" href={`/u/${post.owner.username}`}>
                 u/{post.owner.username}
               </Card.Meta>
