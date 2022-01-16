@@ -1,5 +1,37 @@
 import { gql } from "@apollo/client";
 
+export const GET_SINGLE_POSTS = gql`
+  query getSinglePost($postId: String!) {
+    getSinglePost(postId: $postId) {
+      title
+      body
+      owner {
+        username
+      }
+      comment {
+        _id
+        body
+        comment {
+          _id
+          body
+          comment {
+            _id
+            body
+            comment {
+              _id
+              body
+              comment {
+                _id
+                body
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
 export const DELETE_POST = gql`
   mutation deletePost(
     $username: String!
