@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { Icon, Grid, Card, Feed } from "semantic-ui-react";
+import { Comment, Icon, Grid, Card, Feed } from "semantic-ui-react";
 
 import { useQuery } from "@apollo/client";
 import { GET_SINGLE_POSTS } from "@/queries";
@@ -45,13 +45,29 @@ const ViewPost = () => {
             </Card.Content>
             {result.data && <VoteButton post={result.data?.getSinglePost} />}
           </Card>
-          {result.data?.getSinglePost?.comment.map((comment: commentType) => (
+          <Comment.Group>
+            {result.data?.getSinglePost?.comment.map((comment: commentType) => (
+              <Comment key={comment._id}>
+                <Comment.Content>
+                  <Comment.Author as="a" href={`/u/${comment.owner.username}`}>
+                    u/{comment.owner.username}
+                  </Comment.Author>
+                  <Comment.Text>{comment.body}</Comment.Text>
+                  <Comment.Metadata>
+                    <Icon name="arrow up" />
+                    {comment.totalNumOfVotes} <Icon name="arrow down" />
+                  </Comment.Metadata>
+                </Comment.Content>
+              </Comment>
+            ))}
+          </Comment.Group>
+          {/* {result.data?.getSinglePost?.comment.map((comment: commentType) => (
             <Feed key={comment._id}>
               <Feed.Content>
                 <Feed.Summary>
-                  {/* username */}
+                  username
                   <Feed.User>u/{comment.owner.username}</Feed.User>
-                  {/* <Feed.Date>2 days ago</Feed.Date> */}
+                  <Feed.Date>2 days ago</Feed.Date>
                 </Feed.Summary>
                 <Feed.Extra>{comment.body}</Feed.Extra>
                 <Feed.Meta>
@@ -62,7 +78,8 @@ const ViewPost = () => {
                 </Feed.Meta>
               </Feed.Content>
             </Feed>
-          ))}{" "}
+          ))}
+           */}{" "}
         </Grid.Column>
       </Grid.Row>
     </Grid>
