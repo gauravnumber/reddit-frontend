@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { Grid, Card, Feed } from "semantic-ui-react";
+import { Icon, Grid, Card, Feed } from "semantic-ui-react";
 
 import { useQuery } from "@apollo/client";
 import { GET_SINGLE_POSTS } from "@/queries";
 import { resultKeyNameFromField } from ".pnpm/apollo-utilities@1.3.4_graphql@16.2.0/node_modules/apollo-utilities";
+import { commentType } from "@/types";
 
 const ViewPost = () => {
   const [post, setPost] = useState();
@@ -41,14 +42,21 @@ const ViewPost = () => {
               </Card.Description>
             </Card.Content>
           </Card>
-          {result.data?.getSinglePost?.comment.map((comment) => (
+          {result.data?.getSinglePost?.comment.map((comment: commentType) => (
             <Feed key={comment._id}>
               <Feed.Content>
                 <Feed.Summary>
-                  {comment.body}
-                  <Feed.User>username</Feed.User>
-                  <Feed.Date>2 days ago</Feed.Date>
+                  {/* username */}
+                  <Feed.User>u/{comment.owner.username}</Feed.User>
+                  {/* <Feed.Date>2 days ago</Feed.Date> */}
                 </Feed.Summary>
+                <Feed.Extra>{comment.body}</Feed.Extra>
+                <Feed.Meta>
+                  <Feed.Like>
+                    <Icon name="arrow up" />
+                    {comment.totalNumOfVotes} <Icon name="arrow down" />
+                  </Feed.Like>
+                </Feed.Meta>
               </Feed.Content>
             </Feed>
           ))}{" "}
