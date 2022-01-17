@@ -3,6 +3,7 @@ import { gql } from "@apollo/client";
 export const GET_SINGLE_POSTS = gql`
   query getSinglePost($postId: String!) {
     getSinglePost(postId: $postId) {
+      _id
       title
       body
       owner {

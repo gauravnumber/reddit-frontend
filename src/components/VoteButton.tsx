@@ -44,6 +44,7 @@ const VoteButton = ({ post }: { post: postType }) => {
       postId: _id,
     },
     onError: (error) => {
+      console.log(`JSON.stringify(error)`, JSON.stringify(error));
       dispatch(
         loginAction({
           message: error.graphQLErrors[0].message,
