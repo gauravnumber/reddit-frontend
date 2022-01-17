@@ -61,25 +61,6 @@ const ViewPost = () => {
               </Comment>
             ))}
           </Comment.Group>
-          {/* {result.data?.getSinglePost?.comment.map((comment: commentType) => (
-            <Feed key={comment._id}>
-              <Feed.Content>
-                <Feed.Summary>
-                  username
-                  <Feed.User>u/{comment.owner.username}</Feed.User>
-                  <Feed.Date>2 days ago</Feed.Date>
-                </Feed.Summary>
-                <Feed.Extra>{comment.body}</Feed.Extra>
-                <Feed.Meta>
-                  <Feed.Like>
-                    <Icon name="arrow up" />
-                    {comment.totalNumOfVotes} <Icon name="arrow down" />
-                  </Feed.Like>
-                </Feed.Meta>
-              </Feed.Content>
-            </Feed>
-          ))}
-           */}{" "}
         </Grid.Column>
       </Grid.Row>
     </Grid>
