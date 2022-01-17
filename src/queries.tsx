@@ -8,21 +8,57 @@ export const GET_SINGLE_POSTS = gql`
       owner {
         username
       }
+
+      totalNumOfVotes
+
+      vote {
+        username
+      }
+
+      upvote {
+        username
+      }
+
+      downvote {
+        username
+      }
+
       comment {
         _id
         body
+        owner {
+          username
+        }
+        totalNumOfVotes
         comment {
           _id
           body
+          owner {
+            username
+          }
+          totalNumOfVotes
           comment {
             _id
             body
+            owner {
+              username
+            }
+            totalNumOfVotes
             comment {
               _id
               body
+              totalNumOfVotes
+              owner {
+                username
+              }
+              totalNumOfVotes
               comment {
                 _id
                 body
+                owner {
+                  username
+                }
+                totalNumOfVotes
               }
             }
           }
