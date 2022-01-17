@@ -6,6 +6,7 @@ import { useQuery } from "@apollo/client";
 import { GET_SINGLE_POSTS } from "@/queries";
 import { resultKeyNameFromField } from ".pnpm/apollo-utilities@1.3.4_graphql@16.2.0/node_modules/apollo-utilities";
 import { commentType } from "@/types";
+import VoteButton from "@/components/VoteButton";
 
 const ViewPost = () => {
   const [post, setPost] = useState();
@@ -27,7 +28,8 @@ const ViewPost = () => {
   // }, [result.data]);
 
   // console.log(`post`, post);
-  console.log(`result.data`, result.data);
+  // console.log(`result.data`, result.data);
+  // console.log(`result.data?.getSinglePost`, result.data?.getSinglePost);
 
   return (
     <Grid>
@@ -41,6 +43,7 @@ const ViewPost = () => {
                 {result.data?.getSinglePost.body}
               </Card.Description>
             </Card.Content>
+            {result.data && <VoteButton post={result.data?.getSinglePost} />}
           </Card>
           {result.data?.getSinglePost?.comment.map((comment: commentType) => (
             <Feed key={comment._id}>
