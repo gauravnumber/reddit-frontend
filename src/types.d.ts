@@ -36,6 +36,8 @@ export type commentType = {
       username: string;
     }
   ];
+
+  comment: [commentType];
 };
 
 export type postType = {
