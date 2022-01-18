@@ -29,7 +29,6 @@ const ViewPost = () => {
   const handleComment = (e: React.FormEvent) => {
     e.preventDefault();
 
-    console.log(`comment`, comment);
     commenting({
       variables: {
         postId,
@@ -38,17 +37,18 @@ const ViewPost = () => {
     });
 
     getSinglePosts();
+    console.log(`comment`, comment);
   };
 
   useEffect(() => {
-    console.log(`postId`, postId);
+    // console.log(`postId`, postId);
     getSinglePosts({
       variables: {
         postId,
       },
     });
-    console.log("run");
-    console.log(`result.data`, result.data);
+    // console.log("run");
+    // console.log(`result.data`, result.data);
   }, [result.data]);
 
   return (
