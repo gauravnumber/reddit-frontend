@@ -76,7 +76,7 @@ const ViewPost = () => {
               </form>
             </Card.Content>
           </Card>
-          <Comment.Group>
+          <Comment.Group size="huge">
             {result.data?.getSinglePost?.comment.map((comment: commentType) => (
               <Comment key={comment._id}>
                 <Comment.Content>
@@ -85,8 +85,15 @@ const ViewPost = () => {
                   </Comment.Author>
                   <Comment.Text>{comment.body}</Comment.Text>
                   <Comment.Metadata>
-                    <Icon name="arrow up" />
-                    {comment.totalNumOfVotes} <Icon name="arrow down" />
+                    <Comment.Actions>
+                      <Comment.Action>
+                        {/* <Icon.Group size="huge"> */}
+                        <Icon name="arrow up" />
+                        {comment.totalNumOfVotes} <Icon name="arrow down" />
+                        {/* </Icon.Group> */}
+                      </Comment.Action>
+                      <Comment.Action>Reply</Comment.Action>
+                    </Comment.Actions>
                   </Comment.Metadata>
                 </Comment.Content>
               </Comment>
