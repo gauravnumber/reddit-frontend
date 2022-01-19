@@ -20,6 +20,8 @@ const ViewPost = () => {
 
   const [commenting, resultComment] = useMutation(SET_COMMENT_ON_POST, {
     update: (cache, { data }) => {
+      // setComment("");
+      // console.log(`comment`, comment);
       console.log(`data comment on post`, data);
     },
   });
@@ -44,7 +46,7 @@ const ViewPost = () => {
       },
     });
 
-    console.log(`result.data`, result.data);
+    // console.log(`result.data`, result.data);
   }, [result.data]);
 
   return (

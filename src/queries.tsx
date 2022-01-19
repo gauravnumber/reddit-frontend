@@ -4,10 +4,10 @@ export const SET_COMMENT_ON_COMMENT = gql`
   mutation setComment($commentId: String!, $body: String!) {
     setComment(commentId: $commentId, body: $body) {
       _id
-      # owner {
-      #   username
-      # }
-      # body
+      owner {
+        username
+      }
+      body
     }
   }
 `;
