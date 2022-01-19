@@ -72,9 +72,7 @@ const ViewPost = () => {
               </form>
             </Card.Content>
           </Card>
-          <Comment.Group size="huge">
-            <NestedComments comments={result.data?.getSinglePost?.comment} />
-          </Comment.Group>
+          <NestedComments comments={result.data?.getSinglePost?.comment} />
         </Grid.Column>
       </Grid.Row>
     </Grid>
