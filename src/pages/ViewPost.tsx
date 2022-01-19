@@ -1,14 +1,15 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { Comment, Icon, Grid, Card, Feed } from "semantic-ui-react";
+import { Popup, Comment, Icon, Grid, Card, Feed } from "semantic-ui-react";
 
 import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
 import { SET_COMMENT_ON_POST, GET_SINGLE_POSTS } from "@/queries";
-import { commentType } from "@/types";
 import VoteButton from "@/components/VoteButton";
+import NestedComments from "@/components/NestedComments";
 
 const ViewPost = () => {
   const [comment, setComment] = useState("");
+
   const { postId } = useParams();
 
   const [getSinglePosts, result] = useLazyQuery(GET_SINGLE_POSTS, {
@@ -17,12 +18,9 @@ const ViewPost = () => {
     },
   });
 
-  // console.log(`result.data`, result.data);
-  // console.log(`postId`, postId);
-
   const [commenting, resultComment] = useMutation(SET_COMMENT_ON_POST, {
     update: (cache, { data }) => {
-      console.log(`data`, data);
+      console.log(`data comment on post`, data);
     },
   });
 
@@ -37,18 +35,16 @@ const ViewPost = () => {
     });
 
     getSinglePosts();
-    console.log(`comment`, comment);
   };
 
   useEffect(() => {
-    // console.log(`postId`, postId);
     getSinglePosts({
       variables: {
         postId,
       },
     });
-    // console.log("run");
-    // console.log(`result.data`, result.data);
+
+    console.log(`result.data`, result.data);
   }, [result.data]);
 
   return (
@@ -77,27 +73,7 @@ const ViewPost = () => {
             </Card.Content>
           </Card>
           <Comment.Group size="huge">
-            {result.data?.getSinglePost?.comment.map((comment: commentType) => (
-              <Comment key={comment._id}>
-                <Comment.Content>
-                  <Comment.Author as="a" href={`/u/${comment.owner.username}`}>
-                    u/{comment.owner.username}
-                  </Comment.Author>
-                  <Comment.Text>{comment.body}</Comment.Text>
-                  <Comment.Metadata>
-                    <Comment.Actions>
-                      <Comment.Action>
-                        {/* <Icon.Group size="huge"> */}
-                        <Icon name="arrow up" />
-                        {comment.totalNumOfVotes} <Icon name="arrow down" />
-                        {/* </Icon.Group> */}
-                      </Comment.Action>
-                      <Comment.Action>Reply</Comment.Action>
-                    </Comment.Actions>
-                  </Comment.Metadata>
-                </Comment.Content>
-              </Comment>
-            ))}
+            <NestedComments comments={result.data?.getSinglePost?.comment} />
           </Comment.Group>
         </Grid.Column>
       </Grid.Row>
