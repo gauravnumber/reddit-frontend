@@ -18,6 +18,7 @@ import { Container } from "semantic-ui-react";
 import { useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
 import { userState } from "./types";
+import ViewPost from "./pages/ViewPost";
 
 function App() {
   const [loginUser, setLoginUser] = useState();
@@ -49,6 +50,7 @@ function App() {
           </Route>
           <Route path="/r" element={<Subreddits />}>
             <Route path=":subredditName" element={<Subreddit />} />
+            <Route path=":subredditName/post/:postId" element={<ViewPost />} />
           </Route>
           <Route path="/create" element={<CreateSubreddit />} />
           <Route path="*" element={<PageNotFound />} />

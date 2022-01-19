@@ -1,5 +1,98 @@
 import { gql } from "@apollo/client";
 
+export const SET_COMMENT_ON_COMMENT = gql`
+  mutation setComment($commentId: String!, $body: String!) {
+    setComment(commentId: $commentId, body: $body) {
+      _id
+      # owner {
+      #   username
+      # }
+      # body
+    }
+  }
+`;
+
+export const SET_COMMENT_ON_POST = gql`
+  mutation setComment($postId: String!, $body: String!) {
+    setComment(postId: $postId, body: $body) {
+      _id
+      # owner {
+      #   username
+      # }
+      # body
+    }
+  }
+`;
+
+export const GET_SINGLE_POSTS = gql`
+  query getSinglePost($postId: String!) {
+    getSinglePost(postId: $postId) {
+      _id
+      title
+      body
+      owner {
+        username
+      }
+
+      totalNumOfVotes
+
+      vote {
+        username
+      }
+
+      upvote {
+        username
+      }
+
+      downvote {
+        username
+      }
+
+      comment {
+        _id
+        body
+        owner {
+          username
+        }
+        totalNumOfVotes
+        comment {
+          _id
+          body
+          owner {
+            username
+          }
+          totalNumOfVotes
+          comment {
+            _id
+            body
+            owner {
+              username
+            }
+            totalNumOfVotes
+            comment {
+              _id
+              body
+              totalNumOfVotes
+              owner {
+                username
+              }
+              totalNumOfVotes
+              comment {
+                _id
+                body
+                owner {
+                  username
+                }
+                totalNumOfVotes
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
 export const DELETE_POST = gql`
   mutation deletePost(
     $username: String!
