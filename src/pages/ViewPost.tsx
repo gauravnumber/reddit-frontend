@@ -1,39 +1,54 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { Icon, Grid, Card, Feed } from "semantic-ui-react";
+import { Popup, Comment, Icon, Grid, Card, Feed } from "semantic-ui-react";
 
-import { useQuery } from "@apollo/client";
-import { GET_SINGLE_POSTS } from "@/queries";
-import { resultKeyNameFromField } from ".pnpm/apollo-utilities@1.3.4_graphql@16.2.0/node_modules/apollo-utilities";
-import { commentType } from "@/types";
+import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
+import { SET_COMMENT_ON_POST, GET_SINGLE_POSTS } from "@/queries";
 import VoteButton from "@/components/VoteButton";
+import NestedComments from "@/components/NestedComments";
 
 const ViewPost = () => {
-  const [post, setPost] = useState();
+  const [comment, setComment] = useState("");
+
   const { postId } = useParams();
 
-  // const { data: post } = useQuery(GET_SINGLE_POSTS, {
-  const result = useQuery(GET_SINGLE_POSTS, {
+  const [getSinglePosts, result] = useLazyQuery(GET_SINGLE_POSTS, {
     variables: {
       postId,
     },
   });
 
-  // useEffect(() => {
-  //   if (result.data) {
-  //     setPost(result.data.getSinglePosts);
-  //     console.log(`result.data`, result.data);
-  //   }
-  //   // setPost(result.data ?? { ...result.data?.getSinglePosts });
-  // }, [result.data]);
+  const [commenting, resultComment] = useMutation(SET_COMMENT_ON_POST, {
+    update: (cache, { data }) => {
+      console.log(`data comment on post`, data);
+    },
+  });
 
-  // console.log(`post`, post);
-  // console.log(`result.data`, result.data);
-  // console.log(`result.data?.getSinglePost`, result.data?.getSinglePost);
+  const handleComment = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    commenting({
+      variables: {
+        postId,
+        body: comment,
+      },
+    });
+
+    getSinglePosts();
+  };
+
+  useEffect(() => {
+    getSinglePosts({
+      variables: {
+        postId,
+      },
+    });
+
+    console.log(`result.data`, result.data);
+  }, [result.data]);
 
   return (
     <Grid>
-      {/* viewpost {postId} */}
       <Grid.Row>
         <Grid.Column>
           <Card fluid>
@@ -44,25 +59,22 @@ const ViewPost = () => {
               </Card.Description>
             </Card.Content>
             {result.data && <VoteButton post={result.data?.getSinglePost} />}
+            <Card.Content>
+              <form className="ui form" onSubmit={handleComment}>
+                <div className="fields">
+                  <label htmlFor="commentOnPost">Comment on Post</label>
+                  <input
+                    type="text"
+                    onChange={(e) => setComment(e.target.value)}
+                  />
+                  <input type="submit" value="Comment" />
+                </div>
+              </form>
+            </Card.Content>
           </Card>
-          {result.data?.getSinglePost?.comment.map((comment: commentType) => (
-            <Feed key={comment._id}>
-              <Feed.Content>
-                <Feed.Summary>
-                  {/* username */}
-                  <Feed.User>u/{comment.owner.username}</Feed.User>
-                  {/* <Feed.Date>2 days ago</Feed.Date> */}
-                </Feed.Summary>
-                <Feed.Extra>{comment.body}</Feed.Extra>
-                <Feed.Meta>
-                  <Feed.Like>
-                    <Icon name="arrow up" />
-                    {comment.totalNumOfVotes} <Icon name="arrow down" />
-                  </Feed.Like>
-                </Feed.Meta>
-              </Feed.Content>
-            </Feed>
-          ))}{" "}
+          <Comment.Group size="huge">
+            <NestedComments comments={result.data?.getSinglePost?.comment} />
+          </Comment.Group>
         </Grid.Column>
       </Grid.Row>
     </Grid>
