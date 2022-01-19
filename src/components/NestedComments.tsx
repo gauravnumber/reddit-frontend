@@ -31,12 +31,13 @@ const NestedComments = ({ comments }: { comments: commentType[] }) => {
   };
 
   return (
-    <Comment.Group size="large">
+    <Comment.Group size="large" threaded>
       {comments.map((comment: commentType) => (
         <Comment key={comment._id}>
           <Comment.Author as="a" href={`/u/${comment.owner.username}`}>
             u/{comment.owner.username}
           </Comment.Author>
+
           <Comment.Text>{comment.body}</Comment.Text>
           <Comment.Actions>
             <Comment.Action>
