@@ -9,7 +9,10 @@ import { GET_SINGLE_POSTS, SET_COMMENT_ON_COMMENT } from "@/queries";
 const NestedComments = ({ comments }: { comments: commentType[] }) => {
   const { postId } = useParams();
   const [commentOnComment, setCommentOnComment] = useState("");
-  // const [popupReply, setPopupReply] = useState(false);
+  const [popupReply, setPopupReply] = useState({
+    commentId: "",
+    show: false,
+  });
 
   const [commentOnCommenting, resultCommentOnComment] = useMutation(
     SET_COMMENT_ON_COMMENT,
@@ -48,7 +51,7 @@ const NestedComments = ({ comments }: { comments: commentType[] }) => {
           })
         );
         console.log(`data commentOnComment`, data);
-        // setPopupReply(false);
+        setPopupReply({ commentId: "", show: false });
       },
     }
   );
@@ -92,12 +95,17 @@ const NestedComments = ({ comments }: { comments: commentType[] }) => {
                   on="click"
                   trigger={
                     <button
-                    //  onClick={() => setPopupReply(!popupReply)}
+                      onClick={() =>
+                        setPopupReply({
+                          commentId: comment._id,
+                          show: !popupReply.show,
+                        })
+                      }
                     >
                       reply
                     </button>
                   }
-                  // open={popupReply}
+                  open={popupReply.commentId === comment._id && popupReply.show}
                 >
                   <form
                     className="ui form"
