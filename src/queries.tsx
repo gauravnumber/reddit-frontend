@@ -1,27 +1,45 @@
 import { gql } from "@apollo/client";
 
+export const COMMENT_NEEDED = gql`
+  fragment commentNeeded on Comment {
+    _id
+    body
+    totalNumOfVotes
+
+    owner {
+      username
+    }
+
+    # vote {
+    #   username
+    # }
+
+    # upvote {
+    #   username
+    # }
+
+    # downvote {
+    #   username
+    # }
+  }
+`;
+
 export const SET_COMMENT_ON_COMMENT = gql`
   mutation setComment($commentId: String!, $body: String!) {
     setComment(commentId: $commentId, body: $body) {
-      _id
-      owner {
-        username
-      }
-      body
+      ...commentNeeded
     }
   }
+  ${COMMENT_NEEDED}
 `;
 
 export const SET_COMMENT_ON_POST = gql`
   mutation setComment($postId: String!, $body: String!) {
     setComment(postId: $postId, body: $body) {
-      _id
-      # owner {
-      #   username
-      # }
-      # body
+      ...commentNeeded
     }
   }
+  ${COMMENT_NEEDED}
 `;
 
 export const GET_SINGLE_POSTS = gql`
