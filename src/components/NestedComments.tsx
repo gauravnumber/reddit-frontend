@@ -98,6 +98,7 @@ const NestedComments = ({ comments }: { comments: commentType[] }) => {
                       onClick={() =>
                         setPopupReply({
                           commentId: comment._id,
+                          // show: true,
                           show: !popupReply.show,
                         })
                       }
