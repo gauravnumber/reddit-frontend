@@ -1,5 +1,29 @@
 import { gql } from "@apollo/client";
 
+export const POSTS_NEEDED = gql`
+  fragment postsNeeded on Post {
+    _id
+    title
+    body
+    subreddit {
+      name
+    }
+    vote {
+      username
+    }
+    upvote {
+      username
+    }
+    downvote {
+      username
+    }
+    owner {
+      username
+    }
+    totalNumOfVotes
+  }
+`;
+
 export const COMMENT_NEEDED = gql`
   fragment commentNeeded on Comment {
     _id
@@ -45,26 +69,7 @@ export const SET_COMMENT_ON_POST = gql`
 export const GET_SINGLE_POSTS = gql`
   query getSinglePost($postId: String!) {
     getSinglePost(postId: $postId) {
-      _id
-      title
-      body
-      owner {
-        username
-      }
-
-      totalNumOfVotes
-
-      vote {
-        username
-      }
-
-      upvote {
-        username
-      }
-
-      downvote {
-        username
-      }
+      ...postsNeeded
 
       comment {
         _id
@@ -109,6 +114,8 @@ export const GET_SINGLE_POSTS = gql`
       }
     }
   }
+
+  ${POSTS_NEEDED}
 `;
 
 export const DELETE_POST = gql`
@@ -130,27 +137,11 @@ export const DELETE_POST = gql`
 export const GET_RECENT_POSTS = gql`
   query getRecentPosts($sort: String!) {
     getRecentPosts(sort: $sort) {
-      _id
-      title
-      body
-      subreddit {
-        name
-      }
-      vote {
-        username
-      }
-      upvote {
-        username
-      }
-      downvote {
-        username
-      }
-      owner {
-        username
-      }
-      totalNumOfVotes
+      ...postsNeeded
     }
   }
+
+  ${POSTS_NEEDED}
 `;
 
 export const DO_DOWNVOTE = gql`
@@ -174,27 +165,10 @@ export const DO_UPVOTE = gql`
 export const GET_USER_POST = gql`
   query getPostsByUser($username: String!, $sort: String!) {
     getPostsByUser(username: $username, sort: $sort) {
-      # query getPostsByUser($username: String!) {
-      #   getPostsByUser(username: $username) {
-      title
-      _id
-      body
-      owner {
-        username
-      }
-      upvote {
-        username
-      }
-      downvote {
-        username
-      }
-      subreddit {
-        name
-      }
-      totalNumOfVotes
-      createdAt
+      ...postsNeeded
     }
   }
+  ${POSTS_NEEDED}
 `;
 
 export const CREATE_SUBREDDIT = gql`
@@ -229,25 +203,11 @@ export const POST = gql`
 export const GET_SUBREDDIT_POST = gql`
   query getSubredditPost($name: String!, $sort: String!) {
     getSubredditPost(name: $name, sort: $sort) {
-      _id
-      title
-      body
-      owner {
-        username
-      }
-      upvote {
-        username
-      }
-      downvote {
-        username
-      }
-      subreddit {
-        name
-      }
-      totalNumOfVotes
-      createdAt
+      ...postsNeeded
     }
   }
+
+  ${POSTS_NEEDED}
 `;
 
 export const LOGIN = gql`
