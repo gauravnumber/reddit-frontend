@@ -34,10 +34,6 @@ export const COMMENT_NEEDED = gql`
       username
     }
 
-    # vote {
-    #   username
-    # }
-
     # upvote {
     #   username
     # }
@@ -46,6 +42,26 @@ export const COMMENT_NEEDED = gql`
     #   username
     # }
   }
+`;
+
+export const UPVOTE_COMMENT = gql`
+  mutation upvoteComment($commentId: String!) {
+    upvoteComment(commentId: $commentId) {
+      ...commentNeeded
+    }
+  }
+
+  ${COMMENT_NEEDED}
+`;
+
+export const DOWNVOTE_COMMENT = gql`
+  mutation downvoteComment($commentId: String!) {
+    downvoteComment(commentId: $commentId) {
+      ...commentNeeded
+    }
+  }
+
+  ${COMMENT_NEEDED}
 `;
 
 export const SET_COMMENT_ON_COMMENT = gql`
