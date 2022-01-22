@@ -4,7 +4,12 @@ import { Icon, Popup, Comment } from "semantic-ui-react";
 
 import { useMutation } from "@apollo/client";
 import { commentType } from "@/types";
-import { GET_SINGLE_POSTS, SET_COMMENT_ON_COMMENT } from "@/queries";
+import {
+  DOWNVOTE_COMMENT,
+  GET_SINGLE_POSTS,
+  SET_COMMENT_ON_COMMENT,
+  UPVOTE_COMMENT,
+} from "@/queries";
 
 const NestedComments = ({ comments }: { comments: commentType[] }) => {
   const { postId } = useParams();
@@ -56,6 +61,24 @@ const NestedComments = ({ comments }: { comments: commentType[] }) => {
     }
   );
 
+  const [upvoteCommenting, resultUpvoteCommenting] = useMutation(
+    UPVOTE_COMMENT,
+    {
+      update: (cache, { data }) => {
+        console.log(`data`, data);
+      },
+    }
+  );
+
+  const [downvoteCommenting, resultDownvoteCommenting] = useMutation(
+    DOWNVOTE_COMMENT,
+    {
+      update: (cache, { data }) => {
+        console.log(`data`, data);
+      },
+    }
+  );
+
   if (!comments) return null;
 
   const replyOnComment = (e: React.FormEvent, comment: commentType) => {
@@ -65,6 +88,22 @@ const NestedComments = ({ comments }: { comments: commentType[] }) => {
       variables: {
         commentId: comment._id,
         body: commentOnComment,
+      },
+    });
+  };
+
+  const handleUpvoteComment = (commentId: string) => () => {
+    upvoteCommenting({
+      variables: {
+        commentId,
+      },
+    });
+  };
+
+  const handleDownvoteComment = (commentId: string) => () => {
+    downvoteCommenting({
+      variables: {
+        commentId,
       },
     });
   };
@@ -83,11 +122,18 @@ const NestedComments = ({ comments }: { comments: commentType[] }) => {
             <Comment.Text>{comment.body}</Comment.Text>
             <Comment.Actions>
               <Comment.Action>
-                <Icon name="arrow up" />
+                <Icon
+                  name="arrow up"
+                  // as="button"
+                  onClick={handleUpvoteComment(comment._id)}
+                />
               </Comment.Action>
               <Comment.Action>{comment.totalNumOfVotes}</Comment.Action>
               <Comment.Action>
-                <Icon name="arrow down" />
+                <Icon
+                  name="arrow down"
+                  onClick={handleDownvoteComment(comment._id)}
+                />
               </Comment.Action>
 
               <Comment.Action>
