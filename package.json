@@ -5,7 +5,9 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "offline": "vite --mode offline"
+    "offline": "vite --mode offline",
+    "deploy": "git push -u origin main",
+    "postdeploy": "git push heroku main"
   },
   "dependencies": {
     "@apollo/client": "^3.5.6",
