@@ -7,12 +7,14 @@ import VoteButton from "@/components/VoteButton";
 
 import { sortAction } from "@/reducer/sortReducer";
 import { refreshAction } from "@/reducer/refreshReducer";
-import { DELETE_POST, GET_SUBREDDIT_POST } from "@/queries";
+import { DELETE_POST } from "@/queries";
 import { notificationState, postType, RootState, userState } from "@/types";
-import { loginAction, nullAction } from "@/reducer/notificationReducer";
+import { loginAction } from "@/reducer/notificationReducer";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
 
 const Post = ({ posts }: { posts: postType[] }): JSX.Element | null => {
-  const [deletePostId, setDeletePostId] = useState("");
+  // const [deletePostId, setDeletePostId] = useState("");
   const [loginWarning, setLoginWarning] = useState(false);
   const dispatch = useDispatch();
 
@@ -21,6 +23,8 @@ const Post = ({ posts }: { posts: postType[] }): JSX.Element | null => {
   );
 
   const user = useSelector<RootState, userState>((state) => state.user);
+
+  dayjs.extend(relativeTime);
 
   const [deletePost, result] = useMutation(DELETE_POST, {
     update: (cache, { data }) => {
@@ -130,6 +134,8 @@ const Post = ({ posts }: { posts: postType[] }): JSX.Element | null => {
     </Card>
   );
 
+  // console.log(`dayjs()`, dayjs(1640704399243).fromNow());
+
   return (
     <Card.Group>
       {sortButtons()}
@@ -157,7 +163,6 @@ const Post = ({ posts }: { posts: postType[] }): JSX.Element | null => {
                   r/{post.subreddit.name}
                 </Card.Meta>
               )}
-              {/* <Card.Header>{post.title}</Card.Header> */}
               <Card.Header
                 as="a"
                 href={`/r/${post.subreddit.name}/post/${post._id}`}
@@ -167,6 +172,7 @@ const Post = ({ posts }: { posts: postType[] }): JSX.Element | null => {
               <Card.Meta as="a" href={`/u/${post.owner.username}`}>
                 u/{post.owner.username}
               </Card.Meta>
+              <Card.Meta>{dayjs(parseInt(post.createdAt)).fromNow()}</Card.Meta>
               {/* {user?.username} */}
               {post.owner.username === user?.username && (
                 <button

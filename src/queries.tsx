@@ -21,6 +21,7 @@ export const POSTS_NEEDED = gql`
       username
     }
     totalNumOfVotes
+    createdAt
   }
 `;
 
