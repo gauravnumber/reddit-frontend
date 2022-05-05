@@ -4,7 +4,7 @@ import { useLazyQuery } from "@apollo/client";
 import Post from "@components/Post";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
-// import {Dimmer, Loader } from "semantic-ui-react";
+// import { Dimmer, Loader } from "semantic-ui-react";
 
 const Home = () => {
   const sort = useSelector<RootState, sortState>((state) => state.sort);
@@ -23,9 +23,19 @@ const Home = () => {
   }, [sort]);
 
   // console.log(`result.loading`, result.loading);
-
-  if (result.loading) return "loading...";
-  // if (result.loading) return <Loader />;
+  if (result.loading)
+    return (
+      <div className="ui active dimmer">
+        <div className="ui loader"></div>
+      </div>
+    );
+  // if (result.loading) return "loading...";
+  // if (result.loading)
+  //   return (
+  //     <Dimmer active>
+  //       <Loader />
+  //     </Dimmer>
+  //   );
 
   return (
     <div>
