@@ -20,6 +20,7 @@ const Home = () => {
 
   useEffect(() => {
     getRecentPostsBySorting();
+    // console.log(`sort`, sort);
   }, [sort]);
 
   // console.log(`result.loading`, result.loading);
