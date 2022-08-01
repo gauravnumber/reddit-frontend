@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { SemanticCOLORS, Message, Card } from "semantic-ui-react";
+import { Popup, SemanticCOLORS, Message, Card } from "semantic-ui-react";
 import { useMutation } from "@apollo/client";
 
 import VoteButton from "@/components/VoteButton";
@@ -25,6 +25,7 @@ const Post = ({ posts }: { posts: postType[] }): JSX.Element | null => {
   const user = useSelector<RootState, userState>((state) => state.user);
 
   dayjs.extend(relativeTime);
+  // console.log(`dayjs().format('L')`, dayjs().format("L"));
 
   const [deletePost, result] = useMutation(DELETE_POST, {
     update: (cache, { data }) => {
@@ -172,7 +173,28 @@ const Post = ({ posts }: { posts: postType[] }): JSX.Element | null => {
               <Card.Meta as="a" href={`/u/${post.owner.username}`}>
                 u/{post.owner.username}
               </Card.Meta>
-              <Card.Meta>{dayjs(parseInt(post.createdAt)).fromNow()}</Card.Meta>
+              <Card.Meta>
+                {dayjs(parseInt(post.createdAt)).fromNow()}
+                {/* {
+                  <Popup
+                    content={dayjs(parseInt(post.createdAt)).format(
+                      "DD/MM/YYYY"
+                    )}
+                    position="right center"
+                    trigger={
+                      // <button> hi</button>
+                      <span>{dayjs(parseInt(post.createdAt)).fromNow()}</span>
+                    }
+                  />
+                } */}
+                {/* {console.log(
+                  `dayjs().format('L')`,
+                  dayjs(post.createdAt).format("L")
+                )} */}
+                {/* {console.log(
+                  dayjs(parseInt(post.createdAt)).format("DD/MM/YYYY")
+                )} */}
+              </Card.Meta>
               {/* {user?.username} */}
               {post.owner.username === user?.username && (
                 <button
