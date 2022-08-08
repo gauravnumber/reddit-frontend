@@ -137,6 +137,37 @@ const NestedComments = ({ comments }: { comments: commentType[] }) => {
               </Comment.Action>
 
               <Comment.Action>
+                {/* <div
+                  className="ui icon button"
+                  data-content="lorem lorem"
+                  data-content1={
+                    <button
+                      onClick={() =>
+                        setPopupReply({
+                          commentId: comment._id,
+                          // show: true,
+                          show: !popupReply.show,
+                        })
+                      }
+                    >
+                      reply
+                    </button>
+                  }
+                > */}
+                {/* <i className="add icon"></i> */}
+                {/* <form
+                    className="ui form"
+                    onSubmit={(e) => replyOnComment(e, comment)}
+                  >
+                    <div className="fields">
+                      <input
+                        type="text"
+                        onChange={(e) => setCommentOnComment(e.target.value)}
+                      />
+                      <input type="submit" value="Comment" />
+                    </div>
+                  </form> */}
+                {/* </div> */}
                 <Popup
                   on="click"
                   trigger={

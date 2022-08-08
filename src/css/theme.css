@@ -1,0 +1,37 @@
+:root {
+  --hue: 130;
+  --saturation: 97%;
+  --hs: var(--hue) var(--saturation);
+}
+
+body {
+  background-color: hsl(var(--hs) 95%);
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.ui.card > a {
+  color: hsl(var(--hs) 20%);
+}
+
+.ui.fluid.card {
+  background-color: hsl(var(--hs) 90%);
+}
+
+.ui.menu .item {
+  background-color: hsl(var(--hs) 85%);
+}
+
+.ui.menu {
+  background-color: hsl(var(--hs) 80%);
+}
+
+.ui.button {
+  color: hsl(var(--hs) 20%);
+  background-color: hsl(var(--hs) 80%);
+}

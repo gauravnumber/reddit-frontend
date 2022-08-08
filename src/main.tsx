@@ -2,6 +2,8 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./css/index.css";
 import "semantic-ui-css/semantic.min.css";
+// import "semantic-ui-css/semantic.min.js";
+// import "./css/theme.css";
 // import "./css/inter.min.css";
 // import "./css/new.min.css";
 // import "./css/night.css";
