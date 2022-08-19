@@ -1,13 +1,22 @@
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { Menu } from "semantic-ui-react";
+// import { useNavigate } from "react-router-dom";
+import {
+  Button,
+  IconButton,
+  AppBar,
+  Toolbar,
+  Box,
+  Typography,
+} from "@mui/material";
+import { Menu as MenuIcon } from "@mui/icons-material";
+// import { Menu } from "semantic-ui-react";
 
 import { userLogoutAction } from "@/reducer/userReducer";
 import { RootState, userState } from "@/types";
 
 const Nav = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const dispatch = useDispatch();
   const [state, setState] = useState({
     currentPath: window.location.pathname.substring(1),
@@ -26,12 +35,31 @@ const Nav = () => {
     dispatch(userLogoutAction());
     localStorage.setItem("loginUser", "");
     localStorage.setItem("jwtToken", "");
-    navigate("/");
+    // navigate("/");
   };
 
   return (
     <>
-      <Menu stackable size="massive">
+      {/* <Box sx={{ flexGrow: 1 }}> */}
+      <AppBar position="sticky">
+        <Toolbar>
+          <IconButton
+            size="large"
+            edge="start"
+            color="inherit"
+            aria-label="menu"
+            sx={{ mr: 2 }}
+          >
+            <MenuIcon />
+          </IconButton>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            RC
+          </Typography>
+          <Button color="inherit">LOGIN</Button>
+        </Toolbar>
+      </AppBar>
+      {/* </Box> */}
+      {/* <Menu stackable size="massive">
         {user ? (
           <Menu.Item
             active={state.currentPath === `u/${user.username}`}
@@ -71,7 +99,7 @@ const Nav = () => {
           </>
         )}{" "}
         {user && <Menu.Item onClick={handleLogout}>logout</Menu.Item>}
-      </Menu>
+      </Menu> */}
     </>
   );
 };
