@@ -1,5 +1,4 @@
-import { GET_RECENT_POSTS } from "@/queries";
-import { RootState, sortState } from "@/types";
+import { postType, RootState, sortState } from "@/types";
 import { useLazyQuery } from "@apollo/client";
 import {
   Stack,
@@ -17,6 +16,7 @@ import { ArrowDownward, ArrowUpward } from "@mui/icons-material";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 // import { Dimmer, Loader } from "semantic-ui-react";
+import { GET_RECENT_POSTS } from "@/queries";
 
 const Home = () => {
   const sort = useSelector<RootState, sortState>((state) => state.sort);
@@ -26,7 +26,7 @@ const Home = () => {
   // const result = useQuery(GET_RECENT_POSTS, {
   const [getRecentPostsBySorting, result] = useLazyQuery(GET_RECENT_POSTS, {
     variables: {
-      sort: sort ?? "hot",
+      sort: sort,
     },
   });
 
@@ -50,42 +50,46 @@ const Home = () => {
   //     </Dimmer>
   //   );
 
+  console.log(`result.data`, result.data);
+
   return (
     <Box sx={{ mt: 2 }}>
-      {Array.from(Array(5)).map((_, index) => (
-        <Card key={index} sx={{ mb: 3 }}>
-          <CardHeader title="r/memes" subheader="u/gaurav &bull; 4years" />
-          <CardContent>
-            <Typography gutterBottom variant="h5" component="div">
-              Lizard
-            </Typography>
-            <Typography color="text.secondary" paragraph>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid
-              cum explicabo provident asperiores illum. Et deleniti voluptatibus
-              nostrum sapiente, totam aliquam hic quaerat incidunt recusandae,
-              obcaecati possimus quos beatae rem eligendi, porro deserunt
-              provident fuga omnis corrupti temporibus tenetur assumenda ut.
-              Minima et voluptatum numquam exercitationem pariatur! Nihil,
-              aliquid tenetur!
-            </Typography>
-          </CardContent>
-          <CardMedia
-            component="img"
-            // height="200"
-            image={`https://source.unsplash.com/500x300?sig=${index}`}
-            alt="random"
-          />
-          <CardActions disableSpacing>
-            <IconButton>
-              <ArrowUpward />
-            </IconButton>
-            <Typography color="text.secondary">0</Typography>
-            <IconButton>
-              <ArrowDownward />
-            </IconButton>
-          </CardActions>
-        </Card>
-      ))}
+      {result.data &&
+        result.data.getRecentPosts.map((post: postType) => (
+          <Card key={post._id} sx={{ mb: 3 }}>
+            <CardHeader
+              title={`r/${post.subreddit.name}`}
+              // &bull;
+              subheader={`u/${post.owner.username} . 4years`}
+            />
+            <CardContent>
+              <Typography gutterBottom variant="h5" component="div">
+                {/* Lizard */}
+                {post.title}
+              </Typography>
+              {post.body && (
+                <Typography color="text.secondary" paragraph>
+                  {post.body}
+                </Typography>
+              )}
+            </CardContent>
+            <CardMedia
+              component="img"
+              // height="200"
+              image={`https://source.unsplash.com/500x300?sig=${post._id}`}
+              alt="random"
+            />
+            <CardActions disableSpacing>
+              <IconButton>
+                <ArrowUpward />
+              </IconButton>
+              <Typography color="text.secondary">0</Typography>
+              <IconButton>
+                <ArrowDownward />
+              </IconButton>
+            </CardActions>
+          </Card>
+        ))}
     </Box>
     // <div>
     //   <h1>Welcome to clone of reddit.</h1>

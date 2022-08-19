@@ -44,7 +44,7 @@ export type postType = {
   _id: string;
   title: string;
   body: string;
-  totalNumOfVotes: number;
+  totalNumbersOfVotes: number;
   createdAt: string;
   owner: {
     username: string;

@@ -5,12 +5,15 @@ export const POSTS_NEEDED = gql`
     _id
     title
     body
+    # image {
+    #   contentType
+    # }
     subreddit {
       name
     }
-    vote {
-      username
-    }
+    # vote {
+    #   username
+    # }
     upvote {
       username
     }
@@ -20,7 +23,7 @@ export const POSTS_NEEDED = gql`
     owner {
       username
     }
-    totalNumOfVotes
+    totalNumbersOfVotes
     createdAt
   }
 `;
@@ -152,8 +155,8 @@ export const DELETE_POST = gql`
 `;
 
 export const GET_RECENT_POSTS = gql`
-  query getRecentPosts($sort: String!) {
-    getRecentPosts(sort: $sort) {
+  query getRecentPosts($sort: String, $offset: Int, $limit: Int) {
+    getRecentPosts(sort: $sort, offset: $offset, limit: $limit) {
       ...postsNeeded
     }
   }
