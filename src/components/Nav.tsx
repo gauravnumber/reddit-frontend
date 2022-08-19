@@ -1,37 +1,135 @@
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { Menu } from "semantic-ui-react";
+// import { useNavigate } from "react-router-dom";
+import {
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemText,
+  ListItemIcon,
+  Drawer,
+  Button,
+  IconButton,
+  AppBar,
+  Toolbar,
+  Box,
+  Typography,
+} from "@mui/material";
+import {
+  Menu as MenuIcon,
+  MoveToInbox as InboxIcon,
+  Mail as MailIcon,
+} from "@mui/icons-material";
+// import { Menu } from "semantic-ui-react";
 
 import { userLogoutAction } from "@/reducer/userReducer";
 import { RootState, userState } from "@/types";
 
 const Nav = () => {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const [state, setState] = useState({
-    currentPath: window.location.pathname.substring(1),
-  });
+  const [toggleDrawer, setToggleDrawer] = useState(false);
+  // const navigate = useNavigate();
+  // const dispatch = useDispatch();
+  // const [state, setState] = useState({
+  //   currentPath: window.location.pathname.substring(1),
+  // });
 
-  const user = useSelector<RootState, userState>((state) => state.user);
+  // const user = useSelector<RootState, userState>((state) => state.user);
 
-  useEffect(() => {
-    setState({
-      ...state,
-      currentPath: window.location.pathname.substring(1),
-    });
-  }, [window.location.pathname, user]);
+  // useEffect(() => {
+  //   setState({
+  //     ...state,
+  //     currentPath: window.location.pathname.substring(1),
+  //   });
+  // }, [window.location.pathname, user]);
 
-  const handleLogout = () => {
-    dispatch(userLogoutAction());
-    localStorage.setItem("loginUser", "");
-    localStorage.setItem("jwtToken", "");
-    navigate("/");
+  // const handleLogout = () => {
+  //   dispatch(userLogoutAction());
+  //   localStorage.setItem("loginUser", "");
+  //   localStorage.setItem("jwtToken", "");
+  //   // navigate("/");
+  // };
+  const shiftTabCanUse = (event: React.KeyboardEvent | React.MouseEvent) => {
+    if (
+      event.type === "keydown" &&
+      ((event as React.KeyboardEvent).key === "Tab" ||
+        (event as React.KeyboardEvent).key === "Shift")
+    ) {
+      return;
+    }
+
+    setToggleDrawer(false);
   };
+
+  const list = () => (
+    <Box
+      sx={{ width: 250 }}
+      role="list of common subreddit"
+      onClick={() => setToggleDrawer(!toggleDrawer)}
+      onKeyDown={shiftTabCanUse}
+    >
+      <List>
+        {["Funny", "Awesome", "WTF", "Gaming"].map((text, index) => (
+          <ListItem key={text} disablePadding>
+            <ListItemButton>
+              {/* <ListItemIcon>
+                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+              </ListItemIcon> */}
+              <ListItemText primary={text} />
+            </ListItemButton>
+          </ListItem>
+        ))}
+      </List>
+      {/* <Divider /> */}
+      {/* <List>
+        {["All mail", "Trash", "Spam"].map((text, index) => (
+          <ListItem key={text} disablePadding>
+            <ListItemButton>
+              <ListItemIcon>
+                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+              </ListItemIcon>
+              <ListItemText primary={text} />
+            </ListItemButton>
+          </ListItem>
+        ))}
+      </List> */}
+    </Box>
+  );
 
   return (
     <>
-      <Menu stackable size="massive">
+      <Drawer open={toggleDrawer} onClose={() => setToggleDrawer(false)}>
+        {list()}
+      </Drawer>
+      {/* <Box sx={{ flexGrow: 1 }}> */}
+      {/* <Drawer open={true}>
+        <ul>
+          <li>lorem</li>
+          <li>lorem</li>
+          <li>lorem</li>
+          <li>lorem</li>
+          <li>lorem</li>
+        </ul>
+      </Drawer> */}
+      <AppBar position="sticky">
+        <Toolbar>
+          <IconButton
+            size="large"
+            edge="start"
+            color="inherit"
+            aria-label="menu"
+            sx={{ mr: 2 }}
+            onClick={() => setToggleDrawer(!toggleDrawer)}
+          >
+            <MenuIcon />
+          </IconButton>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            RC
+          </Typography>
+          <Button color="inherit">LOGIN</Button>
+        </Toolbar>
+      </AppBar>
+      {/* </Box> */}
+      {/* <Menu stackable size="massive">
         {user ? (
           <Menu.Item
             active={state.currentPath === `u/${user.username}`}
@@ -71,7 +169,7 @@ const Nav = () => {
           </>
         )}{" "}
         {user && <Menu.Item onClick={handleLogout}>logout</Menu.Item>}
-      </Menu>
+      </Menu> */}
     </>
   );
 };

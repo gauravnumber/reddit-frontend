@@ -1,12 +1,20 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "./css/index.css";
+import { ThemeProvider } from "@mui/material/styles";
+import theme from "./theme";
+
+// import "./css/index.css";
 import "semantic-ui-css/semantic.min.css";
 // import "semantic-ui-css/semantic.min.js";
 // import "./css/theme.css";
 // import "./css/inter.min.css";
 // import "./css/new.min.css";
 // import "./css/night.css";
+
+import "@fontsource/roboto/300.css";
+import "@fontsource/roboto/400.css";
+import "@fontsource/roboto/500.css";
+import "@fontsource/roboto/700.css";
 
 import App from "./App";
 import store from "./store";
@@ -46,7 +54,9 @@ ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <ApolloProvider client={client}>
-        <App />
+        <ThemeProvider theme={theme}>
+          <App />
+        </ThemeProvider>
       </ApolloProvider>
     </Provider>
   </React.StrictMode>,
