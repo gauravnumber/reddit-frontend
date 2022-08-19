@@ -33,7 +33,7 @@ function App() {
   }, [loginUser]);
 
   return (
-    <>
+    <Router>
       <CssBaseline />
       <Nav />
       <Container
@@ -41,31 +41,28 @@ function App() {
         maxWidth="md"
         // style={{ paddingTop: "2rem" }}
       >
-        <Router>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/u" element={<Users />}>
-              {/* <Route
+        {/* <Router> */}
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/u" element={<Users />}>
+            {/* <Route
               index
               element={<h1>Buddy!, You need to choose username.</h1>}
             /> */}
-              <Route path=":username" element={<User />} />
-            </Route>
-            <Route path="/r" element={<Subreddits />}>
-              <Route path=":subredditName" element={<Subreddit />} />
-              <Route
-                path=":subredditName/post/:postId"
-                element={<ViewPost />}
-              />
-            </Route>
-            <Route path="/create" element={<CreateSubreddit />} />
-            <Route path="*" element={<PageNotFound />} />
-          </Routes>
-        </Router>
+            <Route path=":username" element={<User />} />
+          </Route>
+          <Route path="/r" element={<Subreddits />}>
+            <Route path=":subredditName" element={<Subreddit />} />
+            <Route path=":subredditName/post/:postId" element={<ViewPost />} />
+          </Route>
+          <Route path="/create" element={<CreateSubreddit />} />
+          <Route path="*" element={<PageNotFound />} />
+        </Routes>
+        {/* </Router> */}
       </Container>
-    </>
+    </Router>
   );
 }
 

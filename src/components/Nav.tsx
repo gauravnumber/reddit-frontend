@@ -1,6 +1,7 @@
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import {
   List,
   ListItem,
@@ -24,16 +25,17 @@ import {
 
 import { userLogoutAction } from "@/reducer/userReducer";
 import { RootState, userState } from "@/types";
+import Login from "../pages/Login";
 
 const Nav = () => {
   const [toggleDrawer, setToggleDrawer] = useState(false);
   // const navigate = useNavigate();
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
   // const [state, setState] = useState({
   //   currentPath: window.location.pathname.substring(1),
   // });
 
-  // const user = useSelector<RootState, userState>((state) => state.user);
+  const user = useSelector<RootState, userState>((state) => state.user);
 
   // useEffect(() => {
   //   setState({
@@ -42,12 +44,12 @@ const Nav = () => {
   //   });
   // }, [window.location.pathname, user]);
 
-  // const handleLogout = () => {
-  //   dispatch(userLogoutAction());
-  //   localStorage.setItem("loginUser", "");
-  //   localStorage.setItem("jwtToken", "");
-  //   // navigate("/");
-  // };
+  const handleLogout = () => {
+    dispatch(userLogoutAction());
+    localStorage.setItem("loginUser", "");
+    localStorage.setItem("jwtToken", "");
+    // navigate("/");
+  };
   const shiftTabCanUse = (event: React.KeyboardEvent | React.MouseEvent) => {
     if (
       event.type === "keydown" &&
@@ -95,21 +97,16 @@ const Nav = () => {
     </Box>
   );
 
+  // console.log(`user`, user);
+
   return (
     <>
+      {/* <Routes path="/login" element={<Login />} /> */}
+
       <Drawer open={toggleDrawer} onClose={() => setToggleDrawer(false)}>
         {list()}
       </Drawer>
       {/* <Box sx={{ flexGrow: 1 }}> */}
-      {/* <Drawer open={true}>
-        <ul>
-          <li>lorem</li>
-          <li>lorem</li>
-          <li>lorem</li>
-          <li>lorem</li>
-          <li>lorem</li>
-        </ul>
-      </Drawer> */}
       <AppBar position="sticky">
         <Toolbar>
           <IconButton
@@ -125,7 +122,23 @@ const Nav = () => {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             RC
           </Typography>
-          <Button color="inherit">LOGIN</Button>
+          {user ? (
+            <>
+              <Button color="inherit">u/{user.username}</Button>
+              <Button color="inherit" onClick={handleLogout}>
+                LOGOUT
+              </Button>
+            </>
+          ) : (
+            <>
+              <Button color="inherit" component={Link} to="/login">
+                LOGIN
+              </Button>
+              <Button color="inherit" component={Link} to="/register">
+                SIGNUP
+              </Button>
+            </>
+          )}
         </Toolbar>
       </AppBar>
       {/* </Box> */}

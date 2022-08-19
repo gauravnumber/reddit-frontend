@@ -2,10 +2,12 @@ import { GET_RECENT_POSTS } from "@/queries";
 import { RootState, sortState } from "@/types";
 import { useLazyQuery } from "@apollo/client";
 import {
+  Stack,
   Box,
   IconButton,
   Button,
   Card,
+  CardHeader,
   CardActions,
   CardContent,
   CardMedia,
@@ -52,6 +54,7 @@ const Home = () => {
     <Box sx={{ mt: 2 }}>
       {Array.from(Array(5)).map((_, index) => (
         <Card key={index} sx={{ mb: 3 }}>
+          <CardHeader title="r/memes" subheader="u/gaurav &bull; 4years" />
           <CardContent>
             <Typography gutterBottom variant="h5" component="div">
               Lizard

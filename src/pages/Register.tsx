@@ -19,7 +19,7 @@ const Register = () => {
       password,
     },
     update: (_, __) => {
-      navigate("/");
+      navigate("/login");
     },
     onError: (error) => {
       setState({
