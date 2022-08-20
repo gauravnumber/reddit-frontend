@@ -60,7 +60,7 @@ const Home = () => {
             <CardHeader
               title={`r/${post.subreddit.name}`}
               // &bull;
-              subheader={`u/${post.owner.username} . 4years`}
+              subheader={`u/${post.owner.username} \u2022 4years`}
             />
             <CardContent>
               <Typography gutterBottom variant="h5" component="div">
@@ -73,12 +73,15 @@ const Home = () => {
                 </Typography>
               )}
             </CardContent>
-            <CardMedia
-              component="img"
-              // height="200"
-              image={`https://source.unsplash.com/500x300?sig=${post._id}`}
-              alt="random"
-            />
+            {post.image && (
+              <CardMedia
+                component="img"
+                // height="200"
+                // image={`https://source.unsplash.com/500x300?sig=${post._id}`}
+                image={`data:${post.image.contentType};base64,${post.image.data}`}
+                alt="random"
+              />
+            )}
             <CardActions disableSpacing>
               <IconButton>
                 <ArrowUpward />
