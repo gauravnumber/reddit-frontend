@@ -5,9 +5,10 @@ export const POSTS_NEEDED = gql`
     _id
     title
     body
-    # image {
-    #   contentType
-    # }
+    image {
+      data
+      contentType
+    }
     subreddit {
       name
     }
