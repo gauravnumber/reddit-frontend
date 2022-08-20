@@ -119,7 +119,20 @@ const Nav = () => {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          <Typography
+            // variant="h6" component="div"
+            component={Link}
+            to="/"
+            sx={{
+              flexGrow: 1,
+              // color: "black",
+              // backgroundColor: "primary.dark",
+              color: (theme) => theme.palette.background.paper,
+              "&:hover": {
+                color: (theme) => theme.palette.background.paper,
+              },
+            }}
+          >
             RC
           </Typography>
           {user ? (
