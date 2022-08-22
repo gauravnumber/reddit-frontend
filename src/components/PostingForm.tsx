@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
+import { Box, TextField, Button } from "@mui/material";
 import { Form } from "semantic-ui-react";
 import { useMutation } from "@apollo/client";
 
@@ -15,21 +16,27 @@ const PostingForm = ({ subredditName }: { subredditName?: string }) => {
   const [posting, postingResult] = useMutation(POST, {
     refetchQueries: [GET_SUBREDDIT_POST],
     update: (cache, { data }) => {
-      // const dataInCache = cache.readQuery({
-      //   query: GET_SUBREDDIT_POST,
-      //   variables: {
-      //     name: "funny",
-      //   },
-      // });
-      // console.log(`dataInCache`, dataInCache);
+      const dataInCache = cache.readQuery({
+        query: GET_SUBREDDIT_POST,
+        variables: {
+          name: "funny",
+          // name: subredditName,
+          // sort: 'new'
+        },
+      });
+      console.log(`dataInCache`, dataInCache);
       // dispatch(refreshAction("upvote"));
-      dispatch(refreshAction("updateSubreddit"));
-      // console.log(`data update`, data);
+      // dispatch(refreshAction("updateSubreddit"));
+      console.log(`data`, data);
+      // console.log(`cache`, cache);
     },
   });
 
+  // console.log(`postingResult`, postingResult.data);
+
   const handlePost = (e: React.FormEvent) => {
     e.preventDefault();
+    // console.log("handle post", title, body, subredditName);
 
     posting({
       variables: {
@@ -45,6 +52,59 @@ const PostingForm = ({ subredditName }: { subredditName?: string }) => {
     // setPost("");
     // console.log(post);
   };
+
+  return (
+    <Box
+      component="form"
+      sx={{
+        mt: 3,
+
+        "& > :not(style)": {
+          // m: 1,
+          // p: 1,
+          //  m: 1, width: "25ch"
+        },
+      }}
+      noValidate
+      autoComplete="off"
+      onSubmit={handlePost}
+    >
+      <TextField
+        label="Title"
+        fullWidth
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
+        margin="dense"
+      />
+      <TextField
+        label="Body"
+        fullWidth
+        multiline
+        rows={4}
+        value={body}
+        onChange={(e) => setBody(e.target.value)}
+        margin="dense"
+      />
+      {/* <TextField
+        // label="Image upload"
+        type="file"
+        fullWidth
+        margin="dense"
+      /> */}
+      <Button
+        //  variant="contained"
+        sx={{ my: 2 }}
+        component="label"
+      >
+        Upload File
+        <input type="file" hidden />
+      </Button>
+      <br />
+      <Button variant="contained" type="submit">
+        Submit
+      </Button>
+    </Box>
+  );
 
   return (
     <form className="ui form large" onSubmit={handlePost}>

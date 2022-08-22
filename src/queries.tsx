@@ -12,9 +12,6 @@ export const POSTS_NEEDED = gql`
     subreddit {
       name
     }
-    # vote {
-    #   username
-    # }
     upvote {
       username
     }
@@ -214,15 +211,23 @@ export const REGISTER = gql`
 export const POST = gql`
   mutation post($title: String!, $body: String!, $subredditName: String!) {
     post(title: $title, body: $body, subredditName: $subredditName) {
-      _id
-      title
-      createdAt
+      ...postsNeeded
+      # _id
+      # title
+      # body
+      # image {
+      #   data
+      #   contentType
+      # }
+      # createdAt
     }
   }
+
+  ${POSTS_NEEDED}
 `;
 
 export const GET_SUBREDDIT_POST = gql`
-  query getSubredditPost($name: String!, $sort: String!) {
+  query getSubredditPost($name: String!, $sort: String) {
     getSubredditPost(name: $name, sort: $sort) {
       ...postsNeeded
     }
