@@ -1,6 +1,21 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { Popup, SemanticCOLORS, Message, Card } from "semantic-ui-react";
+import {
+  Stack,
+  Box,
+  IconButton,
+  Button,
+  Card,
+  CardHeader,
+  CardActions,
+  CardContent,
+  CardMedia,
+  Typography,
+} from "@mui/material";
+import { ArrowDownward, ArrowUpward } from "@mui/icons-material";
+
+// import { Popup, SemanticCOLORS, Message, Card } from "semantic-ui-react";
 import { useMutation } from "@apollo/client";
 
 import VoteButton from "@/components/VoteButton";
@@ -27,115 +42,164 @@ const Post = ({ posts }: { posts: postType[] }): JSX.Element | null => {
   dayjs.extend(relativeTime);
   // console.log(`dayjs().format('L')`, dayjs().format("L"));
 
-  const [deletePost, result] = useMutation(DELETE_POST, {
-    update: (cache, { data }) => {
-      // let dataInCache = cache.readQuery({
-      //   query: GET_SUBREDDIT_POST,
+  // const [deletePost, result] = useMutation(DELETE_POST, {
+  //   update: (cache, { data }) => {
+  //     // let dataInCache = cache.readQuery({
+  //     //   query: GET_SUBREDDIT_POST,
 
-      //   variables: {
-      //     name: "funny",
-      //     sort: "hot",
-      //   },
-      // });
+  //     //   variables: {
+  //     //     name: "funny",
+  //     //     sort: "hot",
+  //     //   },
+  //     // });
 
-      // cache.writeQuery({
-      //   query: GET_SUBREDDIT_POST,
+  //     // cache.writeQuery({
+  //     //   query: GET_SUBREDDIT_POST,
 
-      //   variables: {
-      //     name: "funny",
-      //     sort: "hot",
-      //   },
+  //     //   variables: {
+  //     //     name: "funny",
+  //     //     sort: "hot",
+  //     //   },
 
-      //   data: {
-      //     dataInCache: {
-      //       getSubredditPost: dataInCache.getSubredditPost.filter(
-      //         (post) => post._id !== deletePostId
-      //       ),
-      //     },
-      //   },
-      // });
+  //     //   data: {
+  //     //     dataInCache: {
+  //     //       getSubredditPost: dataInCache.getSubredditPost.filter(
+  //     //         (post) => post._id !== deletePostId
+  //     //       ),
+  //     //     },
+  //     //   },
+  //     // });
 
-      // console.log(`dataInCache`, dataInCache);
-      // console.log(`data`, data);
-      dispatch(refreshAction("updateSubreddit"));
-    },
-    onError: (error) => {
-      dispatch(
-        loginAction({
-          message: error.graphQLErrors[0].message,
-          messageColor: "orange",
-        })
-      );
+  //     // console.log(`dataInCache`, dataInCache);
+  //     // console.log(`data`, data);
+  //     dispatch(refreshAction("updateSubreddit"));
+  //   },
+  //   onError: (error) => {
+  //     dispatch(
+  //       loginAction({
+  //         message: error.graphQLErrors[0].message,
+  //         messageColor: "orange",
+  //       })
+  //     );
 
-      // setTimeout(() => {
-      //   setLoginWarning(false);
-      //   // nullAction();
-      // }, 1000);
+  //     // setTimeout(() => {
+  //     //   setLoginWarning(false);
+  //     //   // nullAction();
+  //     // }, 1000);
 
-      //? clear error message for login first
-      // setTimeout(() => nullAction(), 5000);
+  //     //? clear error message for login first
+  //     // setTimeout(() => nullAction(), 5000);
 
-      // console.log(JSON.stringify(error));
-    },
-  });
+  //     // console.log(JSON.stringify(error));
+  //   },
+  // });
 
   if (!posts) return null;
 
   // console.log(`deletePostId`, deletePostId);
 
-  useEffect(() => {
-    if (notification) {
-      setLoginWarning(true);
-      setTimeout(() => {
-        setLoginWarning(false);
-        // nullAction();
-      }, 5000);
-    }
-  }, [notification]);
+  // useEffect(() => {
+  //   if (notification) {
+  //     setLoginWarning(true);
+  //     setTimeout(() => {
+  //       setLoginWarning(false);
+  //       // nullAction();
+  //     }, 5000);
+  //   }
+  // }, [notification]);
 
-  const handleDelete = (post: postType) => (): void => {
-    // setDeletePostId(post._id);
+  // const handleDelete = (post: postType) => (): void => {
+  //   // setDeletePostId(post._id);
 
-    deletePost({
-      variables: {
-        username: post.owner.username,
-        subredditName: post.subreddit.name,
-        postId: post._id,
-      },
-    });
+  //   deletePost({
+  //     variables: {
+  //       username: post.owner.username,
+  //       subredditName: post.subreddit.name,
+  //       postId: post._id,
+  //     },
+  //   });
 
-    // console.log(`post._id`, post._id);
-  };
+  //   // console.log(`post._id`, post._id);
+  // };
 
-  const handleSort = (sort: string) => (): void => {
-    dispatch(sortAction(sort));
-  };
+  // const handleSort = (sort: string) => (): void => {
+  //   dispatch(sortAction(sort));
+  // };
 
-  const sortButtons = () => (
-    <Card fluid>
-      <Card.Content>
-        <div className="ui buttons vertical fluid">
-          <button className="ui button" onClick={handleSort("hot")}>
-            New
-          </button>
-          <button className="ui button" onClick={handleSort("top:day")}>
-            Top: Day
-          </button>
-          <button className="ui button" onClick={handleSort("top:week")}>
-            Top: Week
-          </button>
-          <button className="ui button" onClick={handleSort("top:month")}>
-            Top: Month
-          </button>
-          <button className="ui button" onClick={handleSort("top:alltime")}>
-            Top: All time
-          </button>
-        </div>
-      </Card.Content>
-    </Card>
-  );
+  // const sortButtons = () => (
+  //   <Card fluid>
+  //     <Card.Content>
+  //       <div className="ui buttons vertical fluid">
+  //         <button className="ui button" onClick={handleSort("hot")}>
+  //           New
+  //         </button>
+  //         <button className="ui button" onClick={handleSort("top:day")}>
+  //           Top: Day
+  //         </button>
+  //         <button className="ui button" onClick={handleSort("top:week")}>
+  //           Top: Week
+  //         </button>
+  //         <button className="ui button" onClick={handleSort("top:month")}>
+  //           Top: Month
+  //         </button>
+  //         <button className="ui button" onClick={handleSort("top:alltime")}>
+  //           Top: All time
+  //         </button>
+  //       </div>
+  //     </Card.Content>
+  //   </Card>
+  // );
 
   // console.log(`dayjs()`, dayjs(1640704399243).fromNow());
+  // console.log(`result?.data`, result?.data);
+
+  return (
+    <Box sx={{ mt: 2 }}>
+      {posts &&
+        posts.map((post: postType) => (
+          <Card key={post._id} sx={{ mb: 3 }}>
+            <CardHeader
+              title={
+                <Link to={`/r/${post.subreddit.name}`}>
+                  r/{post.subreddit.name}
+                </Link>
+              }
+              // &bull;
+              subheader={`u/${post.owner.username} \u2022 ${dayjs(
+                parseInt(post.createdAt)
+              ).fromNow()}`}
+            />
+            <CardContent>
+              <Typography gutterBottom variant="h5" component="div">
+                {post.title}
+              </Typography>
+              {post.body && (
+                <Typography color="text.secondary" paragraph>
+                  {post.body}
+                </Typography>
+              )}
+            </CardContent>
+            {post.image && (
+              <CardMedia
+                component="img"
+                // height="200"
+                image={`${import.meta.env.VITE_UPLOAD}/${post.image.data}`}
+                alt={post.title}
+              />
+            )}
+            <CardActions disableSpacing>
+              <IconButton>
+                <ArrowUpward />
+              </IconButton>
+              <Typography color="text.secondary">0</Typography>
+              <IconButton>
+                <ArrowDownward />
+              </IconButton>
+            </CardActions>
+          </Card>
+        ))}
+    </Box>
+  );
 
   return (
     <Card.Group>
