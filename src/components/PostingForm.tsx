@@ -12,6 +12,7 @@ const PostingForm = ({ subredditName }: { subredditName?: string }) => {
 
   const [body, setBody] = useState("");
   const [title, setTitle] = useState("");
+  const [imageSrc, setImageSrc] = useState("");
 
   const [posting, postingResult] = useMutation(POST, {
     refetchQueries: [GET_SUBREDDIT_POST],
@@ -54,6 +55,12 @@ const PostingForm = ({ subredditName }: { subredditName?: string }) => {
     setBody("");
   };
 
+  const handleImage = (e) => {
+    // console.log(e.target.files[0]);
+    const src = URL.createObjectURL(e.target.files[0]);
+
+    setImageSrc(src);
+  };
   return (
     <Box
       component="form"
@@ -98,8 +105,15 @@ const PostingForm = ({ subredditName }: { subredditName?: string }) => {
         component="label"
       >
         Upload File
-        <input type="file" id="image" hidden />
+        <input
+          type="file"
+          id="image-input"
+          accept="image/png,image/jpeg,image/webp,image/gif"
+          onChange={handleImage}
+          hidden
+        />
       </Button>
+      <img id="image-show" src={imageSrc} />
       <br />
       <Button variant="contained" type="submit">
         Submit
