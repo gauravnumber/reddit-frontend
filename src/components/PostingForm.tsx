@@ -16,18 +16,20 @@ const PostingForm = ({ subredditName }: { subredditName?: string }) => {
   const [posting, postingResult] = useMutation(POST, {
     refetchQueries: [GET_SUBREDDIT_POST],
     update: (cache, { data }) => {
-      const dataInCache = cache.readQuery({
-        query: GET_SUBREDDIT_POST,
-        variables: {
-          name: "funny",
-          // name: subredditName,
-          // sort: 'new'
-        },
-      });
-      console.log(`dataInCache`, dataInCache);
+      // [delete]
+      // const dataInCache = cache.readQuery({
+      //   query: GET_SUBREDDIT_POST,
+      //   variables: {
+      //     name: "funny",
+      //     // name: subredditName,
+      //     // sort: 'new'
+      //   },
+      // });
+      // console.log(`dataInCache`, dataInCache);
+      // [/delete]
       // dispatch(refreshAction("upvote"));
-      // dispatch(refreshAction("updateSubreddit"));
-      console.log(`data`, data);
+      dispatch(refreshAction("updateSubreddit"));
+      // console.log(`data`, data);
       // console.log(`cache`, cache);
     },
   });
@@ -48,9 +50,8 @@ const PostingForm = ({ subredditName }: { subredditName?: string }) => {
       },
     });
 
-    //! not setting post = ""
-    // setPost("");
-    // console.log(post);
+    // setTitle("");
+    setBody("");
   };
 
   return (
@@ -97,7 +98,7 @@ const PostingForm = ({ subredditName }: { subredditName?: string }) => {
         component="label"
       >
         Upload File
-        <input type="file" hidden />
+        <input type="file" id="image" hidden />
       </Button>
       <br />
       <Button variant="contained" type="submit">
