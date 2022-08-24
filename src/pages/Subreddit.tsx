@@ -22,7 +22,7 @@ const Subreddit = () => {
   const [getSubredditPost, result] = useLazyQuery(GET_SUBREDDIT_POST, {
     variables: {
       name: params.subredditName,
-      sort: sort ?? "hot",
+      sort: sort ?? "new",
     },
   });
 
@@ -34,7 +34,8 @@ const Subreddit = () => {
     return <div>loading...</div>;
   }
 
-  result.refetch();
+  // console.log(`result`, result);
+  // result.refetch();
 
   return (
     <Grid>

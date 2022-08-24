@@ -25,9 +25,16 @@ import {
   InMemoryCache,
   HttpLink,
   ApolloLink,
+  from,
+  concat,
 } from "@apollo/client";
 
+import { createUploadLink } from "apollo-upload-client";
 import { Provider } from "react-redux";
+
+const uploadLink = createUploadLink({
+  uri: import.meta.env.VITE_BACKEND_URI,
+});
 
 const httpLink = new HttpLink({
   uri: import.meta.env.VITE_BACKEND_URI,
@@ -45,9 +52,15 @@ const authLink = new ApolloLink((operation, forward) => {
   return forward(operation);
 });
 
+// console.log(`uploadLink`, uploadLink);
+// console.log(`authLink.concat(httpLink)`, authLink.concat(httpLink));
+
 const client = new ApolloClient({
   cache: new InMemoryCache(),
-  link: authLink.concat(httpLink),
+  // link: authLink.concat(uploadLink),
+  // link: authLink.concat(httpLink),
+  // link: from([authLink, httpLink, uploadLink]),
+  link: concat(authLink, httpLink, uploadLink),
 });
 
 ReactDOM.render(
