@@ -153,6 +153,7 @@ const Post = ({ posts }: { posts: postType[] }): JSX.Element | null => {
   // console.log(`dayjs()`, dayjs(1640704399243).fromNow());
   // console.log(`result?.data`, result?.data);
 
+  // console.log(`posts`, posts);
   return (
     <Box sx={{ mt: 2 }}>
       {posts &&
@@ -179,7 +180,7 @@ const Post = ({ posts }: { posts: postType[] }): JSX.Element | null => {
                 </Typography>
               )}
             </CardContent>
-            {post.image && (
+            {post.image?.data && (
               <CardMedia
                 component="img"
                 // height="200"
