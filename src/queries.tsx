@@ -209,8 +209,18 @@ export const REGISTER = gql`
 `;
 
 export const POST = gql`
-  mutation post($title: String!, $body: String!, $subredditName: String!) {
-    post(title: $title, body: $body, subredditName: $subredditName) {
+  mutation post(
+    $title: String!
+    $body: String
+    $subredditName: String!
+    $image: Upload
+  ) {
+    post(
+      title: $title
+      body: $body
+      subredditName: $subredditName
+      image: $image
+    ) {
       ...postsNeeded
       # _id
       # title

@@ -13,9 +13,10 @@ const PostingForm = ({ subredditName }: { subredditName?: string }) => {
   const [body, setBody] = useState("");
   const [title, setTitle] = useState("");
   const [imageSrc, setImageSrc] = useState("");
+  const [imageFile, setimageFile] = useState();
 
   const [posting, postingResult] = useMutation(POST, {
-    refetchQueries: [GET_SUBREDDIT_POST],
+    // refetchQueries: [GET_SUBREDDIT_POST],
     update: (cache, { data }) => {
       // [delete]
       // const dataInCache = cache.readQuery({
@@ -47,16 +48,20 @@ const PostingForm = ({ subredditName }: { subredditName?: string }) => {
         title,
         body,
         subredditName,
+        image: imageFile,
+        // image: imageSrc,
         // body: `body: ${Math.floor(Math.random() * 10)}`,
       },
+      onCompleted: (data) => console.log("data", data),
     });
 
     // setTitle("");
-    setBody("");
+    // setBody("");
   };
 
   const handleImage = (e) => {
     // console.log(e.target.files[0]);
+    setimageFile(e.target.files[0]);
     const src = URL.createObjectURL(e.target.files[0]);
 
     setImageSrc(src);
@@ -83,7 +88,9 @@ const PostingForm = ({ subredditName }: { subredditName?: string }) => {
         value={title}
         onChange={(e) => setTitle(e.target.value)}
         margin="dense"
+        autoFocus
       />
+
       <TextField
         label="Body"
         fullWidth
