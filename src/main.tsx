@@ -26,6 +26,7 @@ import {
   HttpLink,
   ApolloLink,
   from,
+  concat,
 } from "@apollo/client";
 
 import { createUploadLink } from "apollo-upload-client";
@@ -58,7 +59,8 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
   // link: authLink.concat(uploadLink),
   // link: authLink.concat(httpLink),
-  link: from([authLink, httpLink, uploadLink]),
+  // link: from([authLink, httpLink, uploadLink]),
+  link: concat(authLink, httpLink, uploadLink),
 });
 
 ReactDOM.render(

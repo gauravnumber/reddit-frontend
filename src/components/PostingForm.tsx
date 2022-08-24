@@ -13,7 +13,7 @@ const PostingForm = ({ subredditName }: { subredditName?: string }) => {
   const [body, setBody] = useState("");
   const [title, setTitle] = useState("");
   const [imageSrc, setImageSrc] = useState("");
-  const [imageFile, setimageFile] = useState();
+  const [imageFile, setImageFile] = useState();
 
   const [posting, postingResult] = useMutation(POST, {
     // refetchQueries: [GET_SUBREDDIT_POST],
@@ -41,31 +41,56 @@ const PostingForm = ({ subredditName }: { subredditName?: string }) => {
   const handlePost = (e: React.FormEvent) => {
     e.preventDefault();
     // console.log("handle post", title, body, subredditName);
-
+    // console.log(`imageFile`, imageFile);
     posting({
       variables: {
         // title: `title: ${Math.floor(Math.random() * 20)}`,
         title,
         body,
         subredditName,
-        image: imageFile,
+        // image: imageFile,
         // image: imageSrc,
         // body: `body: ${Math.floor(Math.random() * 10)}`,
       },
-      onCompleted: (data) => console.log("data", data),
+      // onCompleted: (data) => console.log("data", data),
     });
 
-    // setTitle("");
-    // setBody("");
+    setTitle("");
+    setBody("");
   };
 
-  const handleImage = (e) => {
-    // console.log(e.target.files[0]);
-    setimageFile(e.target.files[0]);
-    const src = URL.createObjectURL(e.target.files[0]);
+  // function onChange({ target: { validity, files, value } }) {
+  //   if (validity.valid) {
+  //     console.log(`files[0]`, files[0]);
+  //     if (!files) return;
+  //     posting({
+  //       variables: {
+  //         title,
+  //         body,
+  //         subredditName,
+  //         // image: files,
+  //         // image: imageSrc,
+  //       },
+  //       // onCompleted: (data) => console.log("data", data),
+  //     });
 
-    setImageSrc(src);
-  };
+  //     // const formData = new FormData();
+  //     // formData.append("file", files);
+
+  //     // console.log(`formData`, formData);
+  //     // setImageFile(formData);
+
+  //     // console.log(`files`, files);
+
+  //     // const src = URL.createObjectURL(files[0]);
+  //     // setImageSrc(src);
+
+  //     // setImageFile(files);
+  //     // const file = new Blob([value], { type: "text/plain" });
+  //     // setImageFile(file);
+  //   }
+  // }
+
   return (
     <Box
       component="form"
@@ -88,7 +113,7 @@ const PostingForm = ({ subredditName }: { subredditName?: string }) => {
         value={title}
         onChange={(e) => setTitle(e.target.value)}
         margin="dense"
-        autoFocus
+        // autoFocus
       />
 
       <TextField
@@ -106,8 +131,7 @@ const PostingForm = ({ subredditName }: { subredditName?: string }) => {
         fullWidth
         margin="dense"
       /> */}
-      <Button
-        //  variant="contained"
+      {/* <Button
         sx={{ my: 2 }}
         component="label"
       >
@@ -116,11 +140,11 @@ const PostingForm = ({ subredditName }: { subredditName?: string }) => {
           type="file"
           id="image-input"
           accept="image/png,image/jpeg,image/webp,image/gif"
-          onChange={handleImage}
+          onChange={onChange}
           hidden
         />
       </Button>
-      <img id="image-show" src={imageSrc} />
+      <img id="image-show" src={imageSrc} /> */}
       <br />
       <Button variant="contained" type="submit">
         Submit
