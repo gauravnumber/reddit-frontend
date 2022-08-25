@@ -138,6 +138,18 @@ const Nav = () => {
           {user ? (
             <>
               <Button color="inherit">u/{user.username}</Button>
+              <Button
+                color="inherit"
+                component={Link}
+                to="/create"
+                sx={{
+                  "&:hover": {
+                    color: (theme) => theme.palette.background.paper,
+                  },
+                }}
+              >
+                Create Subreddit
+              </Button>
               <Button color="inherit" onClick={handleLogout}>
                 LOGOUT
               </Button>
