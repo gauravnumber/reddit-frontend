@@ -14,7 +14,7 @@ const CreateSubreddit = () => {
 
   const [createSubreddit, result] = useMutation(CREATE_SUBREDDIT, {
     update: (cache, { data }) => {
-      console.log(`data.setSubreddit.name`, data.setSubreddit.name);
+      // console.log(`data.setSubreddit.name`, data.setSubreddit.name);
       setConfirm(data.setSubreddit.name);
       navigate(`/r/${data.setSubreddit.name}`);
     },
