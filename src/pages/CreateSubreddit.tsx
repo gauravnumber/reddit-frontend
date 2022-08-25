@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { Button, TextField, Box } from "@mui/material";
 import { Message, Container, Form, Grid } from "semantic-ui-react";
 import { useMutation } from "@apollo/client";
 import { CREATE_SUBREDDIT } from "@/queries";
@@ -44,32 +45,44 @@ const CreateSubreddit = () => {
   };
 
   return (
-    <Container>
-      <Grid verticalAlign="middle" style={{ marginTop: "1rem" }}>
-        <Grid.Column>
-          <Form onSubmit={handleCreateSubreddit} size="large">
-            <Form.Input
-              fluid
-              placeholder="Create your own subreddit..."
-              onChange={(e) => setSubredditName(e.target.value)}
-            />
-            <button className="ui button teal large">Create subreddit</button>
-            {errorCreateSubreddit && (
-              <Message content={errorCreateSubreddit} color="red" />
-            )}
-            {confirm && (
-              <Message
-                content={`Subreddit: ${confirm}. Created Successfully.`}
-                color="green"
-              />
-            )}
-            {/* <Message error>
-              <p>{errorCreateSubreddit}</p>
-            </Message> */}
-          </Form>
-        </Grid.Column>
-      </Grid>
-    </Container>
+    <Box component="form" onSubmit={handleCreateSubreddit}>
+      <TextField
+        placeholder="Create your own subreddit..."
+        value={subredditName}
+        onChange={(e) => setSubredditName(e.target.value)}
+        fullWidth
+        margin="normal"
+      />
+      <Button type="submit" variant="contained">
+        Create Subreddit
+      </Button>
+    </Box>
+    // <Container>
+    //   <Grid verticalAlign="middle" style={{ marginTop: "1rem" }}>
+    //     <Grid.Column>
+    //       <Form onSubmit={handleCreateSubreddit} size="large">
+    //         <Form.Input
+    //           fluid
+    //           placeholder="Create your own subreddit..."
+    //           onChange={(e) => setSubredditName(e.target.value)}
+    //         />
+    //         <button className="ui button teal large">Create subreddit</button>
+    //         {errorCreateSubreddit && (
+    //           <Message content={errorCreateSubreddit} color="red" />
+    //         )}
+    //         {confirm && (
+    //           <Message
+    //             content={`Subreddit: ${confirm}. Created Successfully.`}
+    //             color="green"
+    //           />
+    //         )}
+    //         {/* <Message error>
+    //           <p>{errorCreateSubreddit}</p>
+    //         </Message> */}
+    //       </Form>
+    //     </Grid.Column>
+    //   </Grid>
+    // </Container>
   );
 };
 
