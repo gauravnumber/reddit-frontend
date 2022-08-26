@@ -165,19 +165,30 @@ export const GET_RECENT_POSTS = gql`
 export const DO_DOWNVOTE = gql`
   mutation downvote($postId: String!) {
     downvote(postId: $postId) {
-      _id
-      totalNumbersOfVotes
+      ...postsNeeded
+
+      # _id
+      # downvote {
+      #   username
+      # }
+      # totalNumbersOfVotes
     }
   }
+  ${POSTS_NEEDED}
 `;
 
 export const DO_UPVOTE = gql`
   mutation upvote($postId: String!) {
     upvote(postId: $postId) {
-      _id
-      totalNumbersOfVotes
+      ...postsNeeded
+      # _id
+      # upvote {
+      #   username
+      # }
+      # totalNumbersOfVotes
     }
   }
+  ${POSTS_NEEDED}
 `;
 
 export const GET_USER_POST = gql`

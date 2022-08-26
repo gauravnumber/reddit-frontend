@@ -22,31 +22,27 @@ import { refreshAction } from "@/reducer/refreshReducer";
 import { loginAction } from "@/reducer/notificationReducer";
 
 const VoteButton = ({ post }: { post: postType }) => {
+  const [voteUpdated, setVoteUpdated] = useState<
+    { upvote: postType } | { downvote: postType } | null
+  >(null);
   const dispatch = useDispatch();
   const user = useSelector<RootState, userState>((state) => state.user);
 
   const { _id, totalNumbersOfVotes, upvote, downvote, ...rest } = post;
 
-  const [upvoting, upvotingResult] = useMutation(DO_UPVOTE, {
+  const [upvoting] = useMutation(DO_UPVOTE, {
     update: (cache, { data }) => {
-      // const dataInCache = cache.readQuery({
-      //   query: GET_SUBREDDIT_POST,
-      //   variables: {
-      //     name: "funny",
-      //     sort: "hot",
-      //   },
-      // });
-      // cache.writeQuery({
-      //   query: GET_SUBREDDIT_POST,
-      //   variables: {
-      //     name: "funny",
-      //     sort: "hot",
-      //   },
-      //   data: dataInCache,
-      // });
-      // console.log(`dataInCache`, dataInCache);
-      // dispatch(refreshAction("upvote"));
-      console.log(`data upvote`, data);
+      setVoteUpdated(data);
+      // console.log("data", data.upvote.upvote);
+      // console.log(
+      //   `${data?.upvote?.upvote?.some((u: { username: string }) => {
+      //     if (u !== null) {
+      //       return u?.username === user?.username;
+      //     } else {
+      //       return false;
+      //     }
+      //   })}`
+      // );
     },
     // refetchQueries: [GET_SUBREDDIT_POST],
     variables: {
@@ -63,9 +59,22 @@ const VoteButton = ({ post }: { post: postType }) => {
     },
   });
 
-  const [downvoting, downvotingResult] = useMutation(DO_DOWNVOTE, {
+  const [downvoting] = useMutation(DO_DOWNVOTE, {
     update: (_, { data }) => {
       // dispatch(refreshAction("downvote"));
+      console.log(`data`, data);
+      console.log(`voteUpdated`, voteUpdated);
+      setVoteUpdated(data);
+
+      console.log(
+        `${data?.downvote?.downvote?.some((u: { username: string }) => {
+          if (u !== null) {
+            return u?.username === user?.username;
+          } else {
+            return false;
+          }
+        })}`
+      );
     },
     // refetchQueries: [GET_SUBREDDIT_POST],
     variables: {
@@ -89,14 +98,59 @@ const VoteButton = ({ post }: { post: postType }) => {
     downvoting();
   };
 
+  // console.log(`upvote`, upvote);
+  // console.log(`downvote`, downvote);
+  console.log(`voteUpdated`, voteUpdated);
+  // if (!voteUpdated) return null;
+
   return (
     <>
       <CardActions disableSpacing>
-        <IconButton color="primary" onClick={handleUpvote}>
+        <IconButton
+          color={`${
+            voteUpdated?.upvote?.upvote?.some((u: { username: string }) => {
+              if (u !== null) {
+                return u?.username === user?.username;
+              } else {
+                return false;
+              }
+            }) ||
+            upvote?.some((u: { username: string }) => {
+              if (u !== null) {
+                return u?.username === user?.username;
+              } else {
+                return false;
+              }
+            })
+              ? "primary"
+              : "default"
+          }`}
+          onClick={handleUpvote}
+        >
           <ArrowUpward />
         </IconButton>
         <Typography color="text.secondary">{totalNumbersOfVotes}</Typography>
-        <IconButton color="secondary" onClick={handleDownvote}>
+        <IconButton
+          color={`${
+            voteUpdated?.downvote?.downvote?.some((u: { username: string }) => {
+              if (u !== null) {
+                return u?.username === user?.username;
+              } else {
+                return false;
+              }
+            }) ||
+            downvote?.some((u: { username: string }) => {
+              if (u !== null) {
+                return u?.username === user?.username;
+              } else {
+                return false;
+              }
+            })
+              ? "secondary"
+              : "default"
+          }`}
+          onClick={handleDownvote}
+        >
           <ArrowDownward />
         </IconButton>
       </CardActions>
