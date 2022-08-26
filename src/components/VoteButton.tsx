@@ -1,9 +1,18 @@
-/**
- * Wrap this component in <Card>
- * @prop {post} postType
- */
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import {
+  Stack,
+  IconButton,
+  Button,
+  CardActions,
+  Typography,
+  // Card,
+  // CardHeader,
+  // CardContent,
+  // Box,
+  // CardMedia,
+} from "@mui/material";
+import { ArrowDownward, ArrowUpward } from "@mui/icons-material";
 import { Message, Card, Container, Grid } from "semantic-ui-react";
 import { useMutation } from "@apollo/client";
 
@@ -16,7 +25,7 @@ const VoteButton = ({ post }: { post: postType }) => {
   const dispatch = useDispatch();
   const user = useSelector<RootState, userState>((state) => state.user);
 
-  const { _id, totalNumOfVotes, upvote, downvote, ...rest } = post;
+  const { _id, totalNumbersOfVotes, upvote, downvote, ...rest } = post;
 
   const [upvoting, upvotingResult] = useMutation(DO_UPVOTE, {
     update: (cache, { data }) => {
@@ -37,9 +46,9 @@ const VoteButton = ({ post }: { post: postType }) => {
       // });
       // console.log(`dataInCache`, dataInCache);
       // dispatch(refreshAction("upvote"));
-      // console.log(`data upvote`, data);
+      console.log(`data upvote`, data);
     },
-    refetchQueries: [GET_SUBREDDIT_POST],
+    // refetchQueries: [GET_SUBREDDIT_POST],
     variables: {
       postId: _id,
     },
@@ -58,7 +67,7 @@ const VoteButton = ({ post }: { post: postType }) => {
     update: (_, { data }) => {
       // dispatch(refreshAction("downvote"));
     },
-    refetchQueries: [GET_SUBREDDIT_POST],
+    // refetchQueries: [GET_SUBREDDIT_POST],
     variables: {
       postId: _id,
     },
@@ -82,6 +91,20 @@ const VoteButton = ({ post }: { post: postType }) => {
 
   return (
     <>
+      <CardActions disableSpacing>
+        <IconButton color="primary" onClick={handleUpvote}>
+          <ArrowUpward />
+        </IconButton>
+        <Typography color="text.secondary">{totalNumbersOfVotes}</Typography>
+        <IconButton color="secondary" onClick={handleDownvote}>
+          <ArrowDownward />
+        </IconButton>
+      </CardActions>
+    </>
+  );
+
+  return (
+    <>
       <Card.Content>
         <div className="ui buttons">
           <button
@@ -97,7 +120,7 @@ const VoteButton = ({ post }: { post: postType }) => {
           >
             upvote
           </button>
-          <div className="ui button basic green">{totalNumOfVotes}</div>
+          <div className="ui button basic green">{totalNumbersOfVotes}</div>
           <button
             className={`ui button blue ${
               downvote.some((u: { username: string }) => {

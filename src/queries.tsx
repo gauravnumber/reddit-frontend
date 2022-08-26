@@ -166,7 +166,7 @@ export const DO_DOWNVOTE = gql`
   mutation downvote($postId: String!) {
     downvote(postId: $postId) {
       _id
-      totalNumOfVotes
+      totalNumbersOfVotes
     }
   }
 `;
@@ -175,7 +175,7 @@ export const DO_UPVOTE = gql`
   mutation upvote($postId: String!) {
     upvote(postId: $postId) {
       _id
-      totalNumOfVotes
+      totalNumbersOfVotes
     }
   }
 `;
