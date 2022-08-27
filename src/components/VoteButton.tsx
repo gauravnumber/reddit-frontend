@@ -6,6 +6,8 @@ import {
   Button,
   CardActions,
   Typography,
+  Snackbar,
+  Alert,
   // Card,
   // CardHeader,
   // CardContent,
@@ -25,6 +27,9 @@ const VoteButton = ({ post }: { post: postType }) => {
   const [voteUpdated, setVoteUpdated] = useState<
     { upvote: postType } | { downvote: postType } | null
   >(null);
+  const [errorMessage, setErrorMessage] = useState<string>("");
+  const [errorEnable, setErrorEnable] = useState<boolean>(false);
+
   const dispatch = useDispatch();
   const user = useSelector<RootState, userState>((state) => state.user);
 
@@ -49,13 +54,16 @@ const VoteButton = ({ post }: { post: postType }) => {
       postId: _id,
     },
     onError: (error) => {
-      console.log(`JSON.stringify(error)`, JSON.stringify(error));
-      dispatch(
-        loginAction({
-          message: error.graphQLErrors[0].message,
-          messageColor: "orange",
-        })
-      );
+      // console.log(`JSON.stringify(error)`, JSON.stringify(error));
+      setErrorMessage(error.graphQLErrors[0].message);
+      setErrorEnable(true);
+      setTimeout(() => setErrorEnable(false), 3000);
+      // dispatch(
+      //   loginAction({
+      //     message: error.graphQLErrors[0].message,
+      //     messageColor: "orange",
+      //   })
+      // );
     },
   });
 
@@ -81,12 +89,16 @@ const VoteButton = ({ post }: { post: postType }) => {
       postId: _id,
     },
     onError: (error) => {
-      dispatch(
-        loginAction({
-          message: error.graphQLErrors[0].message,
-          messageColor: "orange",
-        })
-      );
+      setErrorMessage(error.graphQLErrors[0].message);
+      setErrorEnable(true);
+      setTimeout(() => setErrorEnable(false), 3000);
+
+      // dispatch(
+      //   loginAction({
+      //     message: error.graphQLErrors[0].message,
+      //     messageColor: "orange",
+      //   })
+      // );
     },
   });
 
@@ -100,12 +112,17 @@ const VoteButton = ({ post }: { post: postType }) => {
 
   // console.log(`upvote`, upvote);
   // console.log(`downvote`, downvote);
-  console.log(`voteUpdated`, voteUpdated);
+  // console.log(`voteUpdated`, voteUpdated);
   // if (!voteUpdated) return null;
 
   return (
     <>
       <CardActions disableSpacing>
+        <Snackbar open={errorEnable} autoHideDuration={2000}>
+          <Alert severity="error" sx={{ width: "100%" }}>
+            {errorMessage}
+          </Alert>
+        </Snackbar>
         <IconButton
           color={`${
             voteUpdated?.upvote?.upvote?.some((u: { username: string }) => {
