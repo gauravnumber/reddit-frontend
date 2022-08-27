@@ -1,27 +1,16 @@
-import { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import {
-  Stack,
-  IconButton,
-  Button,
-  CardActions,
-  Typography,
-  Snackbar,
-  Alert,
-  // Card,
-  // CardHeader,
-  // CardContent,
-  // Box,
-  // CardMedia,
-} from "@mui/material";
-import { ArrowDownward, ArrowUpward } from "@mui/icons-material";
-import { Message, Card, Container, Grid } from "semantic-ui-react";
+import { DO_DOWNVOTE, DO_UPVOTE } from "@/queries";
+import { postType, RootState, userState } from "@/types";
 import { useMutation } from "@apollo/client";
-
-import { DO_UPVOTE, DO_DOWNVOTE, GET_SUBREDDIT_POST } from "@/queries";
-import { notificationState, postType, RootState, userState } from "@/types";
-import { refreshAction } from "@/reducer/refreshReducer";
-import { loginAction } from "@/reducer/notificationReducer";
+import { ArrowDownward, ArrowUpward } from "@mui/icons-material";
+import {
+  Alert,
+  CardActions,
+  IconButton,
+  Snackbar,
+  Typography,
+} from "@mui/material";
+import { useState } from "react";
+import { useSelector } from "react-redux";
 
 const VoteButton = ({ post }: { post: postType }) => {
   const [voteUpdated, setVoteUpdated] = useState<{
@@ -30,61 +19,27 @@ const VoteButton = ({ post }: { post: postType }) => {
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [errorEnable, setErrorEnable] = useState<boolean>(false);
 
-  const dispatch = useDispatch();
   const user = useSelector<RootState, userState>((state) => state.user);
-
   const { _id, totalNumbersOfVotes, upvote, downvote, ...rest } = post;
 
   const [upvoting] = useMutation(DO_UPVOTE, {
-    update: (cache, { data }) => {
+    update: (_, { data }) => {
       setVoteUpdated(data);
-      // console.log("data", data.upvote.upvote);
-      // console.log(
-      //   `${data?.upvote?.upvote?.some((u: { username: string }) => {
-      //     if (u !== null) {
-      //       return u?.username === user?.username;
-      //     } else {
-      //       return false;
-      //     }
-      //   })}`
-      // );
     },
-    // refetchQueries: [GET_SUBREDDIT_POST],
     variables: {
       postId: _id,
     },
     onError: (error) => {
-      // console.log(`JSON.stringify(error)`, JSON.stringify(error));
       setErrorMessage(error.graphQLErrors[0].message);
       setErrorEnable(true);
       setTimeout(() => setErrorEnable(false), 3000);
-      // dispatch(
-      //   loginAction({
-      //     message: error.graphQLErrors[0].message,
-      //     messageColor: "orange",
-      //   })
-      // );
     },
   });
 
   const [downvoting] = useMutation(DO_DOWNVOTE, {
     update: (_, { data }) => {
-      // dispatch(refreshAction("downvote"));
-      // console.log(`data`, data);
-      // console.log(`voteUpdated`, voteUpdated);
       setVoteUpdated(data);
-
-      // console.log(
-      //   `${data?.downvote?.downvote?.some((u: { username: string }) => {
-      //     if (u !== null) {
-      //       return u?.username === user?.username;
-      //     } else {
-      //       return false;
-      //     }
-      //   })}`
-      // );
     },
-    // refetchQueries: [GET_SUBREDDIT_POST],
     variables: {
       postId: _id,
     },
@@ -92,13 +47,6 @@ const VoteButton = ({ post }: { post: postType }) => {
       setErrorMessage(error.graphQLErrors[0].message);
       setErrorEnable(true);
       setTimeout(() => setErrorEnable(false), 3000);
-
-      // dispatch(
-      //   loginAction({
-      //     message: error.graphQLErrors[0].message,
-      //     messageColor: "orange",
-      //   })
-      // );
     },
   });
 
@@ -109,11 +57,6 @@ const VoteButton = ({ post }: { post: postType }) => {
   const handleDownvote = (e: React.MouseEvent) => {
     downvoting();
   };
-
-  // console.log(`upvote`, upvote);
-  // console.log(`downvote`, downvote);
-  // console.log(`voteUpdated`, voteUpdated);
-  // if (!voteUpdated) return null;
 
   return (
     <>
@@ -171,42 +114,6 @@ const VoteButton = ({ post }: { post: postType }) => {
           <ArrowDownward />
         </IconButton>
       </CardActions>
-    </>
-  );
-
-  return (
-    <>
-      <Card.Content>
-        <div className="ui buttons">
-          <button
-            className={`ui button red ${
-              upvote.some((u: { username: string }) => {
-                if (u !== null) return u?.username === user?.username;
-                else return false;
-              })
-                ? ""
-                : "basic"
-            }`}
-            onClick={handleUpvote}
-          >
-            upvote
-          </button>
-          <div className="ui button basic green">{totalNumbersOfVotes}</div>
-          <button
-            className={`ui button blue ${
-              downvote.some((u: { username: string }) => {
-                if (u !== null) return u?.username === user?.username;
-                else return false;
-              })
-                ? ""
-                : "basic"
-            }`}
-            onClick={handleDownvote}
-          >
-            downvote
-          </button>
-        </div>
-      </Card.Content>
     </>
   );
 };
