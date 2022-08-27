@@ -24,9 +24,9 @@ import { refreshAction } from "@/reducer/refreshReducer";
 import { loginAction } from "@/reducer/notificationReducer";
 
 const VoteButton = ({ post }: { post: postType }) => {
-  const [voteUpdated, setVoteUpdated] = useState<
-    { upvote: postType } | { downvote: postType } | null
-  >(null);
+  const [voteUpdated, setVoteUpdated] = useState<{
+    [index: string]: postType;
+  } | null>(null);
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [errorEnable, setErrorEnable] = useState<boolean>(false);
 
@@ -70,19 +70,19 @@ const VoteButton = ({ post }: { post: postType }) => {
   const [downvoting] = useMutation(DO_DOWNVOTE, {
     update: (_, { data }) => {
       // dispatch(refreshAction("downvote"));
-      console.log(`data`, data);
-      console.log(`voteUpdated`, voteUpdated);
+      // console.log(`data`, data);
+      // console.log(`voteUpdated`, voteUpdated);
       setVoteUpdated(data);
 
-      console.log(
-        `${data?.downvote?.downvote?.some((u: { username: string }) => {
-          if (u !== null) {
-            return u?.username === user?.username;
-          } else {
-            return false;
-          }
-        })}`
-      );
+      // console.log(
+      //   `${data?.downvote?.downvote?.some((u: { username: string }) => {
+      //     if (u !== null) {
+      //       return u?.username === user?.username;
+      //     } else {
+      //       return false;
+      //     }
+      //   })}`
+      // );
     },
     // refetchQueries: [GET_SUBREDDIT_POST],
     variables: {
@@ -118,7 +118,7 @@ const VoteButton = ({ post }: { post: postType }) => {
   return (
     <>
       <CardActions disableSpacing>
-        <Snackbar open={errorEnable} autoHideDuration={2000}>
+        <Snackbar open={errorEnable}>
           <Alert severity="error" sx={{ width: "100%" }}>
             {errorMessage}
           </Alert>
