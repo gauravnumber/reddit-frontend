@@ -85,8 +85,8 @@ const Login = () => {
     });
 
     // console.log(`data`, data);
-    console.log(`username`, username);
-    console.log(`password`, password);
+    // console.log(`username`, username);
+    // console.log(`password`, password);
   };
 
   return (

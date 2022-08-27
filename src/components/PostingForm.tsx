@@ -1,19 +1,20 @@
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { Box, TextField, Button } from "@mui/material";
-import { Form } from "semantic-ui-react";
 import { useMutation } from "@apollo/client";
+import { Box, TextField, Button, Snackbar, Alert } from "@mui/material";
 
 import { POST, GET_SUBREDDIT_POST } from "@/queries";
 import { refreshAction } from "@/reducer/refreshReducer";
 
 const PostingForm = ({ subredditName }: { subredditName?: string }) => {
+  const [errorEnabled, setErrorEnabled] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string>("");
   const dispatch = useDispatch();
 
   const [body, setBody] = useState("");
   const [title, setTitle] = useState("");
-  const [imageSrc, setImageSrc] = useState("");
-  const [imageFile, setImageFile] = useState();
+  // const [imageSrc, setImageSrc] = useState("");
+  // const [imageFile, setImageFile] = useState();
 
   const [posting, postingResult] = useMutation(POST, {
     // refetchQueries: [GET_SUBREDDIT_POST],
@@ -33,6 +34,12 @@ const PostingForm = ({ subredditName }: { subredditName?: string }) => {
       dispatch(refreshAction("updateSubreddit"));
       // console.log(`data`, data);
       // console.log(`cache`, cache);
+    },
+    onError: (error) => {
+      // console.log("error", error);
+      setErrorMessage(error.message);
+      setErrorEnabled(true);
+      setTimeout(() => setErrorEnabled(false), 4000);
     },
   });
 
@@ -107,12 +114,17 @@ const PostingForm = ({ subredditName }: { subredditName?: string }) => {
       autoComplete="off"
       onSubmit={handlePost}
     >
+      <Snackbar open={errorEnabled}>
+        <Alert severity="error">{errorMessage}</Alert>
+      </Snackbar>
       <TextField
         label="Title"
         fullWidth
         value={title}
         onChange={(e) => setTitle(e.target.value)}
         margin="dense"
+        required
+        error={errorEnabled}
         // autoFocus
       />
 
@@ -150,26 +162,6 @@ const PostingForm = ({ subredditName }: { subredditName?: string }) => {
         Submit
       </Button>
     </Box>
-  );
-
-  return (
-    <form className="ui form large" onSubmit={handlePost}>
-      <div className="field ">
-        <label htmlFor="title">Title for your choice.</label>
-        <input
-          type="text"
-          id="name"
-          onChange={(e) => setTitle(e.target.value)}
-        />
-      </div>
-      <div className="field ">
-        <textarea
-          placeholder="Write something..."
-          onChange={(e) => setBody(e.target.value)}
-        ></textarea>
-      </div>
-      <button className="ui button">Submit</button>
-    </form>
   );
 };
 
