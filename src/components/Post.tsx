@@ -3,13 +3,13 @@ import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import {
   Stack,
-  Box,
   IconButton,
   Button,
+  CardActions,
   Card,
   CardHeader,
-  CardActions,
   CardContent,
+  Box,
   CardMedia,
   Typography,
 } from "@mui/material";
@@ -188,7 +188,8 @@ const Post = ({ posts }: { posts: postType[] }): JSX.Element | null => {
                 alt={post.title}
               />
             )}
-            <CardActions disableSpacing>
+            <VoteButton post={post} />
+            {/* <CardActions disableSpacing>
               <IconButton>
                 <ArrowUpward />
               </IconButton>
@@ -196,7 +197,7 @@ const Post = ({ posts }: { posts: postType[] }): JSX.Element | null => {
               <IconButton>
                 <ArrowDownward />
               </IconButton>
-            </CardActions>
+            </CardActions> */}
           </Card>
         ))}
     </Box>
