@@ -37,7 +37,7 @@ const User = () => {
 
   return (
     <Container>
-      {result.data && <Post posts={result.data.getPostsByUser} />}
+      {/* {result.data && <Post posts={result.data.getPostsByUser} />} */}
     </Container>
   );
 };
