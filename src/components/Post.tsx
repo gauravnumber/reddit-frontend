@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+import { NetworkStatus } from "@apollo/client";
 import {
   Stack,
   IconButton,
@@ -16,7 +17,8 @@ import {
 import { ArrowDownward, ArrowUpward } from "@mui/icons-material";
 
 // import { Popup, SemanticCOLORS, Message, Card } from "semantic-ui-react";
-import { useMutation } from "@apollo/client";
+// import { useMutation } from "@apollo/client";
+import { InView } from "react-intersection-observer";
 
 import VoteButton from "@/components/VoteButton";
 
@@ -28,8 +30,21 @@ import { loginAction } from "@/reducer/notificationReducer";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 
-const Post = ({ posts }: { posts: postType[] }): JSX.Element | null => {
+interface PostArgument {
+  posts: postType[];
+  networkStatus: NetworkStatus;
+  variables: unknown;
+  fetchMore: any;
+}
+
+const Post = ({
+  posts,
+  networkStatus,
+  variables,
+  fetchMore,
+}: PostArgument): JSX.Element | null => {
   // const [deletePostId, setDeletePostId] = useState("");
+  const [fullyLoaded, setFullyLoaded] = useState(false);
   const [loginWarning, setLoginWarning] = useState(false);
   const dispatch = useDispatch();
 
@@ -200,84 +215,50 @@ const Post = ({ posts }: { posts: postType[] }): JSX.Element | null => {
             </CardActions> */}
           </Card>
         ))}
-    </Box>
-  );
+      <InView
+        onChange={(inView) => {
+          if (inView) {
+            fetchMore({
+              variables: {
+                offset: posts.length,
+              },
+            });
+          }
+        }}
+      >
+        <h3>Load More Posts</h3>
+      </InView>
 
-  return (
-    <Card.Group>
-      {sortButtons()}
-      {loginWarning && (
-        <Card fluid>
-          <Card.Content>
-            <Message
-              content={notification?.message}
-              color={notification?.messageColor as SemanticCOLORS}
-              onDismiss={() => {
-                setLoginWarning(false);
-                // setTimeout(() => nullAction(), 5000);
-              }}
-            />
-          </Card.Content>
-        </Card>
-      )}
-      {posts.map((post: postType, index: number) => {
-        if (!post) return;
-        return (
-          <Card key={post._id} fluid>
-            <Card.Content>
-              {post.subreddit && (
-                <Card.Meta as="a" href={`/r/${post.subreddit.name}`}>
-                  r/{post.subreddit.name}
-                </Card.Meta>
-              )}
-              <Card.Header
-                as="a"
-                href={`/r/${post.subreddit.name}/post/${post._id}`}
-              >
-                {post.title}
-              </Card.Header>
-              <Card.Meta as="a" href={`/u/${post.owner.username}`}>
-                u/{post.owner.username}
-              </Card.Meta>
-              <Card.Meta>
-                {dayjs(parseInt(post.createdAt)).fromNow()}
-                {/* {
-                  <Popup
-                    content={dayjs(parseInt(post.createdAt)).format(
-                      "DD/MM/YYYY"
-                    )}
-                    position="right center"
-                    trigger={
-                      // <button> hi</button>
-                      <span>{dayjs(parseInt(post.createdAt)).fromNow()}</span>
-                    }
-                  />
-                } */}
-                {/* {console.log(
-                  `dayjs().format('L')`,
-                  dayjs(post.createdAt).format("L")
-                )} */}
-                {/* {console.log(
-                  dayjs(parseInt(post.createdAt)).format("DD/MM/YYYY")
-                )} */}
-              </Card.Meta>
-              {/* {user?.username} */}
-              {post.owner.username === user?.username && (
-                <button
-                  className="ui button teal right floated"
-                  onClick={handleDelete(post)}
-                >
-                  delete
-                </button>
-              )}{" "}
-              <Card.Description>{post.body}</Card.Description>
-            </Card.Content>
-            {/* Card.Content inside in <VoteButton />  */}
-            <VoteButton post={post} />
-          </Card>
-        );
-      })}
-    </Card.Group>
+      {/* {
+        <InView
+          onChange={(inView) => {
+            console.log("inview");
+            if (inView) {
+            }
+          }}
+        />
+      } */}
+
+      {/* {networkStatus !== NetworkStatus.fetchMore &&
+        posts.length % variables.limit === 0 &&
+        !fullyLoaded && (
+          <InView
+            onChange={async (inView) => {
+              if (inView) {
+                const result = await fetchMore({
+                  variables: {
+                    offset: posts.length,
+                  },
+                });
+
+                console.log(`result`, result);
+
+                setFullyLoaded(!result.data.posts.length);
+              }
+            }}
+          />
+        )} */}
+    </Box>
   );
 };
 

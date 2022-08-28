@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { ThemeProvider } from "@mui/material/styles";
+import { offsetLimitPagination } from "@apollo/client/utilities";
 import theme from "./theme";
 
 // import "./css/index.css";
@@ -25,7 +26,7 @@ import {
   InMemoryCache,
   HttpLink,
   ApolloLink,
-  from,
+  // from,
   concat,
 } from "@apollo/client";
 
@@ -54,13 +55,23 @@ const authLink = new ApolloLink((operation, forward) => {
 
 // console.log(`uploadLink`, uploadLink);
 // console.log(`authLink.concat(httpLink)`, authLink.concat(httpLink));
+const cache = new InMemoryCache({
+  typePolicies: {
+    Query: {
+      fields: {
+        getRecentPosts: offsetLimitPagination(),
+      },
+    },
+  },
+});
 
 const client = new ApolloClient({
-  cache: new InMemoryCache(),
+  cache,
+  link: concat(authLink, httpLink, uploadLink),
+  // cache: new InMemoryCache(),
   // link: authLink.concat(uploadLink),
   // link: authLink.concat(httpLink),
   // link: from([authLink, httpLink, uploadLink]),
-  link: concat(authLink, httpLink, uploadLink),
 });
 
 ReactDOM.render(
