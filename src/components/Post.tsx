@@ -4,10 +4,10 @@ import { useSelector, useDispatch } from "react-redux";
 import { InView } from "react-intersection-observer";
 import { NetworkStatus, ApolloError } from "@apollo/client";
 import {
-  Stack,
-  IconButton,
-  Button,
-  CardActions,
+  // Stack,
+  // IconButton,
+  // Button,
+  // CardActions,
   Card,
   CardHeader,
   CardContent,
@@ -40,7 +40,12 @@ dayjs.extend(relativeTime);
 interface PostArgument {
   posts: postType[];
   networkStatus: NetworkStatus;
-  variables: unknown;
+  variables?: {
+    sort: string;
+    offset: number;
+    limit: number;
+  };
+
   fetchMore: any;
   error: ApolloError | undefined;
 }
@@ -124,21 +129,7 @@ const Post = ({
 
   if (!posts) return null;
 
-  // console.log(`deletePostId`, deletePostId);
-
-  // useEffect(() => {
-  //   if (notification) {
-  //     setLoginWarning(true);
-  //     setTimeout(() => {
-  //       setLoginWarning(false);
-  //       // nullAction();
-  //     }, 5000);
-  //   }
-  // }, [notification]);
-
   // const handleDelete = (post: postType) => (): void => {
-  //   // setDeletePostId(post._id);
-
   //   deletePost({
   //     variables: {
   //       username: post.owner.username,
@@ -146,8 +137,6 @@ const Post = ({
   //       postId: post._id,
   //     },
   //   });
-
-  //   // console.log(`post._id`, post._id);
   // };
 
   // const handleSort = (sort: string) => (): void => {
@@ -178,13 +167,17 @@ const Post = ({
   //   </Card>
   // );
 
-  // console.log(`dayjs()`, dayjs(1640704399243).fromNow());
-  // console.log(`result?.data`, result?.data);
-
-  // console.log(`posts`, posts);
   if (networkStatus === NetworkStatus.loading) {
     return <div>Loading...</div>;
   }
+
+  // console.log(`posts.length`, posts.length);
+  // console.log(`variables.limit`, variables?.limit);
+  // console.log(
+  //   `networkStatus !== NetworkStatus.fetchMore`,
+  //   networkStatus !== NetworkStatus.fetchMore
+  // );
+  // if (!variables?.limit ) variables["limit"] = 10
 
   return (
     <Box sx={{ mt: 2 }}>
@@ -197,7 +190,6 @@ const Post = ({
                   r/{post.subreddit.name}
                 </Link>
               }
-              // &bull;
               subheader={`u/${post.owner.username} \u2022 ${dayjs(
                 parseInt(post.createdAt)
               ).fromNow()}`}
@@ -223,7 +215,28 @@ const Post = ({
             <VoteButton post={post} />
           </Card>
         ))}
-      <InView
+      {networkStatus !== NetworkStatus.fetchMore &&
+        posts.length % (variables?.limit ?? 10) === 0 &&
+        !fullyLoaded && (
+          <InView
+            onChange={async (inView) => {
+              if (inView) {
+                const result = await fetchMore({
+                  variables: {
+                    offset: posts.length,
+                  },
+                });
+
+                const keys = Object.keys(result.data);
+                const fetchedPosts = result.data[keys[0]];
+                setFullyLoaded(!fetchedPosts.length);
+              }
+            }}
+          >
+            <h3>Load More Posts</h3>
+          </InView>
+        )}
+      {/* <InView
         onChange={(inView) => {
           if (inView) {
             console.log(`posts.length`, posts.length);
@@ -236,7 +249,7 @@ const Post = ({
         }}
       >
         <h3>Load More Posts</h3>
-      </InView>
+      </InView> */}
 
       {/* {
         <InView

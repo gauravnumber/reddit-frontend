@@ -1,20 +1,12 @@
-import { useEffect, useState, useCallback } from "react";
-import { useParams } from "react-router-dom";
-import {
-  useApolloClient,
-  useQuery,
-  useLazyQuery,
-  useMutation,
-  NetworkStatus,
-} from "@apollo/client";
-import { useSelector, useDispatch } from "react-redux";
-import { Header, Grid, Segment, Card, Icon, Form } from "semantic-ui-react";
-
 import Post from "@/components/Post";
 import PostingForm from "@/components/PostingForm";
-
-import { POST, GET_SUBREDDIT_POST } from "@/queries";
+import { GET_SUBREDDIT_POST } from "@/queries";
 import { refreshState, RootState, sortState, userState } from "@/types";
+import { useApolloClient, useLazyQuery } from "@apollo/client";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import { Grid } from "semantic-ui-react";
 
 const Subreddit = () => {
   const client = useApolloClient();
@@ -35,27 +27,15 @@ const Subreddit = () => {
     notifyOnNetworkStatusChange: true,
     variables: {
       name: params.subredditName,
-      // sort: sort ?? "new",
+      offset: 0,
+      limit: 10,
+      sort: "new",
     },
   });
 
   useEffect(() => {
     getSubredditPost();
   }, [sort, params.subredditName, refreshSubredditPost]);
-
-  // if (result.loading) {
-  //   return <div>loading...</div>;
-  // }
-  // if (networkStatus === NetworkStatus.loading) {
-  //   return <div>Loading...</div>;
-  // }
-
-  // if (error) {
-  //   return <div>{error.message}</div>;
-  // }
-
-  // console.log(`result`, result);
-  // result.refetch();
 
   return (
     <Grid>
@@ -66,14 +46,13 @@ const Subreddit = () => {
       </Grid.Row>
       <Grid.Row>
         <Grid.Column>
-          {data && (
-            <Post
-              posts={data.getSubredditPost}
-              networkStatus={networkStatus}
-              variables={variables}
-              fetchMore={fetchMore}
-            />
-          )}
+          <Post
+            posts={data?.getSubredditPost}
+            networkStatus={networkStatus}
+            variables={variables}
+            fetchMore={fetchMore}
+            error={error}
+          />
         </Grid.Column>
       </Grid.Row>
     </Grid>

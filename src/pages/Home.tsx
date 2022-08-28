@@ -1,11 +1,9 @@
-import { useState, useEffect } from "react";
-import { useLazyQuery, useApolloClient, NetworkStatus } from "@apollo/client";
-import { InView } from "react-intersection-observer";
 import Post from "@/components/Post";
 import { GET_RECENT_POSTS } from "@/queries";
+import { useApolloClient, useLazyQuery } from "@apollo/client";
+import { useEffect } from "react";
 
 const Home = () => {
-  // const [fullyLoaded, setFullyLoaded] = useState(false);
   // const sort = useSelector<RootState, sortState>((state) => state.sort);
   const client = useApolloClient();
 
@@ -17,6 +15,8 @@ const Home = () => {
     notifyOnNetworkStatusChange: true,
     variables: {
       sort: "new",
+      offset: 0,
+      limit: 10,
     },
   });
 
@@ -25,13 +25,6 @@ const Home = () => {
     // console.log(`sort`, sort);
   }, []);
   // }, [sort]);
-
-  // if (result.loading)
-  //   return (
-  //     <div className="ui active dimmer">
-  //       <div className="ui loader"></div>
-  //     </div>
-  //   );
 
   return (
     <>
