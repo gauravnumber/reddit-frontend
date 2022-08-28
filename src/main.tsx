@@ -27,7 +27,7 @@ import {
   HttpLink,
   ApolloLink,
   // from,
-  concat,
+  // concat,
 } from "@apollo/client";
 
 import { createUploadLink } from "apollo-upload-client";
@@ -68,10 +68,10 @@ const cache = new InMemoryCache({
 
 const client = new ApolloClient({
   cache,
-  link: concat(authLink, httpLink, uploadLink),
+  // link: concat(authLink, httpLink, uploadLink),
   // cache: new InMemoryCache(),
   // link: authLink.concat(uploadLink),
-  // link: authLink.concat(httpLink),
+  link: authLink.concat(httpLink),
   // link: from([authLink, httpLink, uploadLink]),
 });
 
