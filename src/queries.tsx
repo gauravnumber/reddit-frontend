@@ -248,8 +248,13 @@ export const POST = gql`
 `;
 
 export const GET_SUBREDDIT_POST = gql`
-  query getSubredditPost($name: String!, $sort: String) {
-    getSubredditPost(name: $name, sort: $sort) {
+  query getSubredditPost(
+    $name: String!
+    $sort: String
+    $offset: Int
+    $limit: Int
+  ) {
+    getSubredditPost(name: $name, sort: $sort, offset: $offset, limit: $limit) {
       ...postsNeeded
     }
   }
