@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { NetworkStatus } from "@apollo/client";
+import { InView } from "react-intersection-observer";
+import { NetworkStatus, ApolloError } from "@apollo/client";
 import {
   Stack,
   IconButton,
@@ -14,27 +15,34 @@ import {
   CardMedia,
   Typography,
 } from "@mui/material";
-import { ArrowDownward, ArrowUpward } from "@mui/icons-material";
+// import { ArrowDownward, ArrowUpward } from "@mui/icons-material";
 
 // import { Popup, SemanticCOLORS, Message, Card } from "semantic-ui-react";
 // import { useMutation } from "@apollo/client";
-import { InView } from "react-intersection-observer";
 
 import VoteButton from "@/components/VoteButton";
 
-import { sortAction } from "@/reducer/sortReducer";
-import { refreshAction } from "@/reducer/refreshReducer";
-import { DELETE_POST } from "@/queries";
-import { notificationState, postType, RootState, userState } from "@/types";
-import { loginAction } from "@/reducer/notificationReducer";
+// import { sortAction } from "@/reducer/sortReducer";
+// import { refreshAction } from "@/reducer/refreshReducer";
+// import { DELETE_POST } from "@/queries";
+import {
+  //  notificationState,
+  postType,
+  RootState,
+  userState,
+} from "@/types";
+// import { loginAction } from "@/reducer/notificationReducer";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
+
+dayjs.extend(relativeTime);
 
 interface PostArgument {
   posts: postType[];
   networkStatus: NetworkStatus;
   variables: unknown;
   fetchMore: any;
+  error: ApolloError | undefined;
 }
 
 const Post = ({
@@ -42,19 +50,19 @@ const Post = ({
   networkStatus,
   variables,
   fetchMore,
+  error,
 }: PostArgument): JSX.Element | null => {
   // const [deletePostId, setDeletePostId] = useState("");
   const [fullyLoaded, setFullyLoaded] = useState(false);
   const [loginWarning, setLoginWarning] = useState(false);
   const dispatch = useDispatch();
 
-  const notification = useSelector<RootState, notificationState>(
-    (state) => state.notification
-  );
+  // const notification = useSelector<RootState, notificationState>(
+  //   (state) => state.notification
+  // );
 
   const user = useSelector<RootState, userState>((state) => state.user);
 
-  dayjs.extend(relativeTime);
   // console.log(`dayjs().format('L')`, dayjs().format("L"));
 
   // const [deletePost, result] = useMutation(DELETE_POST, {
@@ -108,6 +116,11 @@ const Post = ({
   //     // console.log(JSON.stringify(error));
   //   },
   // });
+  // console.log(`error`, error);
+
+  if (error) {
+    return <div>{error.message}</div>;
+  }
 
   if (!posts) return null;
 
@@ -169,6 +182,10 @@ const Post = ({
   // console.log(`result?.data`, result?.data);
 
   // console.log(`posts`, posts);
+  if (networkStatus === NetworkStatus.loading) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <Box sx={{ mt: 2 }}>
       {posts &&
@@ -204,20 +221,12 @@ const Post = ({
               />
             )}
             <VoteButton post={post} />
-            {/* <CardActions disableSpacing>
-              <IconButton>
-                <ArrowUpward />
-              </IconButton>
-              <Typography color="text.secondary">0</Typography>
-              <IconButton>
-                <ArrowDownward />
-              </IconButton>
-            </CardActions> */}
           </Card>
         ))}
       <InView
         onChange={(inView) => {
           if (inView) {
+            console.log(`posts.length`, posts.length);
             fetchMore({
               variables: {
                 offset: posts.length,

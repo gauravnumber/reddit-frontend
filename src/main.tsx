@@ -60,6 +60,7 @@ const cache = new InMemoryCache({
     Query: {
       fields: {
         getRecentPosts: offsetLimitPagination(),
+        getSubredditPost: offsetLimitPagination(),
       },
     },
   },
