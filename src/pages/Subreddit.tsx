@@ -1,16 +1,16 @@
-import { useEffect, useState, useCallback } from "react";
-import { useParams } from "react-router-dom";
-import { useQuery, useLazyQuery, useMutation } from "@apollo/client";
-import { useSelector, useDispatch } from "react-redux";
-import { Header, Grid, Segment, Card, Icon, Form } from "semantic-ui-react";
-
 import Post from "@/components/Post";
 import PostingForm from "@/components/PostingForm";
-
-import { POST, GET_SUBREDDIT_POST } from "@/queries";
+import { GET_SUBREDDIT_POST } from "@/queries";
 import { refreshState, RootState, sortState, userState } from "@/types";
+import { useApolloClient, useLazyQuery } from "@apollo/client";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import { Grid } from "semantic-ui-react";
 
 const Subreddit = () => {
+  const client = useApolloClient();
+
   const refreshSubredditPost = useSelector<RootState, refreshState>(
     (state) => state.refresh
   );
@@ -19,22 +19,23 @@ const Subreddit = () => {
 
   const params = useParams<{ subredditName: string }>();
 
-  const [getSubredditPost, result] = useLazyQuery(GET_SUBREDDIT_POST, {
+  const [
+    getSubredditPost,
+    { data, networkStatus, error, variables, fetchMore },
+  ] = useLazyQuery(GET_SUBREDDIT_POST, {
+    client,
+    notifyOnNetworkStatusChange: true,
     variables: {
       name: params.subredditName,
-      sort: sort ?? "hot",
+      offset: 0,
+      limit: 10,
+      sort: "new",
     },
   });
 
   useEffect(() => {
     getSubredditPost();
   }, [sort, params.subredditName, refreshSubredditPost]);
-
-  if (result.loading) {
-    return <div>loading...</div>;
-  }
-
-  result.refetch();
 
   return (
     <Grid>
@@ -45,7 +46,13 @@ const Subreddit = () => {
       </Grid.Row>
       <Grid.Row>
         <Grid.Column>
-          {result.data && <Post posts={result.data.getSubredditPost} />}
+          <Post
+            posts={data?.getSubredditPost}
+            networkStatus={networkStatus}
+            variables={variables}
+            fetchMore={fetchMore}
+            error={error}
+          />
         </Grid.Column>
       </Grid.Row>
     </Grid>

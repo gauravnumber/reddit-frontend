@@ -1,55 +1,41 @@
+import Post from "@/components/Post";
 import { GET_RECENT_POSTS } from "@/queries";
-import { RootState, sortState } from "@/types";
-import { useLazyQuery } from "@apollo/client";
-import Post from "@components/Post";
+import { useApolloClient, useLazyQuery } from "@apollo/client";
 import { useEffect } from "react";
-import { useSelector } from "react-redux";
-// import { Dimmer, Loader } from "semantic-ui-react";
 
 const Home = () => {
-  const sort = useSelector<RootState, sortState>((state) => state.sort);
-  // const notification = useSelector<RootState, notificationState>(
-  //   (state) => state.notification
-  // );
-  // const result = useQuery(GET_RECENT_POSTS, {
-  const [getRecentPostsBySorting, result] = useLazyQuery(GET_RECENT_POSTS, {
+  // const sort = useSelector<RootState, sortState>((state) => state.sort);
+  const client = useApolloClient();
+
+  const [
+    getRecentPostsBySorting,
+    { data, error, fetchMore, networkStatus, variables },
+  ] = useLazyQuery(GET_RECENT_POSTS, {
+    client,
+    notifyOnNetworkStatusChange: true,
     variables: {
-      sort: sort ?? "hot",
+      sort: "new",
+      offset: 0,
+      limit: 10,
     },
   });
 
   useEffect(() => {
     getRecentPostsBySorting();
     // console.log(`sort`, sort);
-  }, [sort]);
-
-  // console.log(`result.loading`, result.loading);
-  if (result.loading)
-    return (
-      <div className="ui active dimmer">
-        <div className="ui loader"></div>
-      </div>
-    );
-  // if (result.loading) return "loading...";
-  // if (result.loading)
-  //   return (
-  //     <Dimmer active>
-  //       <Loader />
-  //     </Dimmer>
-  //   );
+  }, []);
+  // }, [sort]);
 
   return (
-    <div>
-      <h1>Welcome to clone of reddit.</h1>
-      {/* <ul>
-        <li>
-          <Link to="/r/funny">r/funny</Link>
-        </li>
-      </ul> */}
-      {/* {result.loading && "loading..."} */}
-      {/* {result.loading && <Loader>loading</Loader>} */}
-      {result.data && <Post posts={result.data.getRecentPosts} />}
-    </div>
+    <>
+      <Post
+        posts={data?.getRecentPosts}
+        networkStatus={networkStatus}
+        variables={variables}
+        fetchMore={fetchMore}
+        error={error}
+      />
+    </>
   );
 };
 

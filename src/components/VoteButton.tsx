@@ -1,74 +1,52 @@
-/**
- * Wrap this component in <Card>
- * @prop {post} postType
- */
-import { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { Message, Card, Container, Grid } from "semantic-ui-react";
+import { DO_DOWNVOTE, DO_UPVOTE } from "@/queries";
+import { postType, RootState, userState } from "@/types";
 import { useMutation } from "@apollo/client";
-
-import { DO_UPVOTE, DO_DOWNVOTE, GET_SUBREDDIT_POST } from "@/queries";
-import { notificationState, postType, RootState, userState } from "@/types";
-import { refreshAction } from "@/reducer/refreshReducer";
-import { loginAction } from "@/reducer/notificationReducer";
+import { ArrowDownward, ArrowUpward } from "@mui/icons-material";
+import {
+  Alert,
+  CardActions,
+  IconButton,
+  Snackbar,
+  Typography,
+} from "@mui/material";
+import { useState } from "react";
+import { useSelector } from "react-redux";
 
 const VoteButton = ({ post }: { post: postType }) => {
-  const dispatch = useDispatch();
+  const [voteUpdated, setVoteUpdated] = useState<{
+    [index: string]: postType;
+  } | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string>("");
+  const [errorEnable, setErrorEnable] = useState<boolean>(false);
+
   const user = useSelector<RootState, userState>((state) => state.user);
+  const { _id, totalNumbersOfVotes, upvote, downvote, ...rest } = post;
 
-  const { _id, totalNumOfVotes, upvote, downvote, ...rest } = post;
-
-  const [upvoting, upvotingResult] = useMutation(DO_UPVOTE, {
-    update: (cache, { data }) => {
-      // const dataInCache = cache.readQuery({
-      //   query: GET_SUBREDDIT_POST,
-      //   variables: {
-      //     name: "funny",
-      //     sort: "hot",
-      //   },
-      // });
-      // cache.writeQuery({
-      //   query: GET_SUBREDDIT_POST,
-      //   variables: {
-      //     name: "funny",
-      //     sort: "hot",
-      //   },
-      //   data: dataInCache,
-      // });
-      // console.log(`dataInCache`, dataInCache);
-      // dispatch(refreshAction("upvote"));
-      // console.log(`data upvote`, data);
+  const [upvoting] = useMutation(DO_UPVOTE, {
+    update: (_, { data }) => {
+      setVoteUpdated(data);
     },
-    refetchQueries: [GET_SUBREDDIT_POST],
     variables: {
       postId: _id,
     },
     onError: (error) => {
-      console.log(`JSON.stringify(error)`, JSON.stringify(error));
-      dispatch(
-        loginAction({
-          message: error.graphQLErrors[0].message,
-          messageColor: "orange",
-        })
-      );
+      setErrorMessage(error.graphQLErrors[0].message);
+      setErrorEnable(true);
+      setTimeout(() => setErrorEnable(false), 3000);
     },
   });
 
-  const [downvoting, downvotingResult] = useMutation(DO_DOWNVOTE, {
+  const [downvoting] = useMutation(DO_DOWNVOTE, {
     update: (_, { data }) => {
-      // dispatch(refreshAction("downvote"));
+      setVoteUpdated(data);
     },
-    refetchQueries: [GET_SUBREDDIT_POST],
     variables: {
       postId: _id,
     },
     onError: (error) => {
-      dispatch(
-        loginAction({
-          message: error.graphQLErrors[0].message,
-          messageColor: "orange",
-        })
-      );
+      setErrorMessage(error.graphQLErrors[0].message);
+      setErrorEnable(true);
+      setTimeout(() => setErrorEnable(false), 3000);
     },
   });
 
@@ -82,37 +60,60 @@ const VoteButton = ({ post }: { post: postType }) => {
 
   return (
     <>
-      <Card.Content>
-        <div className="ui buttons">
-          <button
-            className={`ui button red ${
-              upvote.some((u: { username: string }) => {
-                if (u !== null) return u?.username === user?.username;
-                else return false;
-              })
-                ? ""
-                : "basic"
-            }`}
-            onClick={handleUpvote}
-          >
-            upvote
-          </button>
-          <div className="ui button basic green">{totalNumOfVotes}</div>
-          <button
-            className={`ui button blue ${
-              downvote.some((u: { username: string }) => {
-                if (u !== null) return u?.username === user?.username;
-                else return false;
-              })
-                ? ""
-                : "basic"
-            }`}
-            onClick={handleDownvote}
-          >
-            downvote
-          </button>
-        </div>
-      </Card.Content>
+      <CardActions disableSpacing>
+        <Snackbar open={errorEnable}>
+          <Alert severity="error" sx={{ width: "100%" }}>
+            {errorMessage}
+          </Alert>
+        </Snackbar>
+        <IconButton
+          color={`${
+            voteUpdated?.upvote?.upvote?.some((u: { username: string }) => {
+              if (u !== null) {
+                return u?.username === user?.username;
+              } else {
+                return false;
+              }
+            }) ||
+            upvote?.some((u: { username: string }) => {
+              if (u !== null) {
+                return u?.username === user?.username;
+              } else {
+                return false;
+              }
+            })
+              ? "primary"
+              : "default"
+          }`}
+          onClick={handleUpvote}
+        >
+          <ArrowUpward />
+        </IconButton>
+        <Typography color="text.secondary">{totalNumbersOfVotes}</Typography>
+        <IconButton
+          color={`${
+            voteUpdated?.downvote?.downvote?.some((u: { username: string }) => {
+              if (u !== null) {
+                return u?.username === user?.username;
+              } else {
+                return false;
+              }
+            }) ||
+            downvote?.some((u: { username: string }) => {
+              if (u !== null) {
+                return u?.username === user?.username;
+              } else {
+                return false;
+              }
+            })
+              ? "secondary"
+              : "default"
+          }`}
+          onClick={handleDownvote}
+        >
+          <ArrowDownward />
+        </IconButton>
+      </CardActions>
     </>
   );
 };

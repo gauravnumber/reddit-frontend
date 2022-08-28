@@ -5,11 +5,12 @@ export const POSTS_NEEDED = gql`
     _id
     title
     body
+    image {
+      data
+      contentType
+    }
     subreddit {
       name
-    }
-    vote {
-      username
     }
     upvote {
       username
@@ -20,7 +21,7 @@ export const POSTS_NEEDED = gql`
     owner {
       username
     }
-    totalNumOfVotes
+    totalNumbersOfVotes
     createdAt
   }
 `;
@@ -152,8 +153,8 @@ export const DELETE_POST = gql`
 `;
 
 export const GET_RECENT_POSTS = gql`
-  query getRecentPosts($sort: String!) {
-    getRecentPosts(sort: $sort) {
+  query getRecentPosts($sort: String, $offset: Int, $limit: Int) {
+    getRecentPosts(sort: $sort, offset: $offset, limit: $limit) {
       ...postsNeeded
     }
   }
@@ -164,19 +165,30 @@ export const GET_RECENT_POSTS = gql`
 export const DO_DOWNVOTE = gql`
   mutation downvote($postId: String!) {
     downvote(postId: $postId) {
-      _id
-      totalNumOfVotes
+      ...postsNeeded
+
+      # _id
+      # downvote {
+      #   username
+      # }
+      # totalNumbersOfVotes
     }
   }
+  ${POSTS_NEEDED}
 `;
 
 export const DO_UPVOTE = gql`
   mutation upvote($postId: String!) {
     upvote(postId: $postId) {
-      _id
-      totalNumOfVotes
+      ...postsNeeded
+      # _id
+      # upvote {
+      #   username
+      # }
+      # totalNumbersOfVotes
     }
   }
+  ${POSTS_NEEDED}
 `;
 
 export const GET_USER_POST = gql`
@@ -208,18 +220,41 @@ export const REGISTER = gql`
 `;
 
 export const POST = gql`
-  mutation post($title: String!, $body: String!, $subredditName: String!) {
-    post(title: $title, body: $body, subredditName: $subredditName) {
-      _id
-      title
-      createdAt
+  mutation post(
+    $title: String!
+    $body: String
+    $subredditName: String!
+    $image: Upload
+  ) {
+    post(
+      title: $title
+      body: $body
+      subredditName: $subredditName
+      image: $image
+    ) {
+      ...postsNeeded
+      # _id
+      # title
+      # body
+      # image {
+      #   data
+      #   contentType
+      # }
+      # createdAt
     }
   }
+
+  ${POSTS_NEEDED}
 `;
 
 export const GET_SUBREDDIT_POST = gql`
-  query getSubredditPost($name: String!, $sort: String!) {
-    getSubredditPost(name: $name, sort: $sort) {
+  query getSubredditPost(
+    $name: String!
+    $sort: String
+    $offset: Int
+    $limit: Int
+  ) {
+    getSubredditPost(name: $name, sort: $sort, offset: $offset, limit: $limit) {
       ...postsNeeded
     }
   }
