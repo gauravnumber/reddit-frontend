@@ -156,10 +156,28 @@ const Nav = () => {
             </>
           ) : (
             <>
-              <Button color="inherit" component={Link} to="/login">
+              <Button
+                color="inherit"
+                component={Link}
+                to="/login"
+                sx={{
+                  "&:hover": {
+                    color: (theme) => theme.palette.background.paper,
+                  },
+                }}
+              >
                 LOGIN
               </Button>
-              <Button color="inherit" component={Link} to="/register">
+              <Button
+                color="inherit"
+                component={Link}
+                to="/register"
+                sx={{
+                  "&:hover": {
+                    color: (theme) => theme.palette.background.paper,
+                  },
+                }}
+              >
                 SIGNUP
               </Button>
             </>
@@ -167,47 +185,6 @@ const Nav = () => {
         </Toolbar>
       </AppBar>
       {/* </Box> */}
-      {/* <Menu stackable size="massive">
-        {user ? (
-          <Menu.Item
-            active={state.currentPath === `u/${user.username}`}
-            as="a"
-            href={`/u/${user.username}`}
-          >
-            {`u/${user.username}`}
-          </Menu.Item>
-        ) : (
-          <Menu.Item active={state.currentPath === ""} as="a" href="/">
-            Home
-          </Menu.Item>
-        )}
-        <Menu.Item
-          as="a"
-          href="/create"
-          active={state.currentPath === "create"}
-        >
-          Create new subreddit
-        </Menu.Item>
-        {!user && (
-          <>
-            <Menu.Item
-              as="a"
-              href="/login"
-              active={state.currentPath === "login"}
-            >
-              login
-            </Menu.Item>
-            <Menu.Item
-              as="a"
-              href="/register"
-              active={state.currentPath === "register"}
-            >
-              register
-            </Menu.Item>
-          </>
-        )}{" "}
-        {user && <Menu.Item onClick={handleLogout}>logout</Menu.Item>}
-      </Menu> */}
     </>
   );
 };
