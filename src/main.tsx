@@ -30,12 +30,12 @@ import {
   // concat,
 } from "@apollo/client";
 
-import { createUploadLink } from "apollo-upload-client";
+// import { createUploadLink } from "apollo-upload-client";
 import { Provider } from "react-redux";
 
-const uploadLink = createUploadLink({
-  uri: import.meta.env.VITE_BACKEND_URI,
-});
+// const uploadLink = createUploadLink({
+//   uri: import.meta.env.VITE_BACKEND_URI,
+// });
 
 const httpLink = new HttpLink({
   uri: import.meta.env.VITE_BACKEND_URI,
@@ -61,6 +61,14 @@ const cache = new InMemoryCache({
       fields: {
         getRecentPosts: offsetLimitPagination(),
         getSubredditPost: offsetLimitPagination(),
+        // feed: {
+        //   ...offsetLimitPagination(),
+        //   read(existing, { args: { offset, limit } }) {
+        //     // Implement here
+        //     console.log(`existing`, existing);
+        //     return existing && existing.slice(offset, offset + limit);
+        //   },
+        // },
       },
     },
   },

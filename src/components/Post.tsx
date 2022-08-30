@@ -45,9 +45,9 @@ interface PostArgument {
     offset: number;
     limit: number;
   };
-
   fetchMore: any;
   error: ApolloError | undefined;
+  setLimit: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const Post = ({
@@ -56,11 +56,12 @@ const Post = ({
   variables,
   fetchMore,
   error,
+  setLimit,
 }: PostArgument): JSX.Element | null => {
   // const [deletePostId, setDeletePostId] = useState("");
   const [fullyLoaded, setFullyLoaded] = useState(false);
-  const [loginWarning, setLoginWarning] = useState(false);
-  const dispatch = useDispatch();
+  // const [loginWarning, setLoginWarning] = useState(false);
+  // const dispatch = useDispatch();
 
   // const notification = useSelector<RootState, notificationState>(
   //   (state) => state.notification
@@ -127,6 +128,10 @@ const Post = ({
     return <div>{error.message}</div>;
   }
 
+  // if (networkStatus === NetworkStatus.loading) {
+  //   return <div>Loading posts...</div>;
+  // }
+
   if (!posts) return null;
 
   // const handleDelete = (post: postType) => (): void => {
@@ -167,17 +172,19 @@ const Post = ({
   //   </Card>
   // );
 
-  if (networkStatus === NetworkStatus.loading) {
-    return <div>Loading...</div>;
-  }
-
-  // console.log(`posts.length`, posts.length);
-  // console.log(`variables.limit`, variables?.limit);
+  // console.log(`posts[0]?.subreddit.name`, posts[0]?.subreddit.name);
   // console.log(
   //   `networkStatus !== NetworkStatus.fetchMore`,
   //   networkStatus !== NetworkStatus.fetchMore
   // );
-  // if (!variables?.limit ) variables["limit"] = 10
+
+  // console.log(`posts.length`, posts.length);
+  // console.log(`variables.limit`, variables?.limit);
+  // console.log(
+  //   `posts.length % (variables?.limit ?? 10) === 0`,
+  //   posts.length % (variables?.limit ?? 10) === 0
+  // );
+  // console.log(`!fullyLoaded`, !fullyLoaded);
 
   return (
     <Box sx={{ mt: 2 }}>
@@ -215,70 +222,37 @@ const Post = ({
             <VoteButton post={post} />
           </Card>
         ))}
-      {networkStatus !== NetworkStatus.fetchMore &&
+      {/* {networkStatus !== NetworkStatus.fetchMore &&
         posts.length % (variables?.limit ?? 10) === 0 &&
         !fullyLoaded && (
           <InView
             onChange={async (inView) => {
               if (inView) {
+                const currentPostsLength = posts.length;
                 const result = await fetchMore({
                   variables: {
-                    offset: posts.length,
+                    offset: currentPostsLength,
                   },
                 });
 
                 const keys = Object.keys(result.data);
-                const fetchedPosts = result.data[keys[0]];
+                const getSubredditOrRecentPosts = keys[0];
+                const fetchedPosts = result.data[getSubredditOrRecentPosts];
                 setFullyLoaded(!fetchedPosts.length);
+                setLimit(
+                  currentPostsLength +
+                    result.data[getSubredditOrRecentPosts].length
+                );
+
+                console.log(
+                  `result.data[getSubredditOrRecentPosts].length`,
+                  result.data[getSubredditOrRecentPosts].length
+                );
               }
             }}
           >
             <h3>Load More Posts</h3>
           </InView>
-        )}
-      {/* <InView
-        onChange={(inView) => {
-          if (inView) {
-            console.log(`posts.length`, posts.length);
-            fetchMore({
-              variables: {
-                offset: posts.length,
-              },
-            });
-          }
-        }}
-      >
-        <h3>Load More Posts</h3>
-      </InView> */}
-
-      {/* {
-        <InView
-          onChange={(inView) => {
-            console.log("inview");
-            if (inView) {
-            }
-          }}
-        />
-      } */}
-
-      {/* {networkStatus !== NetworkStatus.fetchMore &&
-        posts.length % variables.limit === 0 &&
-        !fullyLoaded && (
-          <InView
-            onChange={async (inView) => {
-              if (inView) {
-                const result = await fetchMore({
-                  variables: {
-                    offset: posts.length,
-                  },
-                });
-
-                console.log(`result`, result);
-
-                setFullyLoaded(!result.data.posts.length);
-              }
-            }}
-          />
         )} */}
     </Box>
   );
