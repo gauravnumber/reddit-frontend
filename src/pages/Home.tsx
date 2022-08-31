@@ -33,17 +33,17 @@ const Home = () => {
 
   return (
     <>
-      {data && (
-        <Post
-          // key="recent"
-          posts={data.getRecentPosts}
-          networkStatus={networkStatus}
-          variables={variables}
-          fetchMore={fetchMore}
-          error={error}
-          setLimit={setLimit}
-        />
-      )}
+      {/* {data && ( */}
+      <Post
+        // key="recent"
+        posts={data?.getRecentPosts}
+        networkStatus={networkStatus}
+        variables={variables}
+        fetchMore={fetchMore}
+        error={error}
+        setLimit={setLimit}
+      />
+      {/* )} */}
     </>
   );
 };

@@ -186,6 +186,7 @@ const Post = ({
   // );
   // console.log(`!fullyLoaded`, !fullyLoaded);
 
+  // console.log(`posts`, posts);
   return (
     <Box sx={{ mt: 2 }}>
       {posts &&
@@ -222,17 +223,17 @@ const Post = ({
             <VoteButton post={post} />
           </Card>
         ))}
-      {/* {networkStatus !== NetworkStatus.fetchMore &&
+      {networkStatus !== NetworkStatus.fetchMore &&
         posts.length % (variables?.limit ?? 10) === 0 &&
         !fullyLoaded && (
           <InView
             onChange={async (inView) => {
-              console.log("inview");
               if (inView) {
                 const currentPostsLength = posts.length;
                 const result = await fetchMore({
                   variables: {
                     offset: currentPostsLength,
+                    limit: 10,
                   },
                 });
 
@@ -245,16 +246,16 @@ const Post = ({
                     result.data[getSubredditOrRecentPosts].length
                 );
 
-                console.log(
-                  `result.data[getSubredditOrRecentPosts].length`,
-                  result.data[getSubredditOrRecentPosts].length
-                );
+                // console.log(
+                //   `result.data[getSubredditOrRecentPosts].length`,
+                //   result.data[getSubredditOrRecentPosts].length
+                // );
               }
             }}
           >
             <h3>Load More Posts</h3>
           </InView>
-        )} */}
+        )}
     </Box>
   );
 };
