@@ -61,7 +61,7 @@ const Post = ({
   setLimit,
 }: PostArgument): JSX.Element | null => {
   // const [deletePostId, setDeletePostId] = useState("");
-  const [fullyLoaded, setFullyLoaded] = useState(false);
+  const [fullyLoaded, setFullyLoaded] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [errorEnable, setErrorEnable] = useState<boolean>(false);
 
@@ -139,8 +139,10 @@ const Post = ({
                       result.data[getSubredditOrRecentPosts].length
                   );
                 } catch (error) {
-                  setErrorEnable(true);
-                  setErrorMessage(error.message);
+                  if (error instanceof Error) {
+                    setErrorEnable(true);
+                    setErrorMessage(error.message);
+                  }
                 } finally {
                   setTimeout(() => setErrorEnable(false), 3000);
                 }
