@@ -8,6 +8,8 @@ import {
   // IconButton,
   // Button,
   // CardActions,
+  Snackbar,
+  Alert,
   Card,
   CardHeader,
   CardContent,
@@ -60,135 +62,25 @@ const Post = ({
 }: PostArgument): JSX.Element | null => {
   // const [deletePostId, setDeletePostId] = useState("");
   const [fullyLoaded, setFullyLoaded] = useState(false);
-  // const [loginWarning, setLoginWarning] = useState(false);
-  // const dispatch = useDispatch();
+  const [errorMessage, setErrorMessage] = useState<string>("");
+  const [errorEnable, setErrorEnable] = useState<boolean>(false);
 
-  // const notification = useSelector<RootState, notificationState>(
-  //   (state) => state.notification
-  // );
-
-  const user = useSelector<RootState, userState>((state) => state.user);
-
-  // console.log(`dayjs().format('L')`, dayjs().format("L"));
-
-  // const [deletePost, result] = useMutation(DELETE_POST, {
-  //   update: (cache, { data }) => {
-  //     // let dataInCache = cache.readQuery({
-  //     //   query: GET_SUBREDDIT_POST,
-
-  //     //   variables: {
-  //     //     name: "funny",
-  //     //     sort: "hot",
-  //     //   },
-  //     // });
-
-  //     // cache.writeQuery({
-  //     //   query: GET_SUBREDDIT_POST,
-
-  //     //   variables: {
-  //     //     name: "funny",
-  //     //     sort: "hot",
-  //     //   },
-
-  //     //   data: {
-  //     //     dataInCache: {
-  //     //       getSubredditPost: dataInCache.getSubredditPost.filter(
-  //     //         (post) => post._id !== deletePostId
-  //     //       ),
-  //     //     },
-  //     //   },
-  //     // });
-
-  //     // console.log(`dataInCache`, dataInCache);
-  //     // console.log(`data`, data);
-  //     dispatch(refreshAction("updateSubreddit"));
-  //   },
-  //   onError: (error) => {
-  //     dispatch(
-  //       loginAction({
-  //         message: error.graphQLErrors[0].message,
-  //         messageColor: "orange",
-  //       })
-  //     );
-
-  //     // setTimeout(() => {
-  //     //   setLoginWarning(false);
-  //     //   // nullAction();
-  //     // }, 1000);
-
-  //     //? clear error message for login first
-  //     // setTimeout(() => nullAction(), 5000);
-
-  //     // console.log(JSON.stringify(error));
-  //   },
-  // });
-  // console.log(`error`, error);
+  // const user = useSelector<RootState, userState>((state) => state.user);
 
   if (error) {
     return <div>{error.message}</div>;
   }
 
-  // if (networkStatus === NetworkStatus.loading) {
-  //   return <div>Loading posts...</div>;
-  // }
-
   if (!posts) return null;
 
-  // const handleDelete = (post: postType) => (): void => {
-  //   deletePost({
-  //     variables: {
-  //       username: post.owner.username,
-  //       subredditName: post.subreddit.name,
-  //       postId: post._id,
-  //     },
-  //   });
-  // };
-
-  // const handleSort = (sort: string) => (): void => {
-  //   dispatch(sortAction(sort));
-  // };
-
-  // const sortButtons = () => (
-  //   <Card fluid>
-  //     <Card.Content>
-  //       <div className="ui buttons vertical fluid">
-  //         <button className="ui button" onClick={handleSort("hot")}>
-  //           New
-  //         </button>
-  //         <button className="ui button" onClick={handleSort("top:day")}>
-  //           Top: Day
-  //         </button>
-  //         <button className="ui button" onClick={handleSort("top:week")}>
-  //           Top: Week
-  //         </button>
-  //         <button className="ui button" onClick={handleSort("top:month")}>
-  //           Top: Month
-  //         </button>
-  //         <button className="ui button" onClick={handleSort("top:alltime")}>
-  //           Top: All time
-  //         </button>
-  //       </div>
-  //     </Card.Content>
-  //   </Card>
-  // );
-
-  // console.log(`posts[0]?.subreddit.name`, posts[0]?.subreddit.name);
-  // console.log(
-  //   `networkStatus !== NetworkStatus.fetchMore`,
-  //   networkStatus !== NetworkStatus.fetchMore
-  // );
-
-  // console.log(`posts.length`, posts.length);
-  // console.log(`variables.limit`, variables?.limit);
-  // console.log(
-  //   `posts.length % (variables?.limit ?? 10) === 0`,
-  //   posts.length % (variables?.limit ?? 10) === 0
-  // );
-  // console.log(`!fullyLoaded`, !fullyLoaded);
-
-  // console.log(`posts`, posts);
   return (
     <Box sx={{ mt: 2 }}>
+      <Snackbar open={errorEnable}>
+        <Alert severity="error" sx={{ width: "100%" }}>
+          {errorMessage}
+        </Alert>
+      </Snackbar>
+
       {posts &&
         posts.map((post: postType) => (
           <Card key={post._id} sx={{ mb: 3 }}>
@@ -230,26 +122,28 @@ const Post = ({
             onChange={async (inView) => {
               if (inView) {
                 const currentPostsLength = posts.length;
-                const result = await fetchMore({
-                  variables: {
-                    offset: currentPostsLength,
-                    limit: 10,
-                  },
-                });
+                try {
+                  const result = await fetchMore({
+                    variables: {
+                      offset: currentPostsLength,
+                      limit: 10,
+                    },
+                  });
 
-                const keys = Object.keys(result.data);
-                const getSubredditOrRecentPosts = keys[0];
-                const fetchedPosts = result.data[getSubredditOrRecentPosts];
-                setFullyLoaded(!fetchedPosts.length);
-                setLimit(
-                  currentPostsLength +
-                    result.data[getSubredditOrRecentPosts].length
-                );
-
-                // console.log(
-                //   `result.data[getSubredditOrRecentPosts].length`,
-                //   result.data[getSubredditOrRecentPosts].length
-                // );
+                  const keys = Object.keys(result.data);
+                  const getSubredditOrRecentPosts = keys[0];
+                  const fetchedPosts = result.data[getSubredditOrRecentPosts];
+                  setFullyLoaded(!fetchedPosts.length);
+                  setLimit(
+                    currentPostsLength +
+                      result.data[getSubredditOrRecentPosts].length
+                  );
+                } catch (error) {
+                  setErrorEnable(true);
+                  setErrorMessage(error.message);
+                } finally {
+                  setTimeout(() => setErrorEnable(false), 3000);
+                }
               }
             }}
           >
