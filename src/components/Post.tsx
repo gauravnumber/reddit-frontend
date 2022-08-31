@@ -142,9 +142,8 @@ const Post = ({
                   if (error instanceof Error) {
                     setErrorEnable(true);
                     setErrorMessage(error.message);
+                    setTimeout(() => setErrorEnable(false), 3000);
                   }
-                } finally {
-                  setTimeout(() => setErrorEnable(false), 3000);
                 }
               }
             }}
