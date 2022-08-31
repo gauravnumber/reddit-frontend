@@ -1,9 +1,10 @@
 import Post from "@/components/Post";
 import { GET_RECENT_POSTS } from "@/queries";
-import { useApolloClient, useLazyQuery } from "@apollo/client";
-import { useEffect } from "react";
+import { useApolloClient, useLazyQuery, NetworkStatus } from "@apollo/client";
+import { useState, useEffect } from "react";
 
 const Home = () => {
+  const [limit, setLimit] = useState<number>(10);
   // const sort = useSelector<RootState, sortState>((state) => state.sort);
   const client = useApolloClient();
 
@@ -16,7 +17,7 @@ const Home = () => {
     variables: {
       sort: "new",
       offset: 0,
-      limit: 10,
+      limit,
     },
   });
 
@@ -26,15 +27,23 @@ const Home = () => {
   }, []);
   // }, [sort]);
 
+  if (networkStatus === NetworkStatus.loading) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <>
+      {/* {data && ( */}
       <Post
+        // key="recent"
         posts={data?.getRecentPosts}
         networkStatus={networkStatus}
         variables={variables}
         fetchMore={fetchMore}
         error={error}
+        setLimit={setLimit}
       />
+      {/* )} */}
     </>
   );
 };

@@ -47,17 +47,13 @@ const PostingForm = ({ subredditName }: { subredditName?: string }) => {
 
   const handlePost = (e: React.FormEvent) => {
     e.preventDefault();
-    // console.log("handle post", title, body, subredditName);
-    // console.log(`imageFile`, imageFile);
     posting({
       variables: {
-        // title: `title: ${Math.floor(Math.random() * 20)}`,
         title,
         body,
         subredditName,
         // image: imageFile,
         // image: imageSrc,
-        // body: `body: ${Math.floor(Math.random() * 10)}`,
       },
       // onCompleted: (data) => console.log("data", data),
     });
@@ -65,38 +61,6 @@ const PostingForm = ({ subredditName }: { subredditName?: string }) => {
     setTitle("");
     setBody("");
   };
-
-  // function onChange({ target: { validity, files, value } }) {
-  //   if (validity.valid) {
-  //     console.log(`files[0]`, files[0]);
-  //     if (!files) return;
-  //     posting({
-  //       variables: {
-  //         title,
-  //         body,
-  //         subredditName,
-  //         // image: files,
-  //         // image: imageSrc,
-  //       },
-  //       // onCompleted: (data) => console.log("data", data),
-  //     });
-
-  //     // const formData = new FormData();
-  //     // formData.append("file", files);
-
-  //     // console.log(`formData`, formData);
-  //     // setImageFile(formData);
-
-  //     // console.log(`files`, files);
-
-  //     // const src = URL.createObjectURL(files[0]);
-  //     // setImageSrc(src);
-
-  //     // setImageFile(files);
-  //     // const file = new Blob([value], { type: "text/plain" });
-  //     // setImageFile(file);
-  //   }
-  // }
 
   return (
     <Box
