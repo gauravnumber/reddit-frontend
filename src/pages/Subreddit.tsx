@@ -17,13 +17,13 @@ import { Grid } from "semantic-ui-react";
 const Subreddit = () => {
   const [fullyLoaded, setFullyLoaded] = useState(false);
   const [posts, setPosts] = useState([]);
-  const [limit, setLimit] = useState<number>(10);
+  const [limit, setLimit] = useState<number>(5);
   const params = useParams<{ subredditName: string }>();
   const client = useApolloClient();
 
-  // const refreshSubredditPost = useSelector<RootState, refreshState>(
-  //   (state) => state.refresh
-  // );
+  const refreshSubredditPost = useSelector<RootState, refreshState>(
+    (state) => state.refresh
+  );
   // const sort = useSelector<RootState, sortState>((state) => state.sort);
   const user = useSelector<RootState, userState>((state) => state.user);
   const [
@@ -44,7 +44,7 @@ const Subreddit = () => {
   useEffect(() => {
     getSubredditPost();
     // console.log(`params.subredditName`, params.subredditName);
-  }, [data]);
+  }, [data, refreshSubredditPost]);
 
   // useLayoutEffect(() => {
   //   getSubredditPost();
@@ -71,6 +71,7 @@ const Subreddit = () => {
     return <div>Loading...</div>;
   }
 
+  console.log(`data?.getSubredditPost`, data?.getSubredditPost);
   return (
     <Grid>
       <Grid.Row>
@@ -80,16 +81,16 @@ const Subreddit = () => {
       </Grid.Row>
       <Grid.Row>
         <Grid.Column>
-          {data && (
-            <Post
-              posts={data?.getSubredditPost}
-              networkStatus={networkStatus}
-              variables={variables}
-              fetchMore={fetchMore}
-              error={error}
-              setLimit={setLimit}
-            />
-          )}
+          {/* {data && ( */}
+          <Post
+            posts={data?.getSubredditPost}
+            networkStatus={networkStatus}
+            variables={variables}
+            fetchMore={fetchMore}
+            error={error}
+            setLimit={setLimit}
+          />
+          {/* )} */}
           {networkStatus !== NetworkStatus.fetchMore &&
             data?.getSubredditPost.length % (variables?.limit ?? 10) === 0 &&
             !fullyLoaded && (
@@ -103,12 +104,12 @@ const Subreddit = () => {
                       },
                     });
 
-                    const keys = Object.keys(result.data);
-                    const fetchedPosts = result.data[keys[0]];
-                    console.log(
-                      `result.data.getSubredditPost`,
-                      result?.data?.getSubredditPost
-                    );
+                    // const keys = Object.keys(result.data);
+                    // const fetchedPosts = result.data[keys[0]];
+                    // console.log(
+                    //   `result.data.getSubredditPost`,
+                    //   result?.data?.getSubredditPost
+                    // );
                     // console.log(`!fetchedPosts.length`, !fetchedPosts.length);
                     console.log(`currentPostsLength`, currentPostsLength);
                     console.log(
@@ -116,7 +117,7 @@ const Subreddit = () => {
                       currentPostsLength + result.data.getSubredditPost.length
                     );
 
-                    setFullyLoaded(!fetchedPosts.length);
+                    setFullyLoaded(!result.data.getSubredditPost.length);
                     setLimit(
                       currentPostsLength + result.data.getSubredditPost.length
                     );

@@ -227,6 +227,7 @@ const Post = ({
         !fullyLoaded && (
           <InView
             onChange={async (inView) => {
+              console.log("inview");
               if (inView) {
                 const currentPostsLength = posts.length;
                 const result = await fetchMore({
